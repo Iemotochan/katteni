@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# サイトマップ
+Sitemap: https://example.com/sitemap.xml
+
+# プライベートエリアはクロールしない
+Disallow: /admin/
+Disallow: /private/
