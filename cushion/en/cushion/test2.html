@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYO Coin | A Next-Generation Cryptocurrency World by Ryoko and Zenta</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ryo-gold: #D4AF37;
+            --ryo-navy: #0A2463;
+            --ryo-light: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+            color: #333;
+            background-color: #FCFCFC;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0A2463 0%, #1E3B7B 100%);
+        }
+        
+        .gold-text {
+            color: var(--ryo-gold);
+        }
+        
+        .navy-text {
+            color: var(--ryo-navy);
+        }
+        
+        .gold-bg {
+            background-color: var(--ryo-gold);
+        }
+        
+        .navy-bg {
+            background-color: var(--ryo-navy);
+        }
+        
+        .section {
+            padding: 80px 20px;
+        }
+        
+        .character-container {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .character-container:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--ryo-gold);
+        }
+        
+        .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        
+        .quote-bubble {
+            position: relative;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quote-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50px;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: white transparent;
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #F2D675 100%);
+        }
+        
+        .navy-gradient {
+            background: linear-gradient(135deg, #0A2463 0%, #1E3B7B 100%);
+        }
+        
+        .character-speech {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .character-container:hover .character-speech {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth scrolling for entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Gold border effect */
+        .gold-border {
+            position: relative;
+        }
+        
+        .gold-border::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--ryo-gold);
+        }
+
+        /* Logo animation */
+        .logo-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive adjustments for PDF export */
+        @media print {
+            .section {
+                page-break-inside: avoid;
+                padding: 40px 20px;
+            }
+            
+            body {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Coin Logo" class="h-10 mr-3 logo-pulse">
+                <span class="text-xl font-bold navy-text">RYO <span class="gold-text">Coin</span></span>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#about" class="navy-text hover:gold-text transition-colors">About</a></li>
+                    <li><a href="#features" class="navy-text hover:gold-text transition-colors">Features</a></li>
+                    <li><a href="#story" class="navy-text hover:gold-text transition-colors">Story</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center justify-center pt-16">
+        <div class="container mx-auto px-4 py-20 text-center text-white">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6" data-aos="fade-up">Discover <span class="gold-text">RYO Coin</span></h1>
+            <p class="text-xl md:text-2xl mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">A revolutionary cryptocurrency from Japan to the world</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
+                <div class="character-container" data-aos="fade-right">
+                    <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="Ryoko" class="h-60 md:h-80">
+                    <div class="character-speech mt-4">
+                        <div class="quote-bubble">
+                            <p class="navy-text">"Let me guide you through the sophisticated world of RYO Coin!"</p>
+                        </div>
+                        <p class="text-white font-medium mt-2">Ryoko</p>
+                    </div>
+                </div>
+                
+                <div class="character-container" data-aos="fade-left" data-aos-delay="300">
+                    <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="Zenta" class="h-60 md:h-80">
+                    <div class="character-speech mt-4">
+                        <div class="quote-bubble">
+                            <p class="navy-text">"RYO Coin makes cryptocurrency fun and easy for everyone!"</p>
+                        </div>
+                        <p class="text-white font-medium mt-2">Zenta</p>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#about" class="inline-block gold-bg text-white font-medium py-3 px-8 rounded-full hover:opacity-90 transition-opacity" data-aos="fade-up" data-aos-delay="500">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gold-border inline-block" data-aos="fade-up">Why <span class="gold-text">RYO Coin</span>?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">Inspired by Japan's historical currency "Ryō (両)", RYO Coin combines traditional values with cutting-edge blockchain technology.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div data-aos="fade-right">
+                    <div class="flex items-start mb-6">
+                        <div class="feature-icon navy-bg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 navy-text">Security First Approach</h3>
+                            <p class="text-gray-600">Built on a proprietary hybrid consensus mechanism that combines the best aspects of both Proof of Stake and Proof of Work.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="feature-icon navy-bg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 navy-text">Lightning Fast Transactions</h3>
+                            <p class="text-gray-600">Process thousands of transactions per second, far exceeding the capabilities of traditional cryptocurrencies.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-delay="200">
+                    <div class="flex items-start mb-6">
+                        <div class="feature-icon navy-bg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 navy-text">Global Accessibility</h3>
+                            <p class="text-gray-600">Designed for worldwide adoption with multi-language support and partnerships with licensed exchanges across continents.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="feature-icon navy-bg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 navy-text">Regulatory Compliance</h3>
+                            <p class="text-gray-600">Built with regulatory frameworks in mind, ensuring long-term viability in the evolving cryptocurrency landscape.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gold-border inline-block" data-aos="fade-up">Core <span class="gold-text">Features</span></h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">RYO Coin is built on a comprehensive ecosystem designed for everyday use.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-6" data-aos="fade-up">
+                    <div class="feature-icon gold-gradient mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-center navy-text">LIFE Wallet</h3>
+                    <p class="text-gray-600 text-center">A secure, multi-currency wallet with bank-grade security and intuitive interface. Send and receive funds with just an email address.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon gold-gradient mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-center navy-text">Global Mall</h3>
+                    <p class="text-gray-600 text-center">An integrated e-commerce platform that enables seamless shopping with RYO Coin. Lower fees than traditional platforms for merchants.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon gold-gradient mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-center navy-text">ATM Network</h3>
+                    <p class="text-gray-600 text-center">A growing network of physical ATMs allowing users to convert cash to RYO Coin and vice versa, bridging digital and physical economies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Character Story Section -->
+    <section id="story" class="section hero-gradient text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 inline-block" data-aos="fade-up">The <span class="gold-text">RYO Story</span></h2>
+                <p class="text-lg max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">Join Ryoko and Zenta on their journey through the world of RYO Coin.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="Ryoko" class="mx-auto h-64">
+                    <div class="mt-6 bg-white bg-opacity-10 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-3 gold-text">Meet Ryoko</h3>
+                        <p class="mb-4">A knowledgeable guide who understands the deep technological foundations of RYO Coin. With her traditional values and forward-thinking mindset, she represents the perfect balance between Japan's rich history and its innovative future.</p>
+                        <p>"RYO Coin is named after Japan's historical currency 'Ryō (両)' that was used for centuries. Just as the original Ryō was trusted throughout Japan, RYO Coin aims to be trusted worldwide."</p>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-delay="200">
+                    <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="Zenta" class="mx-auto h-64">
+                    <div class="mt-6 bg-white bg-opacity-10 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-3 gold-text">Meet Zenta</h3>
+                        <p class="mb-4">The energetic and approachable mascot who makes cryptocurrency accessible to everyone. Zenta represents the strength, security, and confidence that RYO Coin brings to the digital currency world.</p>
+                        <p>"Many people find cryptocurrency complicated, but with RYO Coin, it doesn't have to be! Our ecosystem makes digital transactions as simple as traditional banking, but with all the advantages of blockchain technology."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section class="section bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gold-border inline-block" data-aos="fade-up">RYO <span class="gold-text">Ecosystem</span></h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">A comprehensive blockchain ecosystem designed for real-world utility.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <div class="relative">
+                        <div class="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Logo" class="h-32">
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 w-24 h-24 rounded-full gold-gradient flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-lg">Next-Gen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-delay="200">
+                    <h3 class="text-2xl font-semibold mb-4 navy-text">Built for the Future</h3>
+                    <p class="text-gray-600 mb-4">RYO Core Blockchain® is designed from the ground up to address the limitations of existing cryptocurrencies. With its hybrid consensus mechanism, RYO achieves both security and scalability.</p>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 gold-text mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="navy-text font-medium">Scalable to thousands of transactions per second</span>
+                        </div>
+                        
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 gold-text mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="navy-text font-medium">Energy-efficient compared to traditional blockchains</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 gold-text mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="navy-text font-medium">Compatible with existing financial infrastructure</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600">From Japan to the world, RYO Coin represents the next evolution of cryptocurrency — one that balances innovation with practical utility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section gold-gradient text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" data-aos="fade-up">Ready to Join the RYO Revolution?</h2>
+            <p class="text-xl max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="200">Be part of the next generation of cryptocurrency with RYO Coin. Follow our journey as we build the future of digital currency.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="400">
+                <a href="#" class="bg-white text-gray-800 font-medium py-3 px-8 rounded-full hover:bg-opacity-90 transition-colors">Learn More</a>
+                <a href="#" class="border-2 border-white font-medium py-3 px-8 rounded-full hover:bg-white hover:text-gray-800 transition-colors">Join Community</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="navy-bg text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Coin Logo" class="h-10 mr-3">
+                        <span class="text-xl font-bold">RYO <span class="gold-text">Coin</span></span>
+                    </div>
+                    <p class="text-sm text-gray-300 mt-2">The future of cryptocurrency from Japan to the world</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 gold-text">Product</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Features</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Ecosystem</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Technology</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 gold-text">Community</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Blog</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Forum</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Social Media</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-span-2 md:col-span-1">
+                        <h3 class="text-lg font-semibold mb-4 gold-text">Contact</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Support</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Partnerships</a></li>
+                            <li><a href="#" class="hover:text-gray-300 transition-colors">Press</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-sm text-gray-400">© 2025 RYO Coin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Navigation scroll logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
