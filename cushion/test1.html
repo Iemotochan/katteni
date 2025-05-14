@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOコイン真実｜両子とゼン太が解決する暗号通貨の疑問</title>
+    <meta name="description" content="RYOコインは怪しい？詐欺？危険？両子とゼン太が暗号通貨の疑問に答え、真実を解説します。初心者でも安心して理解できる暗号通貨の世界。">
+    <meta name="keywords" content="RYOコイン,暗号通貨,仮想通貨,怪しい,詐欺,危険,買ってはいけない,疑問,安全,初心者">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --navy: #1a2b4b;
+            --light-gold: #f8eecc;
+            --page-bg: #fafafa;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--page-bg);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        .gold-text {
+            color: var(--gold);
+        }
+        .navy-text {
+            color: var(--navy);
+        }
+        .gold-bg {
+            background-color: var(--gold);
+        }
+        .navy-bg {
+            background-color: var(--navy);
+        }
+        .light-gold-bg {
+            background-color: var(--light-gold);
+        }
+        .header-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .custom-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section {
+            padding: 3rem 0;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3f62 100%);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 10h10v10H10V10z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+        }
+        .character-bubble {
+            border-radius: 18px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            max-width: 90%;
+        }
+        .ryoko-bubble {
+            background-color: #e6f0ff;
+            margin-left: auto;
+            border-top-right-radius: 0;
+        }
+        .zenta-bubble {
+            background-color: #fff9e6;
+            margin-right: auto;
+            border-top-left-radius: 0;
+        }
+        .character-image {
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: var(--gold);
+            color: var(--navy);
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .concern-tag {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .solution-tag {
+            background-color: #d1fae5;
+            color: #047857;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .gradient-divider {
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), var(--navy));
+            margin: 2rem 0;
+            width: 100%;
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        @media (max-width: 640px) {
+            .character-bubble {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky top-0 z-50 bg-white header-shadow">
+        <div class="custom-container py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYOコインロゴ" class="h-10 mr-3">
+                <h1 class="text-xl font-bold navy-text">RYOコイン<span class="gold-text">真実</span></h1>
+            </div>
+            <div class="hidden sm:flex space-x-4">
+                <a href="#about" class="navy-text hover:gold-text font-medium">RYOとは</a>
+                <a href="#faq" class="navy-text hover:gold-text font-medium">よくある疑問</a>
+                <a href="#comparison" class="navy-text hover:gold-text font-medium">他社との比較</a>
+                <a href="#future" class="navy-text hover:gold-text font-medium">未来展望</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-pattern"></div>
+        <div class="custom-container relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">暗号通貨の不安を解消<br><span class="gold-text">RYOコインの真実</span></h2>
+                    <p class="text-lg mb-6">「怪しい？」「詐欺では？」そんな疑問に両子とゼン太が答えます。安心して始められる次世代暗号通貨の世界。</p>
+                    <a href="#faq" class="btn-primary">疑問を解決する</a>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-32 h-32 character-image absolute -left-10 top-0 z-20 float-animation" style="animation-delay: 0.5s;">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-32 h-32 character-image absolute -right-10 top-20 z-20 float-animation">
+                        <div class="bg-white p-4 rounded-lg shadow-lg w-64 h-64 flex items-center justify-center z-10">
+                            <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYOコインロゴ" class="w-40 h-40 object-contain">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="custom-container">
+            <h2 class="text-3xl font-bold mb-6 text-center navy-text">RYOコイン<span class="gold-text">とは</span></h2>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-6 md:mb-0">
+                    <div class="character-bubble zenta-bubble">
+                        <div class="flex items-start mb-2">
+                            <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                            <p class="font-bold">ゼン太</p>
+                        </div>
+                        <p>両子ちゃん、最近「RYOコイン」って聞くけど、結局何なの？他の仮想通貨と何が違うの？</p>
+                    </div>
+                    <div class="character-bubble ryoko-bubble">
+                        <div class="flex items-start justify-end mb-2">
+                            <p class="font-bold">両子</p>
+                            <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                        </div>
+                        <p>RYOコインは、日本の歴史から着想を得た次世代暗号通貨よ。単なるコインではなく、多機能な「コアブロックチェーン」を基盤にしているの。特にセキュリティ、使いやすさ、スケーラビリティに重点を置いているわ。</p>
+                    </div>
+                    <div class="character-bubble zenta-bubble">
+                        <div class="flex items-start mb-2">
+                            <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                            <p class="font-bold">ゼン太</p>
+                        </div>
+                        <p>へぇ！でも他にもたくさん仮想通貨があるよね？何が特別なの？</p>
+                    </div>
+                    <div class="character-bubble ryoko-bubble">
+                        <div class="flex items-start justify-end mb-2">
+                            <p class="font-bold">両子</p>
+                            <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                        </div>
+                        <p>RYOコインはハイブリッドコンセンサスモデルを採用しているの。つまり、PoS（Proof of Stake）とPoW（Proof of Work）の両方の利点を組み合わせているわ。これにより、高速な取引と高いセキュリティを両立させているのよ。</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 md:pl-8">
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold mb-4 navy-text">RYOコイン<span class="gold-text">の特徴</span></h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <span class="text-gold-500 mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                                <span>日本の「両」から着想を得た次世代暗号通貨</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gold-500 mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                                <span>ハイブリッドコンセンサス（PoS+PoW）による高速・高セキュリティ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gold-500 mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                                <span>シンプルで誰でも使いやすいインターフェース設計</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gold-500 mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                                <span>LIFE Wallet®、Global Mall®など充実したエコシステム</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-gold-500 mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                                <span>金融庁認可取引所との連携による法令遵守</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gradient-divider"></div>
+
+    <section id="faq" class="section light-gold-bg">
+        <div class="custom-container">
+            <h2 class="text-3xl font-bold mb-8 text-center navy-text">よくある<span class="gold-text">疑問・不安</span>の解消</h2>
+            
+            <div class="faq-item">
+                <div class="flex flex-wrap mb-3">
+                    <span class="concern-tag">怪しい？</span>
+                    <span class="concern-tag">詐欺では？</span>
+                </div>
+                <div class="character-bubble zenta-bubble">
+                    <div class="flex items-start mb-2">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                        <p class="font-bold">ゼン太</p>
+                    </div>
+                    <p>両子ちゃん、インターネットで「RYOコインは怪しい」「詐欺なのでは」という噂を見たんだけど、本当なの？</p>
+                </div>
+                <div class="character-bubble ryoko-bubble">
+                    <div class="flex items-start justify-end mb-2">
+                        <p class="font-bold">両子</p>
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                    </div>
+                    <p>確かに、暗号通貨業界全体にネガティブな風評があるのは事実よ。でもRYOコインは、金融庁認可の取引所と提携し、法令に完全準拠しているの。実体のないプロジェクトとは全く違うわ。</p>
+                </div>
+                <div class="mt-4 bg-white p-4 rounded-lg">
+                    <h4 class="font-bold navy-text mb-2">信頼性の根拠：</h4>
+                    <ul class="list-disc pl-5">
+                        <li>金融庁認可の取引所でのみ取引可能</li>
+                        <li>企業登記・住所・運営チームが公開されている</li>
+                        <li>金融関連の法令に完全準拠</li>
+                        <li>監査可能なブロックチェーン技術を採用</li>
+                        <li>専門家チームによる継続的な開発と監視</li>
+                    </ul>
+                    <div class="flex flex-wrap mt-3">
+                        <span class="solution-tag">透明性</span>
+                        <span class="solution-tag">監査可能</span>
+                        <span class="solution-tag">法令遵守</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="flex flex-wrap mb-3">
+                    <span class="concern-tag">危険？</span>
+                    <span class="concern-tag">資金を失う？</span>
+                </div>
+                <div class="character-bubble zenta-bubble">
+                    <div class="flex items-start mb-2">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                        <p class="font-bold">ゼン太</p>
+                    </div>
+                    <p>でも暗号通貨って危険じゃないの？ハッキングされたり、突然価値がゼロになったりしない？</p>
+                </div>
+                <div class="character-bubble ryoko-bubble">
+                    <div class="flex items-start justify-end mb-2">
+                        <p class="font-bold">両子</p>
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                    </div>
+                    <p>どの投資にもリスクはあるわ。でもRYOコインは独自のセキュリティシステムを採用し、他の暗号通貨よりも安全性を高めているのよ。特にハイブリッドコンセンサスとチャージバック機能が重要ね。</p>
+                </div>
+                <div class="mt-4 bg-white p-4 rounded-lg">
+                    <h4 class="font-bold navy-text mb-2">安全性の根拠：</h4>
+                    <ul class="list-disc pl-5">
+                        <li>独自のハイブリッドセキュリティモデル</li>
+                        <li>他の暗号通貨にはない「チャージバック」機能</li>
+                        <li>24時間体制の不正監視システム</li>
+                        <li>コールドストレージによる資産保護</li>
+                        <li>複数の権威あるセキュリティ監査をパス</li>
+                    </ul>
+                    <div class="flex flex-wrap mt-3">
+                        <span class="solution-tag">高セキュリティ</span>
+                        <span class="solution-tag">資産保護</span>
+                        <span class="solution-tag">不正対策</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="flex flex-wrap mb-3">
+                    <span class="concern-tag">買ってはいけない？</span>
+                    <span class="concern-tag">価値が下がる？</span>
+                </div>
+                <div class="character-bubble zenta-bubble">
+                    <div class="flex items-start mb-2">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                        <p class="font-bold">ゼン太</p>
+                    </div>
+                    <p>「RYOコインは買ってはいけない」という記事も見たよ。本当に将来性はあるの？</p>
+                </div>
+                <div class="character-bubble ryoko-bubble">
+                    <div class="flex items-start justify-end mb-2">
+                        <p class="font-bold">両子</p>
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                    </div>
+                    <p>どの投資判断も最終的には自己責任よ。だからこそ、RYOコインは技術的優位性と実用性に焦点を当てているの。単なる投機ツールではなく、実際の用途と技術基盤があるわ。</p>
+                </div>
+                <div class="mt-4 bg-white p-4 rounded-lg">
+                    <h4 class="font-bold navy-text mb-2">将来性の根拠：</h4>
+                    <ul class="list-disc pl-5">
+                        <li>日本発の技術革新とグローバル戦略</li>
+                        <li>実際の商取引での利用事例の増加</li>
+                        <li>充実したエコシステム（LIFE Wallet®、Global Mall®等）</li>
+                        <li>企業パートナーシップの拡大</li>
+                        <li>継続的な技術開発と機能追加</li>
+                    </ul>
+                    <div class="flex flex-wrap mt-3">
+                        <span class="solution-tag">実用性</span>
+                        <span class="solution-tag">技術革新</span>
+                        <span class="solution-tag">エコシステム</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gradient-divider"></div>
+
+    <section id="comparison" class="section">
+        <div class="custom-container">
+            <h2 class="text-3xl font-bold mb-8 text-center navy-text">他の暗号通貨との<span class="gold-text">比較</span></h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left">特徴</th>
+                            <th class="py-3 px-4 border-b text-center gold-bg text-navy font-bold">RYOコイン</th>
+                            <th class="py-3 px-4 border-b text-center">ビットコイン</th>
+                            <th class="py-3 px-4 border-b text-center">イーサリアム</th>
+                            <th class="py-3 px-4 border-b text-center">その他Alt coins</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b">取引速度</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">超高速<br>(VISA以上)</td>
+                            <td class="py-3 px-4 border-b text-center">遅い<br>(10分/ブロック)</td>
+                            <td class="py-3 px-4 border-b text-center">中程度<br>(15秒/ブロック)</td>
+                            <td class="py-3 px-4 border-b text-center">様々</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b">コンセンサス方式</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">ハイブリッド<br>(PoS+PoW)</td>
+                            <td class="py-3 px-4 border-b text-center">PoW</td>
+                            <td class="py-3 px-4 border-b text-center">PoS (ETH2.0)</td>
+                            <td class="py-3 px-4 border-b text-center">様々</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b">取引の取り消し</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">可能<br>(チャージバック)</td>
+                            <td class="py-3 px-4 border-b text-center">不可能</td>
+                            <td class="py-3 px-4 border-b text-center">不可能</td>
+                            <td class="py-3 px-4 border-b text-center">ほぼ不可能</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b">使いやすさ</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">極めて簡単<br>(LIFE Wallet®)</td>
+                            <td class="py-3 px-4 border-b text-center">複雑</td>
+                            <td class="py-3 px-4 border-b text-center">複雑</td>
+                            <td class="py-3 px-4 border-b text-center">様々</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b">エコシステム</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">包括的<br>(Wallet, Mall, ATM)</td>
+                            <td class="py-3 px-4 border-b text-center">限定的</td>
+                            <td class="py-3 px-4 border-b text-center">広範囲</td>
+                            <td class="py-3 px-4 border-b text-center">断片的</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b">法令遵守</td>
+                            <td class="py-3 px-4 border-b text-center gold-text font-bold">完全準拠</td>
+                            <td class="py-3 px-4 border-b text-center">国によって異なる</td>
+                            <td class="py-3 px-4 border-b text-center">国によって異なる</td>
+                            <td class="py-3 px-4 border-b text-center">多くは不明確</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8">
+                <div class="character-bubble zenta-bubble">
+                    <div class="flex items-start mb-2">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                        <p class="font-bold">ゼン太</p>
+                    </div>
+                    <p>すごい！RYOコインって他の暗号通貨と比べてかなり違うんだね！特にこの「チャージバック」って機能は珍しいんじゃない？</p>
+                </div>
+                <div class="character-bubble ryoko-bubble">
+                    <div class="flex items-start justify-end mb-2">
+                        <p class="font-bold">両子</p>
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                    </div>
+                    <p>そうなの。ほとんどの暗号通貨は一度送金するともう取り消せないけど、RYOコインは特殊なガバナンスモデルによって、詐欺や不正な取引を取り消す機能があるわ。これが大きな差別化ポイントね。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gradient-divider"></div>
+
+    <section id="future" class="section">
+        <div class="custom-container">
+            <h2 class="text-3xl font-bold mb-8 text-center navy-text">未来<span class="gold-text">展望</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="text-4xl mb-4 gold-text">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 navy-text">グローバル展開</h3>
+                    <p>日本発の技術として、アジア・北米・ヨーロッパへ順次展開。各国の法規制に準拠しながら、グローバルな決済システムを構築。</p>
+                </div>
+                
+                <div class="card p-6">
+                    <div class="text-4xl mb-4 gold-text">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 navy-text">企業パートナーシップ</h3>
+                    <p>大手小売業、eコマース、金融機関との提携を拡大。実店舗やオンラインでRYOコインが使える場所を増やし、実用性を高める。</p>
+                </div>
+                
+                <div class="card p-6">
+                    <div class="text-4xl mb-4 gold-text">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 navy-text">技術革新</h3>
+                    <p>ブロックチェーン技術の継続的な改良と、新機能の追加。スマートコントラクト、分散型アプリケーション(DApps)のサポートを強化。</p>
+                </div>
+            </div>
+            
+            <div class="mt-12">
+                <div class="character-bubble zenta-bubble">
+                    <div class="flex items-start mb-2">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="ゼン太" class="w-10 h-10 mr-2 rounded-full">
+                        <p class="font-bold">ゼン太</p>
+                    </div>
+                    <p>RYOコインの将来って明るそうだね！でも本当に普及するかな？</p>
+                </div>
+                <div class="character-bubble ryoko-bubble">
+                    <div class="flex items-start justify-end mb-2">
+                        <p class="font-bold">両子</p>
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="両子" class="w-10 h-10 ml-2 rounded-full">
+                    </div>
+                    <p>どの新技術も最初は懐疑的な目で見られるわ。でもRYOコインは技術的優位性と実用性の両方に重点を置いているから、長期的な成功の可能性は高いと思うわ。特に「誰でも簡単に」という点が広い層に受け入れられる鍵ね。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gradient-divider"></div>
+
+    <section class="section navy-bg text-white">
+        <div class="custom-container text-center">
+            <h2 class="text-3xl font-bold mb-6">あなたも<span class="gold-text">RYOコイン</span>の世界へ</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">両子とゼン太と一緒に、次世代の金融革命に参加しませんか？疑問や不安を解消して、安心してRYOコインを始めましょう。</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <div class="card p-6 w-full md:w-auto text-left text-gray-800">
+                    <h3 class="text-xl font-bold mb-4 navy-text">安心の<span class="gold-text">第一歩</span></h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <span class="mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                            <span>公式サイトから信頼性を確認</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                            <span>認可済み取引所の利用</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                            <span>少額から始める</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2"><i class="fas fa-check-circle gold-text"></i></span>
+                            <span>LIFE Wallet®のダウンロード</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-100 py-6">
+        <div class="custom-container">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYOコインロゴ" class="h-8 mr-3">
+                        <h2 class="text-lg font-bold navy-text">RYOコイン<span class="gold-text">真実</span></h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">※本サイトは情報提供を目的としており、投資助言ではありません。</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">© 2025 RYOコイン真実 | 両子とゼン太が解決する暗号通貨の疑問</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.card, .character-bubble');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
