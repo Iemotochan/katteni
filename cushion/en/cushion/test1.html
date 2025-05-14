@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYO Coin Truth | Ryoko and Zenta Answer Your Cryptocurrency Questions</title>
+    <meta name="description" content="Get honest answers about RYO Coin from Ryoko and Zenta. Is RYO Coin a scam? Is it dangerous? Learn the truth about this cryptocurrency.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #0a2463;
+            --gold: #d4af37;
+            --light-gold: #f2d680;
+            --dark-gold: #a67c00;
+            --light-blue: #e3f2fd;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+        }
+        
+        .gold-text {
+            color: var(--gold);
+        }
+        
+        .navy-bg {
+            background-color: var(--navy);
+        }
+        
+        .gold-bg {
+            background-color: var(--gold);
+        }
+        
+        .gold-border {
+            border-color: var(--gold);
+        }
+        
+        .dialog-bubble {
+            position: relative;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .ryoko-bubble {
+            background-color: var(--light-blue);
+            border-left: 4px solid #3498db;
+        }
+        
+        .zenta-bubble {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+        
+        .character-image {
+            transition: all 0.3s ease;
+        }
+        
+        .character-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .gradient-button {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(166, 124, 0, 0.3);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .logo {
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+        
+        @media (max-width: 640px) {
+            .character-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section text-white py-16 px-4 sm:px-6 lg:px-8 relative">
+        <div class="container mx-auto max-w-5xl relative z-10">
+            <div class="flex flex-col items-center text-center">
+                <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Coin Logo" class="logo w-32 h-32 mb-6">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                    RYO Coin <span class="gold-text">Truth</span>
+                </h1>
+                <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl">
+                    Straight answers to your questions about the next-generation cryptocurrency
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <a href="#faq" class="gradient-button px-6 py-3 rounded-full font-bold text-lg">
+                        <i class="fas fa-question-circle mr-2"></i>Get Answers
+                    </a>
+                    <a href="#about" class="bg-white text-navy px-6 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-info-circle mr-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Characters Introduction -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-bold mb-12 text-center">Meet Your <span class="gold-text">Guides</span></h2>
+            
+            <div class="character-container flex flex-wrap gap-8 justify-center items-center mb-12">
+                <div class="w-full sm:w-1/3 flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="Ryoko Character" class="character-image w-48 h-48 object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Ryoko</h3>
+                    <p class="text-center text-gray-600">Cryptocurrency expert who provides detailed analysis and insights about RYO Coin</p>
+                </div>
+                
+                <div class="w-full sm:w-1/3 flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="Zenta Character" class="character-image w-48 h-48 object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Zenta</h3>
+                    <p class="text-center text-gray-600">Enthusiastic guide who asks the questions you're thinking about and makes complex topics simple</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-lg mb-6 max-w-3xl mx-auto">
+                    Join Ryoko and Zenta as they explore the truth about RYO Coin, addressing common concerns and misconceptions with transparency and honesty.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About RYO Section -->
+    <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-bold mb-12 text-center">About <span class="gold-text">RYO Coin</span></h2>
+            
+            <div class="dialog-bubble ryoko-bubble">
+                <h3 class="font-bold mb-2">Ryoko explains:</h3>
+                <p class="mb-4">
+                    RYO Coin is a next-generation cryptocurrency built on the RYO Core Blockchain. It's designed to be the most advanced, safest, and easiest to use blockchain platform in the world. The name "RYO" comes from an ancient Japanese currency used during the Tokugawa Period (1603-1868).
+                </p>
+                <p>
+                    What sets RYO apart is its proprietary hybrid consensus mechanism that combines the best aspects of Proof of Stake and Proof of Work, creating a more efficient, secure, and scalable blockchain system.
+                </p>
+            </div>
+            
+            <div class="dialog-bubble zenta-bubble">
+                <h3 class="font-bold mb-2">Zenta asks:</h3>
+                <p>
+                    So it's like Bitcoin but better? What makes it special enough for people to trust it?
+                </p>
+            </div>
+            
+            <div class="dialog-bubble ryoko-bubble">
+                <h3 class="font-bold mb-2">Ryoko explains:</h3>
+                <p class="mb-4">
+                    Unlike Bitcoin and many other cryptocurrencies, RYO was built from scratch to solve the inherent problems in existing blockchain technologies:
+                </p>
+                <ul class="list-disc pl-5 mb-4 space-y-2">
+                    <li>Processing speed that rivals or exceeds credit card transactions</li>
+                    <li>Dramatically lower energy consumption</li>
+                    <li>Enhanced security through multiple validation layers</li>
+                    <li>Built-in compliance with global financial regulations</li>
+                    <li>An ecosystem that includes LIFE Wallet, Global Mall, and ATM Network</li>
+                </ul>
+                <p>
+                    RYO wasn't hastily launched with an ICO or created just to capitalize on market trends. It's the result of years of development and millions of dollars in investment to create a truly revolutionary financial technology.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-bold mb-12 text-center">Common <span class="gold-text">Concerns</span> Addressed</h2>
+            
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item p-6 bg-white rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-red-600">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        "Is RYO Coin a scam or suspicious cryptocurrency?"
+                    </h3>
+                    
+                    <div class="dialog-bubble zenta-bubble">
+                        <h4 class="font-bold mb-2">Zenta asks:</h4>
+                        <p>
+                            I've seen many cryptocurrency scams! How do I know RYO Coin isn't just another rug pull waiting to happen?
+                        </p>
+                    </div>
+                    
+                    <div class="dialog-bubble ryoko-bubble">
+                        <h4 class="font-bold mb-2">Ryoko answers:</h4>
+                        <p class="mb-4">
+                            That's a legitimate concern given the history of cryptocurrency scams. Here's why RYO Coin stands apart:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li><strong>Established team with public identities:</strong> Unlike anonymous projects, RYO's team members are publicly identified professionals with extensive experience in technology and finance.</li>
+                            <li><strong>Significant development before launch:</strong> RYO was developed with millions in funding before being introduced to the public, rather than raising money first with just a concept.</li>
+                            <li><strong>Regulatory compliance:</strong> RYO works within regulatory frameworks and partners with licensed exchanges, rather than operating in legal gray areas.</li>
+                            <li><strong>Real utility and infrastructure:</strong> The RYO ecosystem includes practical applications like LIFE Wallet and Global Mall, not just speculative tokens.</li>
+                            <li><strong>Transparent development:</strong> Regular updates and clear roadmaps show consistent progress.</li>
+                        </ul>
+                        <p>
+                            Always do your own research, but these factors significantly differentiate RYO from typical cryptocurrency scams.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="faq-item p-6 bg-white rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-red-600">
+                        <i class="fas fa-bomb mr-2"></i>
+                        "Is RYO Coin dangerous or risky to invest in?"
+                    </h3>
+                    
+                    <div class="dialog-bubble zenta-bubble">
+                        <h4 class="font-bold mb-2">Zenta asks:</h4>
+                        <p>
+                            I've heard that all cryptocurrencies are extremely risky and dangerous investments. Is that true for RYO Coin too?
+                        </p>
+                    </div>
+                    
+                    <div class="dialog-bubble ryoko-bubble">
+                        <h4 class="font-bold mb-2">Ryoko answers:</h4>
+                        <p class="mb-4">
+                            All investments carry some level of risk, and cryptocurrencies are certainly more volatile than traditional investments. However, here's what makes RYO different:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li><strong>Reduced volatility measures:</strong> RYO's architecture includes mechanisms to reduce the extreme price swings common in other cryptocurrencies.</li>
+                            <li><strong>Focus on utility:</strong> RYO is designed for actual use in commerce through the Global Mall and ATM network, not just speculation.</li>
+                            <li><strong>Security prioritization:</strong> The hybrid consensus mechanism offers enhanced security against common blockchain vulnerabilities.</li>
+                            <li><strong>Regulatory alignment:</strong> By working within regulatory frameworks, RYO reduces legal risks associated with many cryptocurrencies.</li>
+                        </ul>
+                        <p class="mb-4">
+                            That said, you should never invest more than you can afford to lose in any cryptocurrency, including RYO. Financial advisors typically recommend allocating only a small percentage of your investment portfolio to higher-risk assets like cryptocurrencies.
+                        </p>
+                        <p>
+                            The key is understanding the technology and making informed decisions rather than following hype or FOMO (fear of missing out).
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="faq-item p-6 bg-white rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-red-600">
+                        <i class="fas fa-ban mr-2"></i>
+                        "Should I avoid buying RYO Coin? Is it a bad investment?"
+                    </h3>
+                    
+                    <div class="dialog-bubble zenta-bubble">
+                        <h4 class="font-bold mb-2">Zenta asks:</h4>
+                        <p>
+                            I've read opinions saying people should avoid buying cryptocurrencies altogether. Should I avoid buying RYO Coin too?
+                        </p>
+                    </div>
+                    
+                    <div class="dialog-bubble ryoko-bubble">
+                        <h4 class="font-bold mb-2">Ryoko answers:</h4>
+                        <p class="mb-4">
+                            Whether RYO Coin is right for you depends entirely on your personal financial situation, investment goals, and risk tolerance. Here are facts to consider:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li><strong>Strong fundamentals:</strong> RYO has solid technological foundations, a clear use case, and an established development team.</li>
+                            <li><strong>Ecosystem approach:</strong> The integration with LIFE Wallet, Global Mall, and ATM Network provides multiple pathways for adoption and growth.</li>
+                            <li><strong>Long-term vision:</strong> RYO is built for sustainable growth rather than short-term speculation.</li>
+                            <li><strong>Educational resources:</strong> The RYO team provides clear information to help users understand the technology and make informed decisions.</li>
+                        </ul>
+                        <p class="mb-4">
+                            That said, cryptocurrencies are not suitable for everyone. If you:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li>Need guaranteed returns</li>
+                            <li>Cannot tolerate volatility</li>
+                            <li>Don't understand the basic technology</li>
+                            <li>Are investing with essential funds (like rent or food money)</li>
+                        </ul>
+                        <p>
+                            Then cryptocurrency investments, including RYO, might not be appropriate for you. Consider consulting with a financial advisor who can provide personalized advice based on your specific situation.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="faq-item p-6 bg-white rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-red-600">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        "Why would anyone trust RYO Coin when there are so many failed cryptocurrencies?"
+                    </h3>
+                    
+                    <div class="dialog-bubble zenta-bubble">
+                        <h4 class="font-bold mb-2">Zenta asks:</h4>
+                        <p>
+                            With thousands of failed cryptocurrencies and so many broken promises in the industry, why should anyone trust RYO Coin to be different?
+                        </p>
+                    </div>
+                    
+                    <div class="dialog-bubble ryoko-bubble">
+                        <h4 class="font-bold mb-2">Ryoko answers:</h4>
+                        <p class="mb-4">
+                            This is perhaps the most important question! The cryptocurrency space has indeed seen many failures and broken promises. Here's what makes RYO different:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li><strong>Development-first approach:</strong> Unlike many projects that launch with just a whitepaper, RYO was developed extensively before public release.</li>
+                            <li><strong>Technological innovation:</strong> RYO isn't just another token on an existing blockchain - it's a ground-up rebuild of blockchain technology to address fundamental flaws.</li>
+                            <li><strong>Japanese regulatory environment:</strong> Operating within Japan's progressive but strict cryptocurrency framework adds a layer of accountability many projects lack.</li>
+                            <li><strong>Comprehensive ecosystem:</strong> The integration of wallet, marketplace, and physical infrastructure shows commitment to real-world utility.</li>
+                            <li><strong>Transparency about challenges:</strong> The team acknowledges the challenges of blockchain technology rather than making unrealistic promises.</li>
+                        </ul>
+                        <p class="mb-4">
+                            That said, healthy skepticism is always warranted in this space. We encourage potential users to:
+                        </p>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li>Research the technology independently</li>
+                            <li>Start small if you decide to participate</li>
+                            <li>Engage with the RYO community to ask questions</li>
+                            <li>Follow development updates to see consistent progress</li>
+                        </ul>
+                        <p>
+                            Trust should be earned over time through consistent delivery, not simply given based on promises.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Comparison Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-bold mb-12 text-center">How RYO <span class="gold-text">Compares</span></h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
+                    <thead class="navy-bg text-white">
+                        <tr>
+                            <th class="py-4 px-6 text-left">Feature</th>
+                            <th class="py-4 px-6 text-center">RYO Coin</th>
+                            <th class="py-4 px-6 text-center">Other Cryptocurrencies</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Transaction Speed</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-green-600 font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>High (Credit card level)
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">Often slow and unpredictable</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Energy Efficiency</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-green-600 font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Highly Efficient
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">Often energy intensive (especially PoW)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Regulatory Compliance</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-green-600 font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Built-in
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">Often lacking or reactive</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Ecosystem</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-green-600 font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Comprehensive (Wallet, Mall, ATM)
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">Often limited or fragmented</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Development Approach</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-green-600 font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Built from scratch to address issues
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">Often modified from existing codebases</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call-to-Action -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="container mx-auto max-w-5xl">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-4">Make Your Own <span class="gold-text">Informed Decision</span></h2>
+                <p class="text-lg mb-8 max-w-3xl mx-auto">
+                    We believe in transparency and education. Research thoroughly, understand the technology, and decide if RYO Coin aligns with your financial goals.
+                </p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-6 mb-12">
+                <div class="character-image w-32 h-32">
+                    <img src="https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce" alt="Ryoko Character" class="w-full h-full object-cover">
+                </div>
+                <div class="character-image w-32 h-32">
+                    <img src="https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20" alt="Zenta Character" class="w-full h-full object-cover">
+                </div>
+            </div>
+            
+            <div class="dialog-bubble ryoko-bubble">
+                <h4 class="font-bold mb-2">Ryoko says:</h4>
+                <p>
+                    Remember, the best investment decisions are those based on knowledge and understanding, not fear or hype. We hope this information helps you evaluate RYO Coin more objectively.
+                </p>
+            </div>
+            
+            <div class="dialog-bubble zenta-bubble">
+                <h4 class="font-bold mb-2">Zenta says:</h4>
+                <p>
+                    Thanks for taking the time to learn about RYO Coin! Whatever you decide, we're happy to have shared the truth about this exciting project with you.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="navy-bg text-white py-8 px-4">
+        <div class="container mx-auto max-w-5xl">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Coin Logo" class="w-16 h-16">
+                </div>
+                <div class="text-sm text-gray-300">
+                    <p>This is an informational resource about RYO Coin.</p>
+                    <p>Always conduct your own research before making investment decisions.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for character images
+        document.addEventListener('DOMContentLoaded', function() {
+            const characters = document.querySelectorAll('.character-image');
+            
+            characters.forEach(character => {
+                setInterval(() => {
+                    character.style.transform = 'translateY(-5px)';
+                    setTimeout(() => {
+                        character.style.transform = 'translateY(0)';
+                    }, 500);
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
