@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOコイン：未来を創るデジタル通貨 | 両子とゼン太の分かりやすいWeb3入門</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ffd700;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --dark: #292F36;
+            --light: #F7F7F7;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%), url('https://images.unsplash.com/photo-1639762681057-408e52192e55?auto=format&fit=crop&q=80&w=2232&ixlib=rb-4.0.3');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .dialog-box {
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .ryoko-dialog {
+            background-color: rgba(255, 214, 214, 0.9);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .zenta-dialog {
+            background-color: rgba(255, 243, 189, 0.9);
+            border-left: 5px solid var(--primary);
+        }
+
+        .character-img {
+            width: 120px;
+            height: auto;
+            margin-bottom: -20px;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            width: 60px;
+            margin: 0 auto;
+            background: var(--primary);
+        }
+
+        .coin-feature {
+            transition: all 0.3s ease;
+        }
+
+        .coin-feature:hover {
+            transform: translateY(-10px);
+        }
+
+        .ecosystem-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .ecosystem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ryo-logo {
+            max-width: 220px;
+            margin: 0 auto;
+        }
+
+        .tokenomics-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-container {
+            position: relative;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .bubble {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        .character-container {
+            position: relative;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .step-card {
+            border-left: 4px solid var(--primary);
+            padding-left: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-card:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .animated-gradient {
+            background: linear-gradient(270deg, #FFD700, #FFA500);
+            background-size: 200% 200%;
+            animation: gradientAnimation 5s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .compare-table th, .compare-table td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .compare-table th {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+
+        .compare-table tr:nth-child(even) {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-2xl font-bold text-yellow-500">RYOコイン</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-700 hover:text-yellow-500 transition">RYOとは？</a>
+                <a href="#ecosystem" class="text-gray-700 hover:text-yellow-500 transition">エコシステム</a>
+                <a href="#features" class="text-gray-700 hover:text-yellow-500 transition">特徴</a>
+                <a href="#faq" class="text-gray-700 hover:text-yellow-500 transition">よくある質問</a>
+                <a href="#start" class="text-gray-700 hover:text-yellow-500 transition">始め方</a>
+            </div>
+            <div class="md:hidden flex items-center">
+                <button class="text-gray-700 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full py-24 bg-yellow-100">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                        <span class="text-yellow-500">RYOコイン</span><br>
+                        <span class="text-red-400">未来</span>を創る<span class="text-blue-500">デジタル通貨</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">両子とゼン太と学ぶ、誰でも使える仮想通貨の世界</p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#about" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full transition shadow-lg transform hover:scale-105">
+                            もっと詳しく
+                        </a>
+                        <a href="#start" class="bg-white hover:bg-gray-100 text-yellow-500 border-2 border-yellow-500 font-bold py-3 px-8 rounded-full transition shadow-lg transform hover:scale-105">
+                            今すぐ始める
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="ryo-logo">
+                        <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYOコインロゴ" class="mx-auto">
+                    </div>
+                    <div class="character-container absolute bottom-0 left-0">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-32 md:w-40">
+                    </div>
+                    <div class="character-container absolute bottom-0 right-0">
+                        <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-32 md:w-40">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About RYO Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">RYOコインとは？</h2>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">ねえねえ、ゼン太！最近よく聞く<strong>RYOコイン</strong>って何なの？ビットコインみたいな仮想通貨？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">そうだね、RYOコインは仮想通貨の一種だけど、普通の人でも簡単に使えるように特別に設計されているんだ。<strong>「crypto for the masses（大衆のための仮想通貨）」</strong>というコンセプトが特徴さ。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">へぇー！でも「RYO」ってどういう意味なの？何かわけがあるの？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">実は「RYO」という名前は、<strong>江戸時代から19世紀半ばまで日本で使われていた「両（りょう）」という金貨の単位</strong>から来ているんだ。「デジタル時代に蘇った古代日本の通貨」というイメージなんだよ。信頼と実用性の精神を受け継いでいるんだ。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">なるほど！私の名前の「両子」も、そこから来てるのね！でも、他の仮想通貨と何が違うの？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">RYOコインの一番の特徴は、<strong>「使いやすさ」</strong>に特化していることだよ。技術的な知識がなくても、おばあちゃんでも使えるくらいシンプルに設計されているんだ。複数のサービスが連携した<strong>総合的なエコシステム</strong>で、日常生活で実際に使える仮想通貨を目指しているよ。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section id="ecosystem" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">RYOエコシステム</h2>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">エコシステムって何？なんだか難しそう...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">簡単に言うと、<strong>様々なサービスやアプリが連携して動く仕組み</strong>のことだよ。RYOエコシステムは5つの主要な要素で構成されているんだ。一つずつ見ていこうか。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <!-- RYO Core Blockchain Card -->
+                <div class="ecosystem-card bg-white p-6">
+                    <div class="h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-link text-yellow-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">RYO Core Blockchain</h3>
+                    <p class="text-gray-600 mb-4">RYOの基盤となる独自のブロックチェーン技術。高速、安全、拡張性に優れています。</p>
+                    <div class="border-t pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-500">特徴：</span>
+                            <span class="text-sm font-medium text-yellow-500">ハイブリッド方式</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Life Wallet Card -->
+                <div class="ecosystem-card bg-white p-6">
+                    <div class="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-wallet text-red-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Life Wallet</h3>
+                    <p class="text-gray-600 mb-4">単なるウォレットを超えた「スーパーアプリ」。メールアドレスだけでRYOコインを送受信できます。</p>
+                    <div class="border-t pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-500">特徴：</span>
+                            <span class="text-sm font-medium text-red-400">超シンプルな操作性</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Global Mall Card -->
+                <div class="ecosystem-card bg-white p-6">
+                    <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-shopping-cart text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Global Mall</h3>
+                    <p class="text-gray-600 mb-4">RYOコインで買い物ができるeコマースプラットフォーム。仮想通貨を実際に使う場を提供します。</p>
+                    <div class="border-t pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-500">特徴：</span>
+                            <span class="text-sm font-medium text-blue-500">低手数料・簡単決済</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Crypto ATM Network Card -->
+                <div class="ecosystem-card bg-white p-6">
+                    <div class="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-money-bill-wave text-green-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Crypto ATM Network</h3>
+                    <p class="text-gray-600 mb-4">現金とRYOコインを簡単に交換できるATMネットワーク。日本でライセンスを取得済みです。</p>
+                    <div class="border-t pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-500">特徴：</span>
+                            <span class="text-sm font-medium text-green-500">双方向交換機能</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RYO-CHAN Card -->
+                <div class="ecosystem-card bg-white p-6">
+                    <div class="h-16 w-16 rounded-full bg-purple-100 flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-robot text-purple-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">RYO-CHAN</h3>
+                    <p class="text-gray-600 mb-4">AIを活用した安全なミームトークン。スマートコントラクト分析でスキャム検出も可能です。</p>
+                    <div class="border-t pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-500">特徴：</span>
+                            <span class="text-sm font-medium text-purple-500">AIポートフォリオ管理</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- All Connected Card -->
+                <div class="ecosystem-card bg-gradient-to-r from-yellow-400 to-red-400 p-6 text-white">
+                    <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-network-wired text-yellow-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">すべてが連携</h3>
+                    <p class="mb-4">これらのサービスがシームレスに連携し、誰でも簡単に仮想通貨を使える環境を実現します。</p>
+                    <div class="border-t border-white pt-4 mt-auto">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium">目標：</span>
+                            <span class="text-sm font-bold">crypto for the masses</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16">
+                <div class="chart-container">
+                    <h3 class="text-xl font-bold mb-6 text-center">RYOコイントークノミクス（発行量と配分）</h3>
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 mb-8 md:mb-0">
+                            <img src="https://page1.genspark.site/v1/base64_upload/de2f46c118a1dc8ae08f2df15ebefca5" alt="RYOコイントークノミクス" class="tokenomics-img mx-auto">
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="dialog-box ryoko-dialog">
+                                <div class="flex items-start">
+                                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                    <div>
+                                        <p class="mt-2">これは何のグラフ？カラフルで綺麗だけど。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="dialog-box zenta-dialog">
+                                <div class="flex items-start">
+                                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                    <div>
+                                        <p class="mt-2">これはRYOコインの<strong>トークノミクス</strong>というもので、総発行量2,000,000,000（20億）コインの配分を示しているよ。チームやプロジェクト開発、検証者への報酬など、バランスよく配分されているんだ。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">「使いやすさ」の革命</h2>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">ゼン太、他の仮想通貨との違いをもっと詳しく教えてほしいな！具体的には何が違うの？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">じゃあ、分かりやすく表で比較してみよう！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto mt-8">
+                <table class="min-w-full bg-white compare-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/4">機能</th>
+                            <th class="w-1/4">従来の仮想通貨</th>
+                            <th class="w-1/4">RYOコイン</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">送金方法</td>
+                            <td>長く複雑なアドレスを使用<br>（例：0x71C7656EC7ab88b098defB751B7401B5f6d8976F）</td>
+                            <td class="font-bold text-green-600">メールアドレスで簡単送金<br>（例：tanaka@example.com）</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">処理速度</td>
+                            <td>遅い（ビットコインは約10分）</td>
+                            <td class="font-bold text-green-600">瞬時（ハイブリッドコンセンサス方式）</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">実用性</td>
+                            <td>投機目的が中心<br>実店舗での利用が限定的</td>
+                            <td class="font-bold text-green-600">Global MallやATMで実際に使える<br>日常的な使用を想定</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">ユーザー体験</td>
+                            <td>技術的な知識が必要<br>複雑な操作</td>
+                            <td class="font-bold text-green-600">「おばあちゃんでも使える」<br>シンプルな操作性</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">エコシステム</td>
+                            <td>単体のトークンやブロックチェーン</td>
+                            <td class="font-bold text-green-600">ウォレット、ショッピング、ATM、AI機能が連携した総合システム</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-center mb-8">RYOが目指す「crypto for the masses」</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="coin-feature bg-white p-6 rounded-lg shadow-md">
+                        <div class="h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-hand-holding-heart text-yellow-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3 text-center">シンプルさ</h4>
+                        <p class="text-gray-600 text-center">技術的な複雑さを隠蔽し、誰でも直感的に使えるインターフェース設計</p>
+                    </div>
+                    
+                    <div class="coin-feature bg-white p-6 rounded-lg shadow-md">
+                        <div class="h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-shield-alt text-yellow-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3 text-center">安全性</h4>
+                        <p class="text-gray-600 text-center">銀行レベルのセキュリティとAI技術を活用したスキャム対策機能</p>
+                    </div>
+                    
+                    <div class="coin-feature bg-white p-6 rounded-lg shadow-md">
+                        <div class="h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-globe-asia text-yellow-500 text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3 text-center">実用性</h4>
+                        <p class="text-gray-600 text-center">日常生活で実際に利用できる仕組みの構築とリアル世界との連携</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">よくある質問</h2>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">ゼン太、私みたいな初心者がよく思う疑問に答えてくれない？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">もちろん！よくある質問に答えるよ。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 space-y-6">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. そもそも仮想通貨って何？</span>
+                        <i class="fas fa-chevron-down text-yellow-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4">
+                        <div class="dialog-box zenta-dialog" style="max-width: 100%;">
+                            <div class="flex items-start">
+                                <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                <div>
+                                    <p class="mt-2">仮想通貨（暗号資産）は、ブロックチェーンという技術を使って作られたデジタルのお金です。政府や銀行などの中央機関によって管理されるのではなく、ネットワーク上の参加者同士で維持・管理される分散型の仕組みになっています。安全な暗号技術を使用し、偽造や二重使用を防いでいます。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. RYOコインはどうやって入手できるの？</span>
+                        <i class="fas fa-chevron-down text-yellow-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4">
+                        <div class="dialog-box zenta-dialog" style="max-width: 100%;">
+                            <div class="flex items-start">
+                                <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                <div>
+                                    <p class="mt-2">RYOコインは、日本の金融庁が承認した仮想通貨取引所でのリストを目指しています。また、Crypto ATMでも現金と交換して入手できるようになります。プロジェクトの進行に合わせて、公式サイトで購入方法が案内される予定です。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. Life Walletはどうやって使うの？</span>
+                        <i class="fas fa-chevron-down text-yellow-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4">
+                        <div class="dialog-box zenta-dialog" style="max-width: 100%;">
+                            <div class="flex items-start">
+                                <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                <div>
+                                    <p class="mt-2">Life Walletは、App StoreやGoogle Playからダウンロードして利用できるようになります。メールアドレスで簡単に登録でき、直感的なインターフェースでRYOコインの送受信やチャット、ショッピングなどの機能を利用できます。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. RYO-CHANって何？普通のミームコインと何が違うの？</span>
+                        <i class="fas fa-chevron-down text-yellow-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4">
+                        <div class="dialog-box zenta-dialog" style="max-width: 100%;">
+                            <div class="flex items-start">
+                                <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                <div>
+                                    <p class="mt-2">RYO-CHANは単なるミームトークンではなく、AI技術を活用した実用的な機能を持っています。スマートコントラクト分析で他のミームコインのスキャムリスクを検出したり、AIによるポートフォリオ管理機能を提供したりします。また、RYOエコシステム内で実際に使えるユーティリティもあります。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. RYOプロジェクトは日本の規制に対応しているの？</span>
+                        <i class="fas fa-chevron-down text-yellow-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4">
+                        <div class="dialog-box zenta-dialog" style="max-width: 100%;">
+                            <div class="flex items-start">
+                                <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-16 h-16 mr-4 rounded-full object-cover">
+                                <div>
+                                    <p class="mt-2">はい、RYOプロジェクトは開発当初から日本の厳格な規制環境に適合するよう設計されています。日本の金融庁（FSA）の承認を受けた取引所へのリストを目指し、正式にライセンスを取得したCrypto ATM事業者と協力しています。日本をテストグラウンドとして、信頼性の高い市場で成功を収めることを戦略としています。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Section -->
+    <section id="start" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">始め方ガイド</h2>
+            
+            <div class="dialog-box ryoko-dialog">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="両子" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">両子（りょうこ）</h4>
+                        <p class="mt-2">私もRYOコインを始めてみたいんだけど、どうすればいいの？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dialog-box zenta-dialog ml-auto" style="max-width: 90%;">
+                <div class="flex items-start">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-lg">ゼン太</h4>
+                        <p class="mt-2">とても簡単だよ！これから始める人のための手順をステップバイステップで説明するね。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 max-w-3xl mx-auto">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <h3 class="text-xl font-bold mb-3">STEP 1: 最新情報をチェック</h3>
+                    <p class="mb-4">RYOプロジェクトの公式サイトやSNSをフォローして、最新の情報やローンチ日程を確認しましょう。</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-sm text-yellow-700">💡 <strong>両子のヒント:</strong> SNSで「RYOコイン」や「RYOプロジェクト」を検索してみよう！</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <h3 class="text-xl font-bold mb-3">STEP 2: Life Walletをダウンロード</h3>
+                    <p class="mb-4">リリース後、App StoreまたはGoogle PlayからLife Walletアプリをダウンロードし、アカウントを作成します。</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-sm text-yellow-700">💡 <strong>両子のヒント:</strong> アカウント作成には、メールアドレスを用意しておこう！</p>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <h3 class="text-xl font-bold mb-3">STEP 3: RYOコインを入手</h3>
+                    <p class="mb-4">承認された取引所でRYOコインを購入するか、Crypto ATMを利用して現金と交換します。</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-sm text-yellow-700">💡 <strong>両子のヒント:</strong> 購入は少額から始めるのがおすすめ！</p>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="step-card">
+                    <h3 class="text-xl font-bold mb-3">STEP 4: エコシステムを体験</h3>
+                    <p class="mb-4">Life Walletを使ってRYOコインを送金したり、Global Mallで買い物をしたり、RYO-CHANの機能を試してみましょう。</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-sm text-yellow-700">💡 <strong>両子のヒント:</strong> 友達にRYOコインを送って、一緒に始めるのも楽しいよ！</p>
+                    </div>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="step-card">
+                    <h3 class="text-xl font-bold mb-3">STEP 5: コミュニティに参加</h3>
+                    <p class="mb-4">RYOコミュニティに参加して、最新情報や使い方のヒントを共有しましょう。</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-sm text-yellow-700">💡 <strong>両子のヒント:</strong> コミュニティでは質問も気軽にできるから安心！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <div class="mb-8">
+                    <div class="dialog-box zenta-dialog inline-block text-left" style="max-width: 80%;">
+                        <div class="flex items-start">
+                            <img src="https://page1.genspark.site/v1/base64_upload/6f445bd54e5f4d25250ebde5a6e73b62" alt="ゼン太" class="w-20 h-20 mr-4 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-lg">ゼン太</h4>
+                                <p class="mt-2">より詳しい情報は公式サイトで！これからのアップデートをお楽しみに。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="animated-gradient text-white font-bold py-4 px-8 rounded-full inline-block transition shadow-xl transform hover:scale-105">
+                    公式サイトで詳細を見る
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-4">RYOコイン</h3>
+                    <p class="text-gray-400 max-w-xs">デジタル時代に蘇った古代日本の通貨「両」をコンセプトにした、誰でも使いやすい仮想通貨プロジェクト</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">リンク</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#about" class="text-gray-400 hover:text-white transition">RYOとは？</a></li>
+                            <li><a href="#ecosystem" class="text-gray-400 hover:text-white transition">エコシステム</a></li>
+                            <li><a href="#features" class="text-gray-400 hover:text-white transition">特徴</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">サポート</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#faq" class="text-gray-400 hover:text-white transition">よくある質問</a></li>
+                            <li><a href="#start" class="text-gray-400 hover:text-white transition">始め方</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition">お問い合わせ</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">SNS</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-telegram text-xl"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-discord text-xl"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-medium text-xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2023 RYOコインプロジェクト. All rights reserved.</p>
+                
+                <div class="flex items-center mt-4 md:mt-0">
+                    <p class="text-gray-400 text-sm">両子とゼン太と学ぶ公式説明サイト</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // FAQの開閉機能
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+        
+        // バブル背景アニメーション
+        function createBubbles() {
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4'];
+            const count = 15;
+            const section = document.querySelector('.bg-yellow-100');
+            
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement('div');
+                const size = Math.random() * 60 + 20;
+                
+                bubble.classList.add('bubble');
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.top = `${Math.random() * 100}%`;
+                bubble.style.opacity = '0.1';
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                
+                section.appendChild(bubble);
+            }
+        }
+        
+        // ページ読み込み完了時に実行
+        window.addEventListener('load', () => {
+            createBubbles();
+            
+            // すべてのFAQを閉じた状態にする
+            document.querySelectorAll('.faq-answer').forEach(answer => {
+                answer.style.maxHeight = null;
+            });
+        });
+    </script>
+</body>
+</html>
