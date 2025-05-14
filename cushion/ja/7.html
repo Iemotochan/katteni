@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOコインで変わる日本の日常｜未来はもうここに</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .hero-section {
+            height: 100vh;
+            background-image: url('https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .section-bg-1 {
+            background-image: url('https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .temple-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .cityscape-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .store-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .torii-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce');
+            background-size: cover;
+            background-position: center;
+        }
+        .reveal {
+            position: relative;
+            transform: translateY(150px);
+            opacity: 0;
+            transition: 1s all ease;
+        }
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .gold-gradient {
+            background: linear-gradient(90deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+        }
+        .bg-gold {
+            background: linear-gradient(90deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+            color: #333;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
+        }
+        .feature-icon {
+            background: linear-gradient(90deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(180deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -13px;
+            background: linear-gradient(90deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+        .right::after {
+            left: -12px;
+        }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            .left::after, .right::after {
+                left: 18px;
+            }
+            .right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヒーローセクション -->
+    <section class="hero-section flex items-center justify-center text-white relative">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="container mx-auto px-4 z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                <span class="gold-gradient">RYOコイン</span>で変わる<br>日本の日常
+            </h1>
+            <p class="text-xl md:text-2xl mb-8">未来はもうここに</p>
+            <a href="#discovery" class="btn-primary inline-block">発見する</a>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down text-white text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- イントロダクション -->
+    <section id="discovery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                    <span class="gold-gradient">RYOコイン</span>が紡ぐ<br>新しい日本の物語
+                </h2>
+                <p class="text-xl max-w-3xl mx-auto text-gray-600">
+                    古き良き伝統と最先端テクノロジーが融合した、まったく新しい決済体験。
+                    あなたの日常に、静かに、しかし確実に革命をもたらします。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-8 reveal">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-history text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-center">伝統と革新の融合</h3>
+                    <p class="text-gray-600">
+                        日本の「両（りょう）」という伝統通貨から名付けられたRYOコイン。
+                        古き良き価値観を大切にしながら、最先端技術で未来を切り拓きます。
+                    </p>
+                </div>
+
+                <div class="card p-8 reveal">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-bolt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-center">驚異的な速さと安全性</h3>
+                    <p class="text-gray-600">
+                        一般的な暗号通貨の欠点を解消。
+                        スピード、セキュリティ、使いやすさを兼ね備えた次世代の決済システムです。
+                    </p>
+                </div>
+
+                <div class="card p-8 reveal">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-globe-asia text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-center">日本から世界へ</h3>
+                    <p class="text-gray-600">
+                        日本生まれのプロジェクトだからこそ、日本人の価値観や使いやすさを徹底的に追求。
+                        しかしその視線は常にグローバルへ向けられています。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 神社のシーン：伝統と革新の融合 -->
+    <section class="temple-section py-20 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8">
+                    <span class="gold-gradient">伝統</span>と<span class="gold-gradient">革新</span>の融合
+                </h2>
+                
+                <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-md p-8 rounded-lg mb-10">
+                    <p class="text-lg mb-6">
+                        数百年続く日本の神社が時代を超えて価値を保ち続けるように、
+                        RYOコインは伝統的な価値観を大切にしながらも、革新的な技術で未来に向かいます。
+                    </p>
+                    <p class="text-lg mb-6">
+                        古くから日本で使われてきた「両（りょう）」という通貨名を継承することで、
+                        日本の文化的アイデンティティを尊重し、現代に蘇らせています。
+                    </p>
+                </div>
+                
+                <div class="timeline mb-16">
+                    <div class="timeline-container left reveal">
+                        <div class="timeline-content">
+                            <h3 class="font-bold text-gray-800">江戸時代の「両」</h3>
+                            <p class="text-gray-600">
+                                265年以上にわたり使用された安定した統一貨幣システム。
+                                信頼と価値の象徴でした。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right reveal">
+                        <div class="timeline-content">
+                            <h3 class="font-bold text-gray-800">現代の「RYOコイン」</h3>
+                            <p class="text-gray-600">
+                                最新のブロックチェーン技術を駆使し、
+                                伝統的な価値観と現代のニーズを融合させた次世代通貨。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center reveal">
+                    <a href="#citylife" class="btn-primary inline-block">
+                        暮らしの中のRYOコインを見る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 街並みのシーン：日常生活の変化 -->
+    <section id="citylife" class="cityscape-section py-20 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 text-center">
+                    <span class="gold-gradient">日常</span>が変わる、
+                    <span class="gold-gradient">生活</span>が変わる
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="card p-6 text-gray-800 reveal">
+                        <h3 class="text-xl font-bold mb-4">「今までのお買い物」</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+                                <span>現金を引き出すために銀行やATMへ</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+                                <span>クレジットカードの高い手数料を負担</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+                                <span>海外での両替や手数料に悩まされる</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+                                <span>送金に数日かかることも</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card p-6 text-gray-800 reveal">
+                        <h3 class="text-xl font-bold mb-4">「RYOコインでのお買い物」</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>スマホ一つで全ての支払いが完結</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>ほぼゼロに近い手数料</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>世界中どこでも同じRYOコインで決済</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>数秒で送金完了</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-md p-8 rounded-lg mb-10 reveal">
+                    <p class="text-lg mb-4">
+                        忙しい都会の生活の中で、一瞬一瞬が大切です。
+                        RYOコインは、複雑な手続きや待ち時間をなくし、
+                        あなたの大切な時間を取り戻します。
+                    </p>
+                    <p class="text-lg">
+                        商店街からデパート、オンラインショッピングまで、
+                        シームレスな決済体験があなたを待っています。
+                    </p>
+                </div>
+                
+                <div class="text-center reveal">
+                    <a href="#convenience" class="btn-primary inline-block">
+                        もっと身近な使い方を見る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- コンビニのシーン：手軽さと即時性 -->
+    <section id="convenience" class="store-section py-20 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 text-center">
+                    <span class="gold-gradient">手軽</span>さが、
+                    <span class="gold-gradient">生活</span>を変える
+                </h2>
+                
+                <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-md p-8 rounded-lg mb-10 reveal">
+                    <p class="text-lg mb-6">
+                        日本の街角に欠かせないコンビニエンスストア。
+                        24時間365日、私たちの生活に寄り添うように、
+                        RYOコインもあなたの日々をサポートします。
+                    </p>
+                    
+                    <h3 class="text-xl font-bold mb-4 text-center">想像してみてください</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-300 mr-3 mt-1"></i>
+                            <span>コンビニでスマホをかざすだけで買い物完了</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-300 mr-3 mt-1"></i>
+                            <span>友達とのランチ代を割り勘するとき、スマホ同士をタッチするだけで送金</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-300 mr-3 mt-1"></i>
+                            <span>海外旅行先でもレートを気にせず、同じRYOコインで支払い</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-300 mr-3 mt-1"></i>
+                            <span>ATMでRYOコインと現金の交換がいつでも可能</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card p-6 text-gray-800 mb-10 reveal">
+                    <h3 class="text-xl font-bold mb-4 text-center">RYOコインが選ばれる理由</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-r border-gray-300 pr-4">
+                            <p class="font-bold text-center mb-2">処理速度</p>
+                            <div class="flex justify-between mb-1">
+                                <span>ビットコイン</span>
+                                <span>10分〜</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gray-500 h-2.5 rounded-full" style="width: 20%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between my-1">
+                                <span>イーサリアム</span>
+                                <span>15秒〜</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 60%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between my-1">
+                                <span>RYOコイン</span>
+                                <span>1秒未満</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gold h-2.5 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="pl-4">
+                            <p class="font-bold text-center mb-2">手数料</p>
+                            <div class="flex justify-between mb-1">
+                                <span>銀行送金</span>
+                                <span>数百円〜</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between my-1">
+                                <span>クレジット</span>
+                                <span>3〜8%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-orange-500 h-2.5 rounded-full" style="width: 70%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between my-1">
+                                <span>RYOコイン</span>
+                                <span>ほぼゼロ</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gold h-2.5 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center reveal">
+                    <a href="#negative" class="btn-primary inline-block">
+                        疑問や不安を解消する
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ネガティブ意見への反論 -->
+    <section id="negative" class="torii-section py-20 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 text-center">
+                    <span class="gold-gradient">新しい道</span>への一歩
+                </h2>
+                
+                <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-md p-8 rounded-lg mb-10 reveal">
+                    <p class="text-lg mb-6">
+                        新しいテクノロジーには常に疑問や不安がつきものです。
+                        RYOコインに関する一般的な懸念に、正直にお答えします。
+                    </p>
+                </div>
+                
+                <div class="space-y-6 mb-10">
+                    <div class="card p-6 text-gray-800 reveal">
+                        <h3 class="text-xl font-bold mb-2">"暗号通貨は怪しい・詐欺では？"</h3>
+                        <p class="mb-4">
+                            確かに暗号通貨業界には問題のあるプロジェクトも存在します。しかしRYOコインは：
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-shield-alt text-green-600 mr-3 mt-1"></i>
+                                <span>日本の金融庁に認可された取引所パートナーと提携</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-shield-alt text-green-600 mr-3 mt-1"></i>
+                                <span>高度な技術を持つ経験豊富な開発チーム</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-shield-alt text-green-600 mr-3 mt-1"></i>
+                                <span>完全に透明性のあるオープンなプロジェクト</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card p-6 text-gray-800 reveal">
+                        <h3 class="text-xl font-bold mb-2">"暗号通貨は複雑で難しい"</h3>
+                        <p class="mb-4">
+                            RYOコインは「シンプルさが使いやすさの鍵」という哲学で開発されました：
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>LIFEウォレットは直感的で、誰でも簡単に使用可能</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>メールアドレスだけで簡単に送金できる仕組み</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>専門知識不要で誰でも利用できるデザイン</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card p-6 text-gray-800 reveal">
+                        <h3 class="text-xl font-bold mb-2">"投機リスクが高いのでは？"</h3>
+                        <p class="mb-4">
+                            RYOコインは投機目的ではなく、実用性を重視して設計されています：
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-balance-scale text-blue-600 mr-3 mt-1"></i>
+                                <span>実店舗やオンラインでの実際の決済に焦点</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-balance-scale text-blue-600 mr-3 mt-1"></i>
+                                <span>安定性を考慮した設計</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-balance-scale text-blue-600 mr-3 mt-1"></i>
+                                <span>日常生活での使用を最優先に考えた機能</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center reveal">
+                    <a href="#unique" class="btn-primary inline-block">
+                        RYOコインの独自性を知る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RYOコインの独自性 -->
+    <section id="unique" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 text-center">
+                    <span class="gold-gradient">RYOコイン</span>の<br>独自性
+                </h2>
+                
+                <div class="card p-8 mb-10 reveal">
+                    <h3 class="text-2xl font-bold mb-6 text-center">
+                        他の暗号通貨とは何が違うのか？
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border-b md:border-b-0 md:border-r border-gray-300 pb-6 md:pb-0 md:pr-6">
+                            <h4 class="font-bold mb-4">技術的優位性</h4>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-microchip text-blue-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">ハイブリッドコンセンサス</span>
+                                        <p class="text-sm text-gray-600">
+                                            スピードと安全性を両立する革新的な承認方式
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-shield-alt text-blue-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">セキュリティ設計</span>
+                                        <p class="text-sm text-gray-600">
+                                            最新の暗号技術による堅牢なセキュリティ
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-tachometer-alt text-blue-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">処理速度</span>
+                                        <p class="text-sm text-gray-600">
+                                            クレジットカードを上回る処理能力
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="pt-6 md:pt-0 md:pl-6">
+                            <h4 class="font-bold mb-4">エコシステムの充実</h4>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-wallet text-green-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">LIFEウォレット</span>
+                                        <p class="text-sm text-gray-600">
+                                            直感的で使いやすい、全てが揃った財布
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-shopping-cart text-green-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">グローバルモール</span>
+                                        <p class="text-sm text-gray-600">
+                                            RYOコインでの買い物が楽しくなる専用ショッピングモール
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-landmark text-green-600 mr-3 mt-1"></i>
+                                    <div>
+                                        <span class="font-bold">ATMネットワーク</span>
+                                        <p class="text-sm text-gray-600">
+                                            リアルとデジタルをつなぐ便利なATMシステム
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-20 reveal">
+                    <h3 class="text-2xl font-bold mb-6">
+                        <span class="gold-gradient">日本から世界へ、革命は静かに始まっています</span>
+                    </h3>
+                    <p class="text-lg text-gray-600 mb-8">
+                        RYOコインは単なる暗号通貨ではありません。
+                        それは日常生活を一変させる、新しい体験です。
+                    </p>
+                    <a href="#join" class="btn-primary inline-block">
+                        革命に参加する
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="join" class="py-20 bg-gradient-to-b from-gray-900 to-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <div class="section-bg-1 h-32 bg-contain bg-center bg-no-repeat mb-8"></div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-8">
+                    <span class="gold-gradient">未来</span>は、
+                    すでに<span class="gold-gradient">ここ</span>に
+                </h2>
+                <p class="text-xl mb-10">
+                    RYOコインと共に、新しい時代の扉を開きましょう。
+                    あなたの日常が、もっと便利に、もっと豊かになるために。
+                </p>
+                <a href="https://ryocoin.com" class="btn-primary inline-block text-xl">
+                    RYOコインを始める
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p>© 2025 RYOコイン. All Rights Reserved.</p>
+                <p class="text-sm text-gray-500 mt-2">
+                    このサイトはRYOコインプロジェクトの非公式ファンサイトです。
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 画像の読み込み確認
+            function preloadImages() {
+                const images = [
+                    'https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce',
+                    'https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20',
+                    'https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7'
+                ];
+                
+                images.forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
+            }
+            
+            preloadImages();
+            
+            // スクロールアニメーション
+            function reveal() {
+                const reveals = document.querySelectorAll('.reveal');
+                
+                reveals.forEach(element => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < windowHeight - elementVisible) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', reveal);
+            reveal(); // 初回実行
+            
+            // スムーススクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
