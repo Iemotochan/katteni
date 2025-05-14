@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYO Coin: Tomorrow's Lifestyle | Amazingly Simple, The Future of Payments</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ryo-gold: #d4af37;
+            --ryo-blue: #0a4b78;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f8f8f8;
+        }
+        .hero-section, .section {
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+        .ryo-gold {
+            color: var(--ryo-gold);
+        }
+        .ryo-bg-gold {
+            background-color: var(--ryo-gold);
+        }
+        .ryo-blue {
+            color: var(--ryo-blue);
+        }
+        .ryo-bg-blue {
+            background-color: var(--ryo-blue);
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .feature-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .scenario-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .step {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .step:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background-color: var(--ryo-gold);
+        }
+        .step:after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            height: calc(100% - 16px);
+            width: 2px;
+            background-color: var(--ryo-gold);
+        }
+        .step:last-child:after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section with Shrine Background -->
+    <section class="hero-section flex items-center justify-center text-white" style="background-image: url('https://page1.genspark.site/v1/base64_upload/ccff9da05162bcd552aaabe4b420b7ce');">
+        <div class="overlay"></div>
+        <div class="content container mx-auto px-4 py-20 text-center">
+            <div data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">RYO Coin: <span class="ryo-gold">Tomorrow's Lifestyle</span></h1>
+                <p class="text-xl md:text-2xl mb-8">Where tradition meets innovation for a simpler future</p>
+                <a href="#what-is-ryo" class="btn ryo-bg-gold text-white inline-block">Discover How Simple It Is</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is RYO Coin Section -->
+    <section id="what-is-ryo" class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">What is <span class="ryo-gold">RYO Coin</span>?</h2>
+                <p class="text-xl max-w-3xl mx-auto text-gray-600">Forget everything complicated you've heard about cryptocurrencies. RYO Coin is different - it's designed for everyone.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="feature-card bg-white p-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-4xl ryo-gold mb-4">🌟</div>
+                    <h3 class="text-xl font-bold mb-2">Amazingly Simple</h3>
+                    <p class="text-gray-600">Send money as easily as sending a text message. No complicated steps or technical knowledge needed.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl ryo-gold mb-4">🔒</div>
+                    <h3 class="text-xl font-bold mb-2">Completely Secure</h3>
+                    <p class="text-gray-600">Bank-level security keeps your money safe, while being much easier to use than traditional banking.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-4xl ryo-gold mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600">Payments arrive instantly - no waiting for days like traditional bank transfers or international payments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Life Section with Cityscape -->
+    <section class="section flex items-center relative" style="background-image: url('https://page1.genspark.site/v1/base64_upload/822312e011687672033e0806a931ab20');">
+        <div class="overlay"></div>
+        <div class="content container mx-auto px-4 py-20">
+            <div class="max-w-2xl mx-auto scenario-container p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center" data-aos="fade-up">RYO Coin in Your <span class="ryo-gold">Daily Life</span></h2>
+                
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Morning Coffee ☕</h3>
+                    <div class="step pb-6">
+                        <p class="mb-2"><strong>NOW:</strong> Wait in line, fumble for cash or cards, wait for processing, collect receipt.</p>
+                    </div>
+                    <div class="step">
+                        <p class="mb-2"><strong>WITH RYO:</strong> Scan QR code, tap confirm, coffee is paid for - all in under 2 seconds! Your digital receipt is automatically saved.</p>
+                    </div>
+                </div>
+
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Shopping 🛒</h3>
+                    <div class="step pb-6">
+                        <p class="mb-2"><strong>NOW:</strong> Carry multiple cards, remember PINs, sign receipts, keep track of paper receipts.</p>
+                    </div>
+                    <div class="step">
+                        <p class="mb-2"><strong>WITH RYO:</strong> One app handles all payments securely. Your phone is all you need. All receipts stored digitally and categorized automatically.</p>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Splitting Dinner Bill 🍣</h3>
+                    <div class="step pb-6">
+                        <p class="mb-2"><strong>NOW:</strong> Calculate everyone's share, scraping together cash, making bank transfers that take days.</p>
+                    </div>
+                    <div class="step">
+                        <p class="mb-2"><strong>WITH RYO:</strong> Split bill in the app, friends receive instant notification, confirm with one tap, money arrives instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section with Convenience Store -->
+    <section class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How <span class="ryo-gold">Simple</span> Is It?</h2>
+                <p class="text-xl max-w-3xl mx-auto text-gray-600">Using RYO Coin is easier than you might think. Just three simple steps.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2 p-4" data-aos="fade-right">
+                    <img src="https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7" alt="RYO Logo" class="w-full max-w-md mx-auto rounded-lg shadow-lg">
+                </div>
+                
+                <div class="w-full md:w-1/2 p-4" data-aos="fade-left">
+                    <div class="step pb-10">
+                        <h3 class="text-xl font-bold mb-2">1. Download the LIFE Wallet</h3>
+                        <p class="text-gray-600">A simple, free app that takes less than 1 minute to set up. No complicated forms or verification processes.</p>
+                    </div>
+                    
+                    <div class="step pb-10">
+                        <h3 class="text-xl font-bold mb-2">2. Add RYO Coins</h3>
+                        <p class="text-gray-600">Purchase RYO Coins directly in the app using your bank card, or receive them from friends and family.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h3 class="text-xl font-bold mb-2">3. Start Using Everywhere</h3>
+                        <p class="text-gray-600">Pay at stores, send to friends, shop online - all with a simple tap or scan. No complicated addresses or codes to remember.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Scenarios with Convenience Store -->
+    <section class="section flex items-center relative" style="background-image: url('https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7');">
+        <div class="overlay"></div>
+        <div class="content container mx-auto px-4 py-20">
+            <div class="max-w-2xl mx-auto scenario-container p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center" data-aos="fade-up">The <span class="ryo-gold">Future</span> with RYO Coin</h2>
+
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Instant Global Payments 🌏</h3>
+                    <p class="text-gray-600">Send money to family abroad without expensive fees and waiting days. Your grandmother in another country receives funds immediately, without needing technical knowledge.</p>
+                </div>
+
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Smart Shopping 🛍️</h3>
+                    <p class="text-gray-600">Your LIFE Wallet app automatically tracks your spending, offers personalized discounts, and helps you save money. Shopping becomes more rewarding and efficient.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Seamless Travel 🧳</h3>
+                    <p class="text-gray-600">No more currency exchange fees or carrying cash while traveling. Pay directly with RYO Coin anywhere in the world. One wallet for all your global adventures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why RYO is Different with Torii Gate -->
+    <section class="section flex items-center justify-center relative" style="background-image: url('https://page1.genspark.site/v1/base64_upload/6dcce3ca165c4e1d0cdb3eba56e3cbf7');">
+        <div class="overlay"></div>
+        <div class="content container mx-auto px-4 py-20">
+            <div class="max-w-2xl mx-auto scenario-container p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center" data-aos="fade-up">Why RYO is <span class="ryo-gold">Different</span></h2>
+
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Made for Everyone</h3>
+                    <p class="text-gray-600">Unlike other cryptocurrencies designed for tech enthusiasts, RYO Coin was built from the ground up for everyday people. No technical knowledge required.</p>
+                </div>
+
+                <div class="mb-10" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Complete Ecosystem</h3>
+                    <p class="text-gray-600">Not just a digital coin, but a complete system with wallet, shopping platforms, and real-world ATM network. Everything works together seamlessly.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-2xl font-bold mb-4 ryo-blue">Japanese Innovation</h3>
+                    <p class="text-gray-600">Created in Japan with the perfect balance of cutting-edge technology and user-friendly design. The name "RYO" reflects its heritage, inspired by Japan's historic currency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join the Movement Section -->
+    <section class="section py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <div data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Join the <span class="ryo-gold">RYO Revolution</span></h2>
+                <p class="text-xl max-w-3xl mx-auto text-gray-600 mb-10">Be part of a future where payments are simple, secure, and accessible to everyone. RYO Coin is more than technology - it's a movement towards financial freedom.</p>
+                
+                <div class="max-w-md mx-auto bg-gray-100 rounded-lg p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">Ready to experience the future?</h3>
+                    <a href="#" class="btn ryo-bg-gold text-white inline-block mb-4">Download LIFE Wallet</a>
+                    <p class="text-gray-500 text-sm">Available for iOS and Android</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ryo-bg-blue text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">RYO Coin</h3>
+                    <p class="text-sm opacity-75">The future of payments is here</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-gold transition">About</a>
+                    <a href="#" class="text-white hover:text-gold transition">FAQ</a>
+                    <a href="#" class="text-white hover:text-gold transition">Contact</a>
+                    <a href="#" class="text-white hover:text-gold transition">Privacy</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm opacity-75">
+                <p>&copy; 2025 RYO Coin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+    </script>
+</body>
+</html>
