@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LIFEウォレットの非公式ガイド。RYOコインを簡単に管理・送金できる次世代デジタルウォレット。仮想通貨初心者にもやさしい多機能アプリの使い方を解説。">
+    <meta name="keywords" content="LIFEウォレット, RYOコイン, 暗号資産, 簡単送金, 仮想通貨初心者, デジタルウォレット, Web3, チャット送金">
+    <title>LIFE ウォレット非公式ガイド | 未来のお金との付き合い方</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #DABE6E;
+            --dark-gold: #B69C45;
+            --light-gold: #F4E9C1;
+            --deep-purple: #2D0C50;
+            --neon-pink: #FF3E96;
+            --neon-blue: #17A2FF;
+            --dark-bg: #0A0A1A;
+            --light-text: #F8F8FF;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+        }
+        
+        .gold-text {
+            color: var(--primary-gold);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--light-gold) 50%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink), 0 0 15px var(--neon-pink);
+            color: white;
+        }
+        
+        .neon-blue-text {
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px var(--neon-blue);
+            color: white;
+        }
+        
+        .hero {
+            background: radial-gradient(circle at center, rgba(45, 12, 80, 0.8) 0%, rgba(10, 10, 26, 1) 80%), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3') center/cover no-repeat;
+            height: 100vh;
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            color: var(--deep-purple);
+            font-weight: 700;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(218, 190, 110, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(218, 190, 110, 0.5);
+        }
+        
+        .btn-gold::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-gold:hover::after {
+            left: 100%;
+        }
+        
+        .feature-card {
+            background: rgba(45, 12, 80, 0.3);
+            border: 1px solid var(--primary-gold);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(218, 190, 110, 0.2);
+            border-color: var(--light-gold);
+        }
+        
+        .bubble {
+            position: relative;
+            background: rgba(45, 12, 80, 0.6);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--primary-gold);
+        }
+        
+        .bubble-ryoko::after {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 20px;
+            border-width: 15px 15px 15px 0;
+            border-style: solid;
+            border-color: transparent rgba(45, 12, 80, 0.6) transparent transparent;
+        }
+        
+        .bubble-zenta::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 20px;
+            border-width: 15px 0 15px 15px;
+            border-style: solid;
+            border-color: transparent transparent transparent rgba(45, 12, 80, 0.6);
+        }
+        
+        .cursor-fx {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: 0.1s ease;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .cursor-fx {
+                display: block;
+            }
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+            margin: 80px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 0 10px white, 0 0 20px var(--neon-pink);
+            animation: sparkle 2s infinite;
+            opacity: 0;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(0, 15px); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .dialog-container {
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-gold) rgba(45, 12, 80, 0.3);
+        }
+        
+        .dialog-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .dialog-container::-webkit-scrollbar-track {
+            background: rgba(45, 12, 80, 0.3);
+            border-radius: 10px;
+        }
+        
+        .dialog-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-gold);
+            border-radius: 10px;
+        }
+        
+        .glow-on-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .glow-on-hover:hover {
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+        }
+        
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(45, 12, 80, 0.5);
+            border: 1px solid var(--primary-gold);
+            border-radius: 50px;
+            margin: 5px;
+        }
+        
+        /* モバイル最適化 */
+        @media (max-width: 768px) {
+            .hero {
+                height: auto;
+                padding: 120px 0 80px;
+            }
+            h1 {
+                font-size: 2.5rem !important;
+            }
+            .feature-icon {
+                font-size: 3rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-fx"></div>
+    <div id="particles-js"></div>
+    
+    <!-- ナビゲーション -->
+    <nav class="fixed top-0 w-full z-50 bg-opacity-90 backdrop-filter backdrop-blur-lg bg-gray-900 border-b border-opacity-20 border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="gold-gradient text-2xl font-bold">LIFE ウォレット</span>
+                <span class="ml-2 px-3 py-1 bg-opacity-50 bg-gray-800 rounded-full text-xs border border-primary-gold gold-text">非公式ガイド</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="text-gray-300 hover:gold-text transition glow-on-hover">概要</a>
+                <a href="#features" class="text-gray-300 hover:gold-text transition glow-on-hover">主要機能</a>
+                <a href="#use-cases" class="text-gray-300 hover:gold-text transition glow-on-hover">使用シーン</a>
+                <a href="#security" class="text-gray-300 hover:gold-text transition glow-on-hover">安全性</a>
+                <a href="#download" class="text-gray-300 hover:gold-text transition glow-on-hover">入手方法</a>
+            </div>
+            <div class="block md:hidden">
+                <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden bg-gray-900 py-4 px-4 md:hidden">
+            <a href="#intro" class="block py-2 text-gray-300 hover:gold-text">概要</a>
+            <a href="#features" class="block py-2 text-gray-300 hover:gold-text">主要機能</a>
+            <a href="#use-cases" class="block py-2 text-gray-300 hover:gold-text">使用シーン</a>
+            <a href="#security" class="block py-2 text-gray-300 hover:gold-text">安全性</a>
+            <a href="#download" class="block py-2 text-gray-300 hover:gold-text">入手方法</a>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section class="hero flex items-center justify-center relative">
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h1 class="text-5xl md:text-6xl font-black mb-6 animate__animated animate__fadeIn">
+                <span class="gold-gradient">LIFE ウォレット</span>
+                <br>
+                <span class="text-3xl md:text-4xl mt-2 inline-block">未来のお金との<span class="neon-text">新しい付き合い方</span></span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate__animated animate__fadeIn animate__delay-1s">
+                RYOコインを中心とした次世代デジタルウォレット。<br>
+                <span class="gold-text">シンプルさ</span>と<span class="neon-blue-text">革新性</span>が融合した
+                <span class="italic font-medium">スーパーアプリ</span>。
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6 animate__animated animate__fadeIn animate__delay-2s">
+                <a href="#features" class="btn-gold text-lg flex items-center">
+                    <i class="fas fa-magic mr-2"></i> 機能を見る
+                </a>
+                <a href="#download" class="text-white border border-white hover:border-primary-gold px-8 py-3 rounded-full transition-all hover:bg-opacity-10 hover:bg-white">
+                    入手方法を確認
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 text-center">
+            <a href="#intro" class="inline-block animate-bounce">
+                <i class="fas fa-chevron-down text-2xl gold-text"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- イントロダクション -->
+    <section id="intro" class="py-20 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                <span class="gold-gradient">LIFEウォレット</span>とは？
+            </h2>
+            
+            <div class="flex flex-col md:flex-row items-center justify-between gap-10 mb-16">
+                <div class="md:w-1/2" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold mb-4 gold-text">シンプルを追求した<br>次世代デジタルウォレット</h3>
+                    <p class="mb-4 text-lg">LIFEウォレットは、<span class="gold-text">RYOコイン</span>を中心とした暗号資産を、誰でも簡単に利用できるように設計された多機能ウォレットです。</p>
+                    <p class="mb-4">銀行レベルのセキュリティと直感的な操作性を融合させ、「<span class="neon-text">おばあちゃんでも使える</span>」をコンセプトに開発されました。</p>
+                    <p>従来の複雑な暗号資産管理の概念を一新し、日常生活に溶け込むデジタル金融体験を提供します。</p>
+                </div>
+                <div class="md:w-1/2 relative" data-aos="fade-left">
+                    <div class="aspect-video bg-gray-800 rounded-xl overflow-hidden border border-primary-gold">
+                        <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?ixlib=rb-4.0.3" alt="デジタルウォレットのイメージ" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-deep-purple via-transparent to-deep-purple opacity-60"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-center">
+                            <p class="text-sm bg-black bg-opacity-70 p-2 rounded">画像はイメージです</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- キャラクター紹介 -->
+            <div class="mt-24 text-center" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-8 inline-block relative">
+                    <span class="gold-gradient">案内役の紹介</span>
+                    <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-gold to-transparent"></span>
+                </h3>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center gap-10 mt-10">
+                    <div class="text-center" data-aos="fade-right" data-aos-delay="200">
+                        <div class="w-40 h-40 mx-auto mb-4 overflow-hidden rounded-full border-4 border-primary-gold relative">
+                            <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子（りょうこ）" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="gold-text text-xl font-bold">両子（りょうこ）</h4>
+                        <p class="text-sm mt-2 max-w-xs mx-auto">好奇心旺盛な女の子。RYOコインとLIFEウォレットの魅力を熱く語る初心者代表。</p>
+                    </div>
+                    
+                    <div class="text-center" data-aos="fade-left" data-aos-delay="400">
+                        <div class="w-40 h-40 mx-auto mb-4 overflow-hidden rounded-full border-4 border-primary-gold relative">
+                            <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太（ぜんた）" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="gold-text text-xl font-bold">禅太（ぜんた）</h4>
+                        <p class="text-sm mt-2 max-w-xs mx-auto">冷静沈着なライオン。Web3の知識が豊富で、両子の疑問に丁寧に答えてくれる頼れる先輩。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 主要機能紹介 -->
+    <section id="features" class="py-20 px-6 bg-gradient-to-b from-dark-bg to-deep-purple bg-opacity-70">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">
+                <span class="gold-gradient">主要機能</span>
+            </h2>
+            <p class="text-center text-xl mb-16 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                LIFEウォレットが提供する革新的な機能の数々。<br>
+                <span class="gold-text">暗号資産管理の概念を一新</span>します。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 機能1: マルチプラットフォーム -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-mobile-alt feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">マルチプラットフォーム対応</h3>
+                    <p class="text-center">スマートフォン、タブレット、PCなど様々なデバイスで利用可能。いつでもどこでも資産にアクセスできます。</p>
+                </div>
+
+                <!-- 機能2: E-mail送金 -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-envelope feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">E-mailアドレス送金</h3>
+                    <p class="text-center">複雑なウォレットアドレスは不要。メールアドレスだけで簡単に送金できる革新的な機能です。</p>
+                </div>
+
+                <!-- 機能3: チャット送金 -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-comments-dollar feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">チャット機能付き送金</h3>
+                    <p class="text-center">友達とチャットをしながら、そのままRYOコインを送受信。メッセージを送るように簡単に取引できます。</p>
+                </div>
+
+                <!-- 機能4: Connect機能 -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-plug feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">「Connect」機能</h3>
+                    <p class="text-center">アプリを切り替えずにお気に入りのSNSやウェブサイトにアクセス。シームレスな体験を提供します。</p>
+                </div>
+
+                <!-- 機能5: 高度なセキュリティ -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-shield-alt feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">銀行レベルのセキュリティ</h3>
+                    <p class="text-center">最先端の暗号化技術と二段階認証で資産を保護。安心して利用できるセキュリティ環境を提供します。</p>
+                </div>
+
+                <!-- 機能6: グローバルモール連携 -->
+                <div class="feature-card p-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-shopping-cart feature-icon text-5xl gold-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 gold-text text-center">グローバルモール連携</h3>
+                    <p class="text-center">ワンクリックでショッピングが可能。RYOコインをそのまま使ってオンラインで買い物を楽しめます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 会話形式の使い方紹介 -->
+    <section id="use-cases" class="py-20 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">
+                <span class="gold-gradient">こんな時どうする？</span>
+            </h2>
+            <p class="text-center text-xl mb-16 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                LIFEウォレットの便利な使い方を<span class="gold-text">両子</span>と<span class="gold-text">禅太</span>の会話で解説します
+            </p>
+
+            <div class="dialog-container" data-aos="fade-up" data-aos-delay="300">
+                <!-- 会話1: 基本的な使い方 -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>禅太さん！友達からLIFEウォレットの話を聞いたんだけど、普通の銀行アプリと何が違うの？仮想通貨って難しそうで怖いんだよね…😰</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-10 flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>心配しなくても大丈夫だよ、両子さん。LIFEウォレットはそんな初心者の不安を解消するために作られたんだ。従来の仮想通貨ウォレットは確かに複雑だけど、LIFEウォレットはLINEやTwitterのような親しみやすいインターフェースで、使い方もとってもシンプルだよ。</p>
+                    </div>
+                </div>
+
+                <!-- 会話2: メール送金 -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>でも、友達にRYOコインを送るとき、長くて複雑なアドレスを入力しないといけないんでしょ？ミスしたらお金失っちゃいそうで…😱</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-10 flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>それがね、LIFEウォレットの凄いところ！長いアドレスはもう必要ないんだ。友達のメールアドレスだけで送金できるんだよ。例えば、ryoko@example.comと入力するだけでOK。あとはいくら送るか入力して、確認をタップするだけで完了！</p>
+                    </div>
+                </div>
+
+                <!-- 会話3: チャット送金 -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>えっ！それ便利すぎる！🤩 私、友達と割り勘するとき、いつも「お金送ったよー」って別にLINEとかで連絡するんだけど、そういうのもLIFEウォレット内でできるの？</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-10 flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>そのとおり！LIFEウォレットにはチャット機能がついているから、友達とやりとりしながらその場でRYOコインを送ることができるんだ。「映画代ありがとう、これ私の分！」ってメッセージと一緒にRYOを送れるよ。まるでスタンプを送るみたいに簡単なんだ。</p>
+                    </div>
+                </div>
+
+                <!-- 会話4: Connect機能 -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>すごい！でも私、アプリをいちいち切り替えるの面倒くさいなって思うことあるんだけど…LIFEウォレットを使いながらInstagramとかTwitterとかも見れたりするの？</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-10 flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>そこもLIFEウォレットのスゴイところ！「Connect」機能を使えば、ウォレット内からそのままSNSにアクセスできるんだ。わざわざアプリを切り替える必要がないよ。TwitterでRYOの最新情報をチェックして、そのままウォレットで取引ができる。まさに「スーパーアプリ」だね。</p>
+                    </div>
+                </div>
+
+                <!-- 会話5: グローバルモール -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>RYOコイン持ってたら、実際に買い物とかできるの？普通のお店で使えないと意味ないよね🤔</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-10 flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>もちろん使えるよ！LIFEウォレットは「グローバルモール」というオンラインショッピングモールと連携してるんだ。ここではRYOコインをそのまま使って買い物ができる。しかも通常のオンラインショップより手数料が安いから、お得に買い物できるんだよ。さらに日本では、RYOコイン対応のATMネットワークも展開予定だから、将来的には現金との交換も簡単になるよ！</p>
+                    </div>
+                </div>
+
+                <!-- 会話6: セキュリティ -->
+                <div class="flex items-start mb-10">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 mr-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/d0a6ed34abbc28be1ee991e03c8efb37" alt="両子" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-ryoko flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">両子</h4>
+                        <p>でも、ニュースでよく暗号資産が盗まれたとか聞くし、セキュリティが心配…💦 私のRYOコインは安全なの？</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start flex-row-reverse">
+                    <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 ml-4 rounded-full overflow-hidden border-2 border-primary-gold">
+                        <img src="https://page1.genspark.site/v1/base64_upload/11195a0bb5d082cc0c854b50bfc0f3a2" alt="禅太" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bubble bubble-zenta flex-1">
+                        <h4 class="font-bold gold-text text-lg mb-2">禅太</h4>
+                        <p>それは本当に大事なポイントだね。LIFEウォレットは銀行レベルの暗号化技術を採用してるから安心だよ。二段階認証も標準装備されてるし、指紋認証やFace IDにも対応してる。シリコンバレーの技術を駆使した最先端のセキュリティシステムだから、あなたの資産はしっかり守られるよ。でも、パスワードは絶対に他人に教えちゃダメだよ！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 安全性の説明 -->
+    <section id="security" class="py-20 px-6 bg-gradient-to-b from-deep-purple to-dark-bg bg-opacity-70">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">
+                <span class="gold-gradient">安心のセキュリティ</span>
+            </h2>
+            <p class="text-center text-xl mb-16 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                LIFEウォレットは<span class="neon-blue-text">最先端技術</span>で<br>あなたの資産を守ります
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-8 border border-primary-gold" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold mb-5 gold-text">強固なセキュリティ対策</h3>
+                    
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="security-badge">
+                            <i class="fas fa-lock mr-2 gold-text"></i> 銀行レベルの暗号化
+                        </span>
+                        <span class="security-badge">
+                            <i class="fas fa-shield-alt mr-2 gold-text"></i> 二段階認証
+                        </span>
+                        <span class="security-badge">
+                            <i class="fas fa-fingerprint mr-2 gold-text"></i> 生体認証
+                        </span>
+                        <span class="security-badge">
+                            <i class="fas fa-user-secret mr-2 gold-text"></i> プライバシー保護
+                        </span>
+                    </div>
+                    
+                    <p class="mb-4">LIFEウォレットは、シリコンバレーの最先端技術を駆使して開発されたセキュリティシステムを採用しています。</p>
+                    
+                    <p class="mb-4">256ビットの高度な暗号化技術により、あなたの資産情報とプライバシーを守ります。さらに、不正アクセスを防ぐため、二段階認証を標準搭載。</p>
+                    
+                    <p>指紋認証やFace IDなどの生体認証にも対応し、便利さと安全性を両立させています。</p>
+                </div>
+                
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-8 border border-primary-gold" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold mb-5 gold-text">万が一の時も安心</h3>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check gold-text mt-1 mr-3"></i>
+                            <span>万が一デバイスを紛失しても、アカウントリカバリーシステムで資産を復元できます。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check gold-text mt-1 mr-3"></i>
+                            <span>24時間365日のモニタリングシステムで、不審な動きを常に監視しています。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check gold-text mt-1 mr-3"></i>
+                            <span>定期的なセキュリティアップデートにより、常に最新の脅威から保護されます。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check gold-text mt-1 mr-3"></i>
+                            <span>サポートチームがセキュリティに関するご質問にも丁寧に対応します。</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 p-4 bg-yellow-900 bg-opacity-20 rounded-lg border border-yellow-600">
+                        <h4 class="flex items-center text-yellow-400 font-bold mb-2">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> 重要なお知らせ
+                        </h4>
+                        <p class="text-sm">LIFEウォレットのスタッフがパスワードや秘密鍵を尋ねることは絶対にありません。不審なメッセージやリンクには十分ご注意ください。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 入手方法 -->
+    <section id="download" class="py-20 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">
+                <span class="gold-gradient">LIFEウォレットの入手方法</span>
+            </h2>
+            <p class="text-center text-xl mb-16 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                未来のお金との付き合い方を、今すぐ体験してみませんか？
+            </p>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-10">
+                <div class="md:w-1/2 text-center" data-aos="fade-right">
+                    <div class="bg-opacity-30 bg-gray-900 rounded-xl p-8 border border-primary-gold inline-block">
+                        <div class="mb-6">
+                            <i class="fab fa-app-store-ios text-6xl gold-text"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 gold-text">iOS版ダウンロード</h3>
+                        <p class="mb-6">App Storeから無料でダウンロードできます。</p>
+                        <a href="https://apps.apple.com/jp/app/the-life-wallet/id6741061343" target="_blank" class="btn-gold inline-block" rel="noopener noreferrer">
+                            <i class="fas fa-download mr-2"></i> App Storeで入手
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 text-center" data-aos="fade-left">
+                    <div class="bg-opacity-30 bg-gray-900 rounded-xl p-8 border border-primary-gold inline-block">
+                        <div class="mb-6">
+                            <i class="fab fa-google-play text-6xl gold-text"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 gold-text">Android版ダウンロード</h3>
+                        <p class="mb-6">Google Play Storeから無料でダウンロードできます。</p>
+                        <a href="https://lifewallet.app/download" target="_blank" class="btn-gold inline-block" rel="noopener noreferrer">
+                            <i class="fas fa-download mr-2"></i> Google Playで入手
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 bg-opacity-30 bg-gray-900 rounded-xl p-8 border border-primary-gold" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-5 gold-text text-center">RYOコインの購入方法</h3>
+                <p class="text-center mb-8">LIFEウォレットで利用できるRYOコインは、これらの取引所から購入できます。</p>
+                
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="bg-opacity-50 bg-gray-800 p-4 rounded-lg text-center w-40">
+                        <h4 class="font-bold mb-2">XT.com</h4>
+                        <div class="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center mb-2">
+                            <i class="fas fa-exchange-alt text-xl text-gray-800"></i>
+                        </div>
+                        <a href="https://www.xt.com/" target="_blank" class="text-sm text-neon-blue hover:underline" rel="noopener noreferrer">取引所へ</a>
+                    </div>
+                    
+                    <div class="bg-opacity-50 bg-gray-800 p-4 rounded-lg text-center w-40">
+                        <h4 class="font-bold mb-2">LBANK</h4>
+                        <div class="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center mb-2">
+                            <i class="fas fa-exchange-alt text-xl text-gray-800"></i>
+                        </div>
+                        <a href="https://www.lbank.com/" target="_blank" class="text-sm text-neon-blue hover:underline" rel="noopener noreferrer">取引所へ</a>
+                    </div>
+                    
+                    <div class="bg-opacity-50 bg-gray-800 p-4 rounded-lg text-center w-40">
+                        <h4 class="font-bold mb-2">MEXC</h4>
+                        <div class="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center mb-2">
+                            <i class="fas fa-exchange-alt text-xl text-gray-800"></i>
+                        </div>
+                        <a href="https://www.mexc.com/" target="_blank" class="text-sm text-neon-blue hover:underline" rel="noopener noreferrer">取引所へ</a>
+                    </div>
+                    
+                    <div class="bg-opacity-50 bg-gray-800 p-4 rounded-lg text-center w-40">
+                        <h4 class="font-bold mb-2">Digifinex</h4>
+                        <div class="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center mb-2">
+                            <i class="fas fa-exchange-alt text-xl text-gray-800"></i>
+                        </div>
+                        <a href="https://www.digifinex.com/" target="_blank" class="text-sm text-neon-blue hover:underline" rel="noopener noreferrer">取引所へ</a>
+                    </div>
+                </div>
+                
+                <p class="text-center mt-8 text-sm">※ 取引所での購入には、各取引所での口座開設が必要です。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 px-6 bg-opacity-70 bg-gray-900">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                <span class="gold-gradient">よくある質問</span>
+            </h2>
+
+            <div class="space-y-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-6 border border-primary-gold">
+                    <h3 class="text-xl font-bold mb-3 gold-text">LIFEウォレットは初心者でも使えますか？</h3>
+                    <p>はい、「おばあちゃんでも使える」をコンセプトに開発された非常に直感的なインターフェースです。従来の複雑な仮想通貨ウォレットとは違い、SNSアプリのような親しみやすさで利用できます。</p>
+                </div>
+                
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-6 border border-primary-gold">
+                    <h3 class="text-xl font-bold mb-3 gold-text">LIFEウォレットで他の仮想通貨も管理できますか？</h3>
+                    <p>はい、LIFEウォレットはRYOコインを中心としながらも、厳選された他の暗号資産にも対応予定です。将来的にはさらに多くの通貨に対応していく計画があります。</p>
+                </div>
+                
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-6 border border-primary-gold">
+                    <h3 class="text-xl font-bold mb-3 gold-text">手数料はかかりますか？</h3>
+                    <p>LIFEウォレット自体の使用は無料です。RYOコインの送金時には少額の手数料が発生することがありますが、一般的な仮想通貨の送金手数料と比較して非常に低く設定されています。グローバルモールでのショッピングも低手数料で利用可能です。</p>
+                </div>
+                
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-6 border border-primary-gold">
+                    <h3 class="text-xl font-bold mb-3 gold-text">日本語に対応していますか？</h3>
+                    <p>はい、LIFEウォレットは日本語を含む複数の言語に対応しており、日本のユーザーも安心して利用できます。日本市場は特に重視されているため、日本語のサポートも充実しています。</p>
+                </div>
+                
+                <div class="bg-opacity-30 bg-gray-900 rounded-xl p-6 border border-primary-gold">
+                    <h3 class="text-xl font-bold mb-3 gold-text">将来的にATMでの現金引き出しは可能になりますか？</h3>
+                    <p>はい、RYOプロジェクトでは日本国内でCrypto ATMネットワークの展開を計画しています。これが実現すれば、LIFEウォレット内のRYOコインを現金に交換することも可能になる予定です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- コール・トゥ・アクション -->
+    <section class="py-20 px-6 bg-gradient-to-b from-dark-bg to-deep-purple relative overflow-hidden">
+        <div class="container mx-auto max-w-4xl relative z-10">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-6">
+                    <span class="gold-gradient">未来のお金との付き合い方を</span><br>
+                    <span class="neon-text">今すぐ始めましょう</span>
+                </h2>
+                <p class="text-xl mb-10 max-w-2xl mx-auto">
+                    LIFEウォレットで、暗号資産の新しい可能性を体験してください。
+                    簡単・安全・便利なデジタル金融の世界があなたを待っています。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="#download" class="btn-gold text-lg flex items-center px-8 py-4">
+                        <i class="fas fa-rocket mr-2"></i> 今すぐ始める
+                    </a>
+                    <a href="https://ryocoin.com/" target="_blank" class="text-white border border-white hover:border-primary-gold px-8 py-4 rounded-full transition-all hover:bg-opacity-10 hover:bg-white" rel="noopener noreferrer">
+                        公式サイトを見る
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 背景エフェクト -->
+        <div class="absolute inset-0 z-0">
+            <div id="stars" class="stars"></div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="bg-gray-900 py-10 px-6 border-t border-gray-800">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="gold-gradient text-2xl font-bold mb-2">LIFE ウォレット</h3>
+                    <p class="text-gray-400 text-sm">※当サイトはRYOコインの非公式ファンサイトです</p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="https://twitter.com/ryodigital" target="_blank" class="text-gray-400 hover:gold-text transition-colors" rel="noopener noreferrer">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/ryocoin_jesus/" target="_blank" class="text-gray-400 hover:gold-text transition-colors" rel="noopener noreferrer">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="https://ryocoin.com/" target="_blank" class="text-gray-400 hover:gold-text transition-colors" rel="noopener noreferrer">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500 text-sm">このサイトは情報提供のみを目的としており、投資アドバイスではありません。<br>暗号資産の取引にはリスクが伴います。ご自身の責任においてご判断ください。</p>
+                <p class="text-gray-600 text-xs mt-4">© 2025 LIFE ウォレット非公式ガイド</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // AOS初期化
+            AOS.init({
+                duration: 1000,
+                once: true
+            });
+            
+            // モバイルメニュー
+            $("#mobile-menu-btn").click(function() {
+                $("#mobile-menu").slideToggle();
+            });
+            
+            // スムーススクロール
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this.getAttribute('href'));
+                if(target.length) {
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 80
+                    }, 1000);
+                }
+            });
+            
+            // カスタムカーソルエフェクト
+            $(document).mousemove(function(e) {
+                $('.cursor-fx').css({
+                    left: e.clientX,
+                    top: e.clientY
+                });
+            });
+            
+            // キラキラエフェクト
+            $(".btn-gold").hover(function(e) {
+                var x = e.pageX - $(this).offset().left;
+                var y = e.pageY - $(this).offset().top;
+                
+                for (var i = 0; i < 5; i++) {
+                    var sparkle = $("<div class='sparkle'></div>");
+                    $(this).append(sparkle);
+                    
+                    sparkle.css({
+                        "left": x + (Math.random() * 20 - 10) + "px",
+                        "top": y + (Math.random() * 20 - 10) + "px"
+                    });
+                    
+                    setTimeout(function() {
+                        sparkle.remove();
+                    }, 1000);
+                }
+            });
+            
+            // パーティクル初期化
+            particlesJS("particles-js", {
+              "particles": {
+                "number": {
+                  "value": 80,
+                  "density": {
+                    "enable": true,
+                    "value_area": 800
+                  }
+                },
+                "color": {
+                  "value": "#DABE6E"
+                },
+                "shape": {
+                  "type": "circle",
+                  "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                  }
+                },
+                "opacity": {
+                  "value": 0.5,
+                  "random": true,
+                  "anim": {
+                    "enable": true,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "size": {
+                  "value": 3,
+                  "random": true,
+                  "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "line_linked": {
+                  "enable": true,
+                  "distance": 150,
+                  "color": "#DABE6E",
+                  "opacity": 0.4,
+                  "width": 1
+                },
+                "move": {
+                  "enable": true,
+                  "speed": 2,
+                  "direction": "none",
+                  "random": false,
+                  "straight": false,
+                  "out_mode": "out",
+                  "bounce": false,
+                  "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                  }
+                }
+              },
+              "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                  "onhover": {
+                    "enable": true,
+                    "mode": "grab"
+                  },
+                  "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                  },
+                  "resize": true
+                },
+                "modes": {
+                  "grab": {
+                    "distance": 140,
+                    "line_linked": {
+                      "opacity": 1
+                    }
+                  },
+                  "push": {
+                    "particles_nb": 4
+                  }
+                }
+              },
+              "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>
