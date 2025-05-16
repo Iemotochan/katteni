@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本初！暗号資産ATMネットワーク | 未来の現金とデジタル資産の架け橋</title>
+    <meta name="description" content="日本初の革新的な暗号資産ATMネットワーク。現金と暗号資産の双方向取引、複数通貨対応、LIFEウォレット連携など、Web3革命を身近にする新時代のATM。">
+    <meta name="keywords" content="暗号資産 ATM 日本, RYOコイン 現金化, 仮想通貨 ATM 使い方, Web3 ATM 革命, 暗号通貨 ATM 初心者, ペーパーウォレット 発行, LIFEウォレット 連携">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/svgs/solid/sack-dollar.svg" type="image/svg+xml">
+    
+    <!-- CDN Imports -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #B8860B;
+            --light-gold: #FFEA83;
+            --neon-blue: #5e6df1;
+            --neon-pink: #ff01ff;
+            --deep-blue: #121630;
+            --dark-navy: #0c0f1d;
+            --light-cream: #FFF8E7;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--dark-navy);
+            color: var(--light-cream);
+            overflow-x: hidden;
+        }
+        
+        /* スクロールバーのカスタマイズ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--deep-blue);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-gold);
+            border-radius: 4px;
+        }
+        
+        /* カスタム背景 */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(18, 22, 48, 0.97) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 22, 48, 0.97) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-color: var(--dark-navy);
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--dark-navy) 0%, var(--deep-blue) 100%);
+        }
+        
+        /* ネオンエフェクト */
+        .neon-text {
+            color: var(--primary-gold);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7), 
+                         0 0 10px rgba(255, 215, 0, 0.5), 
+                         0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .neon-border {
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 5px var(--primary-gold), 
+                        0 0 15px rgba(255, 215, 0, 0.5) inset;
+        }
+        
+        /* カスタムボタン */
+        .gold-button {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--dark-gold) 100%);
+            color: var(--deep-blue);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .gold-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        
+        .gold-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gold-button:hover::after {
+            opacity: 1;
+        }
+        
+        /* カード装飾 */
+        .crypto-card {
+            background: rgba(12, 15, 29, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .crypto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+        
+        /* ヒーローセクション専用 */
+        .hero-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, var(--neon-blue) 0%, transparent 70%),
+                        radial-gradient(circle at 70% 70%, var(--neon-pink) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* キラキラエフェクト */
+        .sparkle {
+            position: relative;
+        }
+        
+        .sparkle::before {
+            content: '✨';
+            position: absolute;
+            animation: sparkleAnim 1.5s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes sparkleAnim {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: 1; transform: translateY(-10px) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(0.5); }
+        }
+        
+        /* 画像ギャラリー */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item img {
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            padding: 1.5rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        /* コインアイコン */
+        .coin-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .btc-icon {
+            background-color: #F7931A;
+            color: white;
+        }
+        
+        .eth-icon {
+            background-color: #627EEA;
+            color: white;
+        }
+        
+        .ryo-icon {
+            background-color: #FFD700;
+            color: black;
+        }
+        
+        /* ローディング画面 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--dark-navy);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-gold);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* 吹き出し */
+        .speech-bubble {
+            position: relative;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+        }
+        
+        .speech-bubble.ryoko::after {
+            border-right-color: rgba(255, 215, 0, 0.3);
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .speech-bubble.zenta::after {
+            border-left-color: rgba(255, 215, 0, 0.3);
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* パルスアニメーション */
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+        
+        /* 特別セクション：ATM紹介 */
+        .atm-features-container {
+            background: rgba(12, 15, 29, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-item {
+            border-left: 3px solid var(--primary-gold);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .feature-item:hover {
+            border-left: 3px solid var(--neon-blue);
+        }
+        
+        /* スクロール誘導アニメーション */
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollDownAnim 2s ease infinite;
+        }
+        
+        @keyframes scrollDownAnim {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        
+        /* レスポンシブデザイン調整 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .conversation-container {
+                flex-direction: column-reverse;
+            }
+            
+            .character-image {
+                width: 150px;
+                margin: 1rem auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-grid">
+    <!-- ローディング画面 -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2 class="text-xl font-bold neon-text">Crypto ATM</h2>
+            <p class="mt-2 text-light-cream">ロード中...</p>
+        </div>
+    </div>
+
+    <!-- ナビゲーション -->
+    <nav class="fixed w-full py-4 z-50 bg-opacity-90 bg-dark-navy backdrop-filter backdrop-blur-lg border-b border-opacity-20 border-primary-gold">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <i class="fas fa-coins mr-2 text-primary-gold"></i>
+                <span class="text-xl font-bold neon-text">CryptoATM</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-6">
+                <a href="#features" class="text-light-cream hover:text-primary-gold transition-colors">特徴</a>
+                <a href="#how-it-works" class="text-light-cream hover:text-primary-gold transition-colors">使い方</a>
+                <a href="#locations" class="text-light-cream hover:text-primary-gold transition-colors">設置場所</a>
+                <a href="#faq" class="text-light-cream hover:text-primary-gold transition-colors">よくある質問</a>
+            </div>
+            
+            <button class="gold-button">
+                ATMを探す
+                <i class="fas fa-search ml-2"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <header class="hero-container min-h-screen flex items-center pt-24">
+        <div class="container mx-auto px-4 py-16 md:py-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 neon-text">日本初の<br>暗号資産ATM</h1>
+                    <h2 class="text-2xl md:text-3xl mb-6">未来の現金とデジタル資産の架け橋</h2>
+                    <p class="text-lg mb-8 opacity-90">誰でも簡単に現金と暗号資産を交換できる、革新的なATMネットワークが日本に登場。金融庁認可の取引所と連携し、高度なセキュリティで安心して利用できます。</p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button class="gold-button pulse">
+                            詳しく見る
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button class="bg-transparent border-2 border-primary-gold text-primary-gold px-6 py-3 rounded-lg hover:bg-primary-gold hover:text-deep-blue transition-all">
+                            ATM設置場所
+                            <i class="fas fa-map-marker-alt ml-2"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center">
+                        <p class="mr-3">複数の暗号資産に対応:</p>
+                        <div class="flex space-x-2">
+                            <span class="coin-icon btc-icon">BTC</span>
+                            <span class="coin-icon eth-icon">ETH</span>
+                            <span class="coin-icon ryo-icon">RYO</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center" data-aos="fade-left">
+                    <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="両子と禅太のCryptoATM体験" class="rounded-lg shadow-2xl max-w-full md:max-w-md">
+                </div>
+            </div>
+            
+            <div class="scroll-down text-center">
+                <i class="fas fa-chevron-down text-primary-gold animate-bounce"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主な特徴セクション -->
+    <section id="features" class="py-20 bg-gradient">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">革新的な特徴</h2>
+                <p class="text-xl max-w-3xl mx-auto">最先端の暗号資産ATMが提供する、これまでにない体験をご紹介します</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 feature-grid">
+                <!-- 特徴1: 双方向取引 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-exchange-alt text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">現金⇔暗号資産の双方向取引</h3>
+                    </div>
+                    <p>現金で暗号資産を購入したり、暗号資産を現金化したりする双方向の取引が可能。日常のお買い物でも暗号資産の活用が身近に。</p>
+                </div>
+                
+                <!-- 特徴2: 複数通貨対応 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-coins text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">複数の暗号資産に対応</h3>
+                    </div>
+                    <p>BTC（ビットコイン）、ETH（イーサリアム）に加え、革新的なRYOコインにも対応予定。日本発の暗号資産エコシステムを強力にサポート。</p>
+                </div>
+                
+                <!-- 特徴3: ペーパーウォレット -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-wallet text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">ペーパーウォレット発行</h3>
+                    </div>
+                    <p>暗号資産のアクセスキーとQRコードを記載したペーパーウォレット（紙のレシート）を発行。デジタル資産を物理的に保管できる安心感。</p>
+                </div>
+                
+                <!-- 特徴4: 簡易プロセス -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-bolt text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">簡単な認証プロセス</h3>
+                    </div>
+                    <p>複雑な身元確認不要で誰でも簡単に暗号資産の売買が可能。承認手続きなしの手早く簡単なステップで取引できます。</p>
+                </div>
+                
+                <!-- 特徴5: エコシステム連携 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-link text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">LIFEウォレットとの連携</h3>
+                    </div>
+                    <p>RYOエコシステムのLIFEウォレットやグローバルモールとシームレスに連携。購入した暗号資産をすぐに活用できる環境を提供。</p>
+                </div>
+                
+                <!-- 特徴6: 多言語対応 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-gold flex items-center justify-center mr-4">
+                            <i class="fas fa-language text-deep-blue text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">40言語以上に対応</h3>
+                    </div>
+                    <p>ATMは40言語以上に対応し、グローバルな利用者をサポート。日本だけでなく、世界中からの観光客や在留外国人も手軽に利用可能。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATM紹介ギャラリーセクション -->
+    <section class="py-20 bg-dark-navy">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">暗号資産ATM体験</h2>
+                <p class="text-xl max-w-3xl mx-auto">日本初の暗号資産ATMで、どなたでも簡単にWeb3の世界へ</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- ギャラリーアイテム1 -->
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="LIFEウォレットとCryptoATMの連携" class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="text-lg font-bold">LIFEウォレットとの連携</h3>
+                        <p>スマートフォンの専用アプリと連携して簡単に資産管理</p>
+                    </div>
+                </div>
+                
+                <!-- ギャラリーアイテム2 -->
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://page1.genspark.site/v1/base64_upload/94a5a31e83d4565b7354c11685aa22de" alt="ATMの操作方法" class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="text-lg font-bold">簡単な操作画面</h3>
+                        <p>タッチスクリーンで誰でも直感的に操作可能</p>
+                    </div>
+                </div>
+                
+                <!-- ギャラリーアイテム3 -->
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://page1.genspark.site/v1/base64_upload/c77210e27908d656418fc1c4320bbff7" alt="暗号資産の購入" class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="text-lg font-bold">現金での暗号資産購入</h3>
+                        <p>紙幣を入れるだけで簡単に暗号資産を購入できます</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使い方セクション -->
+    <section id="how-it-works" class="py-20 bg-gradient">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">Crypto ATMの使い方</h2>
+                <p class="text-xl max-w-3xl mx-auto">初めての方でも安心して利用できる、簡単3ステップ</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- ステップ1 -->
+                <div class="crypto-card text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 rounded-full bg-primary-gold flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-deep-blue">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">ATMを選択</h3>
+                    <p class="mb-4">お近くのCrypto ATMを見つけて、タッチスクリーンで取引を開始します。</p>
+                    <div class="flex justify-center">
+                        <img src="https://page1.genspark.site/v1/base64_upload/94a5a31e83d4565b7354c11685aa22de" alt="ATM選択" class="w-32 h-32 object-contain rounded-lg">
+                    </div>
+                </div>
+                
+                <!-- ステップ2 -->
+                <div class="crypto-card text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 rounded-full bg-primary-gold flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-deep-blue">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">通貨と取引を選択</h3>
+                    <p class="mb-4">購入または売却する暗号資産（BTC、ETH、RYO）と取引方法を選びます。</p>
+                    <div class="flex justify-center">
+                        <img src="https://page1.genspark.site/v1/base64_upload/c77210e27908d656418fc1c4320bbff7" alt="通貨選択" class="w-32 h-32 object-contain rounded-lg">
+                    </div>
+                </div>
+                
+                <!-- ステップ3 -->
+                <div class="crypto-card text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 rounded-full bg-primary-gold flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-deep-blue">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">取引完了</h3>
+                    <p class="mb-4">現金を入れる、またはQRコードをスキャンして取引を完了。ペーパーウォレットを受け取ります。</p>
+                    <div class="flex justify-center">
+                        <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="取引完了" class="w-32 h-32 object-contain rounded-lg">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <button class="gold-button">
+                    詳しい利用ガイドを見る
+                    <i class="fas fa-book ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- RYOエコシステム連携セクション -->
+    <section class="py-20 bg-dark-navy">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">RYOエコシステムとの連携</h2>
+                <p class="text-xl max-w-3xl mx-auto">Crypto ATMを起点に、Web3の世界を自由に行き来</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="RYOエコシステム連携" class="rounded-lg shadow-2xl">
+                </div>
+                
+                <div class="atm-features-container" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold mb-6 neon-text">シームレスな体験</h3>
+                    
+                    <div class="feature-item">
+                        <h4 class="text-xl font-semibold mb-2">LIFEウォレットとの連携</h4>
+                        <p>ATMで購入した暗号資産を直接LIFEウォレットに送信。スマートフォン一つで簡単に管理。</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h4 class="text-xl font-semibold mb-2">グローバルモールでのショッピング</h4>
+                        <p>ATMで購入したRYOコインをグローバルモールですぐに使用可能。オンラインショッピングがより身近に。</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h4 class="text-xl font-semibold mb-2">リアルタイム取引情報</h4>
+                        <p>ATMと連携したLIFEウォレットで、リアルタイムの取引情報や価格変動を確認できます。</p>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <button class="gold-button">
+                            RYOエコシステムを詳しく見る
+                            <i class="fas fa-external-link-alt ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 両子と禅太のCrypto ATM体験セクション -->
+    <section class="py-20 bg-gradient">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">両子と禅太のCrypto ATM体験</h2>
+                <p class="text-xl max-w-3xl mx-auto">キャラクターによる対話形式で、ATMの使い方と特徴を解説</p>
+            </div>
+            
+            <!-- 会話1 -->
+            <div class="flex flex-col md:flex-row items-center mb-16 conversation-container" data-aos="fade-up">
+                <div class="w-full md:w-1/4 flex justify-center">
+                    <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="両子" class="character-image w-40 h-auto">
+                </div>
+                
+                <div class="w-full md:w-3/4 mt-4 md:mt-0">
+                    <div class="speech-bubble ryoko">
+                        <h3 class="text-xl font-bold mb-2 text-primary-gold">両子</h3>
+                        <p>禅太くん、新しい暗号資産ATMを見てきたよ！すごく簡単に使えるの。現金をATMに入れるだけでビットコインやRYOコインが買えるんだよ！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 会話2 -->
+            <div class="flex flex-col-reverse md:flex-row items-center mb-16 conversation-container" data-aos="fade-up">
+                <div class="w-full md:w-3/4 mt-4 md:mt-0">
+                    <div class="speech-bubble zenta">
+                        <h3 class="text-xl font-bold mb-2 text-primary-gold">禅太</h3>
+                        <p>へぇ！でも暗号資産って難しそうだし、怖くない？本当に簡単に買えるの？</p>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/4 flex justify-center">
+                    <img src="https://page1.genspark.site/v1/base64_upload/94a5a31e83d4565b7354c11685aa22de" alt="禅太" class="character-image w-40 h-auto">
+                </div>
+            </div>
+            
+            <!-- 会話3 -->
+            <div class="flex flex-col md:flex-row items-center mb-16 conversation-container" data-aos="fade-up">
+                <div class="w-full md:w-1/4 flex justify-center">
+                    <img src="https://page1.genspark.site/v1/base64_upload/b83e13d61b6a2b3a424267ec44e8854a" alt="両子" class="character-image w-40 h-auto">
+                </div>
+                
+                <div class="w-full md:w-3/4 mt-4 md:mt-0">
+                    <div class="speech-bubble ryoko">
+                        <h3 class="text-xl font-bold mb-2 text-primary-gold">両子</h3>
+                        <p>本当に簡単だよ！ATMの画面をタッチして、買いたい暗号資産を選ぶだけ。それに金融庁が認可している取引所と連携しているから安心だし、LIFEウォレットとも直接つながるの！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 会話4 -->
+            <div class="flex flex-col-reverse md:flex-row items-center mb-16 conversation-container" data-aos="fade-up">
+                <div class="w-full md:w-3/4 mt-4 md:mt-0">
+                    <div class="speech-bubble zenta">
+                        <h3 class="text-xl font-bold mb-2 text-primary-gold">禅太</h3>
+                        <p>へぇ、それは便利だね！でも買った暗号資産は何に使えるの？</p>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/4 flex justify-center">
+                    <img src="https://page1.genspark.site/v1/base64_upload/94a5a31e83d4565b7354c11685aa22de" alt="禅太" class="character-image w-40 h-auto">
+                </div>
+            </div>
+            
+            <!-- 会話5 -->
+            <div class="flex flex-col md:flex-row items-center conversation-container" data-aos="fade-up">
+                <div class="w-full md:w-1/4 flex justify-center">
+                    <img src="https://page1.genspark.site/v1/base64_upload/c77210e27908d656418fc1c4320bbff7" alt="両子" class="character-image w-40 h-auto">
+                </div>
+                
+                <div class="w-full md:w-3/4 mt-4 md:mt-0">
+                    <div class="speech-bubble ryoko">
+                        <h3 class="text-xl font-bold mb-2 text-primary-gold">両子</h3>
+                        <p>RYOコインならグローバルモールでショッピングできるよ！それに将来的には日本中のお店でも使えるようになるんだって。逆に、持っている暗号資産が必要になったら、同じATMで現金に戻すこともできるの。便利でしょ？</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <button class="gold-button">
+                    もっと体験談を見る
+                    <i class="fas fa-comments ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATM設置場所マップセクション -->
+    <section id="locations" class="py-20 bg-dark-navy">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">ATM設置場所</h2>
+                <p class="text-xl max-w-3xl mx-auto">あなたの近くのCrypto ATMを見つける</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="col-span-1 md:col-span-2" data-aos="fade-right">
+                    <div class="bg-deep-blue p-4 rounded-lg h-96 flex items-center justify-center neon-border">
+                        <div class="text-center">
+                            <i class="fas fa-map-marked-alt text-6xl text-primary-gold mb-4"></i>
+                            <p>マップは現在準備中です...</p>
+                            <p class="mt-2 text-sm">※実際のサイトでは地図が表示されます</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left">
+                    <div class="crypto-card h-full">
+                        <h3 class="text-xl font-bold mb-4 neon-text">主な設置場所</h3>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-store text-primary-gold mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">ショッピングモール</h4>
+                                    <p class="text-sm opacity-80">主要都市の大型商業施設内</p>
+                                </div>
+                            </li>
+                            
+                            <li class="flex items-start">
+                                <i class="fas fa-hotel text-primary-gold mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">高級ホテル</h4>
+                                    <p class="text-sm opacity-80">外国人観光客向けサービスとして</p>
+                                </div>
+                            </li>
+                            
+                            <li class="flex items-start">
+                                <i class="fas fa-train text-primary-gold mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">主要駅構内</h4>
+                                    <p class="text-sm opacity-80">アクセスの良い場所に設置</p>
+                                </div>
+                            </li>
+                            
+                            <li class="flex items-start">
+                                <i class="fas fa-building text-primary-gold mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">オフィスビル</h4>
+                                    <p class="text-sm opacity-80">ビジネス街の主要ビル内</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-6">
+                            <input type="text" placeholder="郵便番号や住所を入力" class="w-full bg-deep-blue border border-primary-gold rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-gold">
+                            
+                            <button class="gold-button w-full mt-4">
+                                近くのATMを検索
+                                <i class="fas fa-search ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- よくある質問セクション -->
+    <section id="faq" class="py-20 bg-gradient">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4 neon-text">よくある質問</h2>
+                <p class="text-xl max-w-3xl mx-auto">暗号資産ATMに関するよくある疑問にお答えします</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 質問1 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        初めてでも簡単に利用できますか？
+                    </h3>
+                    <p>はい、タッチスクリーンで直感的に操作できるため、暗号資産の知識がなくても簡単に利用できます。画面の案内に従って操作するだけで取引が完了します。</p>
+                </div>
+                
+                <!-- 質問2 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        どんな暗号資産が購入できますか？
+                    </h3>
+                    <p>現在はBTC（ビットコイン）が利用可能で、順次ETH（イーサリアム）やRYOコインなど、複数の暗号資産に対応予定です。</p>
+                </div>
+                
+                <!-- 質問3 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        手数料はいくらかかりますか？
+                    </h3>
+                    <p>取引金額に応じた手数料が発生しますが、業界内でも非常にリーズナブルな料率を実現しています。ATM画面で事前に手数料を確認できます。</p>
+                </div>
+                
+                <!-- 質問4 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        セキュリティ面は安全ですか？
+                    </h3>
+                    <p>金融庁認可の取引所と連携し、銀行レベルのセキュリティを採用。ATM自体にはコインを保管せず、すべての取引はSSLで暗号化されています。</p>
+                </div>
+                
+                <!-- 質問5 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="500">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        ウォレットを持っていなくても利用できますか？
+                    </h3>
+                    <p>はい、ウォレットをお持ちでない方でも利用可能です。ATMでペーパーウォレットが発行されるので、そちらで暗号資産を管理できます。もちろんLIFEウォレットをお持ちの方は直接送金することも可能です。</p>
+                </div>
+                
+                <!-- 質問6 -->
+                <div class="crypto-card" data-aos="fade-up" data-aos-delay="600">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-gold">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        購入した暗号資産はどこで使えますか？
+                    </h3>
+                    <p>RYOコインはグローバルモールでのショッピングに利用可能です。また、将来的には提携店舗での直接決済にも対応予定です。ビットコインやイーサリアムは世界中の対応サービスで利用できます。</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <button class="gold-button">
+                    その他の質問を見る
+                    <i class="fas fa-chevron-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTAセクション -->
+    <section class="py-24 bg-dark-navy relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 neon-text">Web3革命の入り口へ</h2>
+                <p class="text-xl mb-8">暗号資産ATMで、誰もが簡単にデジタル資産の世界へ。新たな金融体験を始めよう。</p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="gold-button pulse">
+                        ATM設置場所を見る
+                        <i class="fas fa-map-marker-alt ml-2"></i>
+                    </button>
+                    <button class="bg-transparent border-2 border-primary-gold text-primary-gold px-6 py-3 rounded-lg hover:bg-primary-gold hover:text-deep-blue transition-all">
+                        よくある質問を確認
+                        <i class="fas fa-question-circle ml-2"></i>
+                    </button>
+                </div>
+                
+                <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-primary-gold mb-2">40+</div>
+                        <p>対応言語</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-primary-gold mb-2">3+</div>
+                        <p>対応暗号資産</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-primary-gold mb-2">24/7</div>
+                        <p>利用可能</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-primary-gold mb-2">100%</div>
+                        <p>日本初</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 背景装飾 -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <div class="absolute top-10 left-10 w-20 h-20 rounded-full bg-primary-gold opacity-5"></div>
+            <div class="absolute bottom-20 right-20 w-40 h-40 rounded-full bg-neon-blue opacity-5"></div>
+            <div class="absolute top-1/2 left-1/3 w-30 h-30 rounded-full bg-neon-pink opacity-5"></div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="bg-deep-blue py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- ロゴ・説明 -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-coins text-primary-gold text-2xl mr-2"></i>
+                        <h2 class="text-2xl font-bold neon-text">CryptoATM</h2>
+                    </div>
+                    <p class="mb-6 opacity-80">日本初の暗号資産ATMネットワーク。現金と暗号資産の架け橋として、誰もが簡単にWeb3の世界へアクセスできる環境を提供します。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-light-cream hover:text-primary-gold transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-light-cream hover:text-primary-gold transition-colors">
+                            <i class="fab fa-telegram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-light-cream hover:text-primary-gold transition-colors">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-light-cream hover:text-primary-gold transition-colors">
+                            <i class="fab fa-medium text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- クイックリンク -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-primary-gold">クイックリンク</h3>
+                    <ul class="space-y-2 opacity-80">
+                        <li><a href="#features" class="hover:text-primary-gold transition-colors">特徴</a></li>
+                        <li><a href="#how-it-works" class="hover:text-primary-gold transition-colors">使い方</a></li>
+                        <li><a href="#locations" class="hover:text-primary-gold transition-colors">設置場所</a></li>
+                        <li><a href="#faq" class="hover:text-primary-gold transition-colors">よくある質問</a></li>
+                    </ul>
+                </div>
+                
+                <!-- RYOエコシステム -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-primary-gold">RYOエコシステム</h3>
+                    <ul class="space-y-2 opacity-80">
+                        <li><a href="#" class="hover:text-primary-gold transition-colors">RYOコインとは</a></li>
+                        <li><a href="#" class="hover:text-primary-gold transition-colors">LIFEウォレット</a></li>
+                        <li><a href="#" class="hover:text-primary-gold transition-colors">グローバルモール</a></li>
+                        <li><a href="#" class="hover:text-primary-gold transition-colors">RYOプロジェクト</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-6 border-t border-gray-700 text-center">
+                <p class="text-sm opacity-60">このサイトはRYOプロジェクトの非公式情報サイトです。情報は予告なく変更される場合があります。</p>
+                <p class="text-sm opacity-60 mt-2">© 2025 Crypto ATM 非公式情報サイト</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- スクリプト -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // AOS初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease',
+                once: true
+            });
+            
+            // ローダーを非表示
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('fade-out');
+                setTimeout(function() {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1000);
+            
+            // キラキラエフェクト
+            const sparkleElements = document.querySelectorAll('.sparkle');
+            sparkleElements.forEach(el => {
+                setRandomSparkle(el);
+            });
+            
+            function setRandomSparkle(el) {
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const delay = Math.random() * 2;
+                
+                el.querySelector('::before').style.left = `${x}%`;
+                el.querySelector('::before').style.top = `${y}%`;
+                el.querySelector('::before').style.animationDelay = `${delay}s`;
+                
+                setTimeout(() => {
+                    setRandomSparkle(el);
+                }, Math.random() * 3000 + 2000);
+            }
+            
+            // スムーススクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
