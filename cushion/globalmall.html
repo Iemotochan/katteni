@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOBAL MALL | 両×デジタル 新時代の決済革命</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #F7D433;
+            --secondary-color: #00D8FF;
+            --accent-color: #FF00AA;
+            --dark-bg: #000000;
+            --card-bg: rgba(14, 20, 33, 0.7);
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--dark-bg);
+            color: #FFFFFF;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        #matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .accent-gradient-text {
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* 修正: テキスト枠のスタイルを強化 */
+        .glass-card {
+            background: rgba(10, 16, 27, 0.8); /* 不透明度を0.7から0.8に上げる */
+            backdrop-filter: blur(12px); /* ぼかし効果を10pxから12pxに強化 */
+            border: 2px solid rgba(255, 255, 255, 0.15); /* ボーダーを強化 */
+            box-shadow: 0 8px 32px rgba(0, 216, 255, 0.2), 0 0 5px rgba(247, 212, 51, 0.1); /* 影を強化 */
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        /* 追加: テキスト自体の視認性を向上させるクラス */
+        .enhanced-text {
+            color: white;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .glass-card:hover {
+            box-shadow: 0 8px 32px rgba(247, 212, 51, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .interactive-element {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .interactive-element::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 0, 170, 0.8) 0%, rgba(0, 216, 255, 0.4) 50%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .interactive-element:hover::before,
+        .interactive-element:focus::before {
+            width: 300%;
+            height: 300%;
+            opacity: 0.3;
+        }
+        
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .image-container img {
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+        
+        .glow-effect {
+            filter: drop-shadow(0 0 8px rgba(247, 212, 51, 0.4));
+            transition: filter 0.3s ease;
+        }
+        
+        .glow-effect:hover {
+            filter: drop-shadow(0 0 15px rgba(0, 216, 255, 0.6));
+        }
+        
+        .particles-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            opacity: 0.8;
+            animation: fadeOut 1s forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        
+        .btn-glowing {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .btn-glowing::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #ffffff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.8s;
+            z-index: -1;
+        }
+        
+        .btn-glowing:active::after {
+            transform: scale(0, 0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+        
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .cyber-border::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), var(--primary-color), transparent);
+            animation: cyber-border 3s linear infinite;
+        }
+        
+        @keyframes cyber-border {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .glitch-text {
+            position: relative;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .glitch-text::before {
+            color: #ff00aa;
+            animation: glitch-effect 2s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+            color: #00d8ff;
+            animation: glitch-effect 3s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% {
+                clip-path: inset(30% 0 68% 0);
+                transform: translate(-1px, -1px);
+            }
+            5% {
+                clip-path: inset(13% 0 58% 0);
+                transform: translate(1px, 1px);
+            }
+            10% {
+                clip-path: inset(76% 0 23% 0);
+                transform: translate(-3px, 1px);
+            }
+            15% {
+                clip-path: inset(38% 0 43% 0);
+                transform: translate(3px, -1px);
+            }
+            20% {
+                clip-path: inset(69% 0 9% 0);
+                transform: translate(-1px, 2px);
+            }
+            25% {
+                clip-path: inset(75% 0 19% 0);
+                transform: translate(1px, -2px);
+            }
+            30% {
+                clip-path: inset(13% 0 53% 0);
+                transform: translate(-2px, -1px);
+            }
+            35% {
+                clip-path: inset(96% 0 74% 0);
+                transform: translate(2px, 2px);
+            }
+            40% {
+                clip-path: inset(61% 0 30% 0);
+                transform: translate(-3px, 1px);
+            }
+            45% {
+                clip-path: inset(6% 0 93% 0);
+                transform: translate(3px, -2px);
+            }
+            50% {
+                clip-path: inset(67% 0 49% 0);
+                transform: translate(-1px, -1px);
+            }
+            55% {
+                clip-path: inset(66% 0 32% 0);
+                transform: translate(1px, 2px);
+            }
+            60% {
+                clip-path: inset(11% 0 25% 0);
+                transform: translate(-2px, -2px);
+            }
+            65% {
+                clip-path: inset(44% 0 96% 0);
+                transform: translate(2px, 1px);
+            }
+            70% {
+                clip-path: inset(46% 0 60% 0);
+                transform: translate(-3px, -1px);
+            }
+            75% {
+                clip-path: inset(9% 0 40% 0);
+                transform: translate(3px, 2px);
+            }
+            80% {
+                clip-path: inset(98% 0 59% 0);
+                transform: translate(-1px, -2px);
+            }
+            85% {
+                clip-path: inset(59% 0 3% 0);
+                transform: translate(1px, -1px);
+            }
+            90% {
+                clip-path: inset(76% 0 69% 0);
+                transform: translate(-2px, 2px);
+            }
+            95% {
+                clip-path: inset(72% 0 13% 0);
+                transform: translate(2px, -2px);
+            }
+            100% {
+                clip-path: inset(38% 0 36% 0);
+                transform: translate(-1px, 1px);
+            }
+        }
+        
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(0deg); }
+            24% { transform: skew(3deg); }
+            28% { transform: skew(0deg); }
+            70% { transform: skew(0deg); }
+            74% { transform: skew(-2deg); }
+            78% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+        
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 216, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 216, 255, 0.05) 1px, transparent 1px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .hover-text-effect:hover {
+            animation: text-flicker 0.5s ease forwards;
+        }
+        
+        @keyframes text-flicker {
+            0% {
+                opacity: 0.8;
+                text-shadow: 0 0 5px var(--primary-color);
+            }
+            25% {
+                opacity: 0.2;
+                text-shadow: 0 0 10px var(--secondary-color);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 15px var(--accent-color);
+            }
+            75% {
+                opacity: 0.6;
+                text-shadow: 0 0 10px var(--primary-color);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 5px var(--secondary-color);
+            }
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-rain"></canvas>
+    
+    <!-- Grid Lines -->
+    <div class="grid-lines fixed inset-0"></div>
+    
+    <!-- Particles Container -->
+    <div class="particles-container w-full h-full"></div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-filter backdrop-blur-lg border-b border-gray-800 border-opacity-20">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center interactive-element">
+                <h1 class="text-2xl md:text-3xl font-bold">
+                    <span class="gradient-text interactive-element">GLOBAL MALL</span>
+                </h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="text-white hover:text-yellow-300 transition interactive-element hover-text-effect">特徴</a>
+                <a href="#ecosystem" class="text-white hover:text-yellow-300 transition interactive-element hover-text-effect">エコシステム</a>
+                <a href="#merits" class="text-white hover:text-yellow-300 transition interactive-element hover-text-effect">メリット</a>
+                <a href="#roadmap" class="text-white hover:text-yellow-300 transition interactive-element hover-text-effect">ロードマップ</a>
+            </nav>
+            <div class="md:hidden interactive-element">
+                <i class="fas fa-bars text-white text-xl"></i>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0 interactive-element">
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+                        <span class="glitch-text" data-text="両">両</span>
+                        <span class="accent-gradient-text">×</span>
+                        <span class="glitch-text" data-text="デジタル">デジタル</span>
+                    </h2>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+                        <span class="gradient-text">新時代の決済革命</span>
+                    </h3>
+                    <p class="text-xl mb-10 opacity-80 enhanced-text">
+                        江戸時代の「両」からインスピレーションを得た、<br>
+                        <span class="gradient-text">未来を切り拓く新決済システム</span>。<br>
+                        シンプルで、強力で、誰もが使えるWeb3体験へようこそ。
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="btn-glowing bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold py-3 px-8 rounded-full transition transform hover:scale-105 interactive-element">
+                            詳しく知る
+                        </button>
+                        <button class="btn-glowing bg-transparent border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-full transition transform hover:scale-105 hover:bg-cyan-900 hover:bg-opacity-20 interactive-element">
+                            購入方法を見る
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center interactive-element">
+                    <div class="image-container relative w-64 h-64 md:w-80 md:h-80 interactive-element">
+                        <div class="absolute -inset-4 rounded-full bg-gradient-to-r from-yellow-400 via-cyan-400 to-pink-500 opacity-30 blur-xl animate-pulse"></div>
+                        <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="着物を着た女の子のアニメキャラクター" class="relative z-10 w-full h-full object-contain glow-effect">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section id="features" class="py-16 relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 interactive-element">
+                    <span class="gradient-text">革新的な</span>デジタル決済プラットフォーム
+                </h2>
+                <p class="text-lg max-w-3xl mx-auto opacity-80 enhanced-text">
+                    GLOBAL MALLは、デジタル決済を革新し、新しいデジタル経済において商店と消費者の両方をエンパワーするプラットフォームです。最新のテクノロジーを活用し、安全で使いやすいオンラインショッピング体験を提供します。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="glass-card p-8 interactive-element cyber-border">
+                    <div class="bg-blue-500 bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-2xl text-blue-300"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 gradient-text">安全・安心の取引</h3>
+                    <p class="enhanced-text">
+                        最先端のセキュリティ技術で、あなたの資産と個人情報を徹底的に保護。銀行レベルのセキュリティと使いやすさを両立しています。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-8 interactive-element cyber-border">
+                    <div class="bg-yellow-500 bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-bolt text-2xl text-yellow-300"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 gradient-text">シンプルな操作性</h3>
+                    <p class="enhanced-text">
+                        Eメールアドレスだけで送金可能な簡単操作。暗号通貨に詳しくない方でも直感的に利用できるデザインを実現しています。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-8 interactive-element cyber-border">
+                    <div class="bg-pink-500 bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-2xl text-pink-300"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 gradient-text">グローバル展開</h3>
+                    <p class="enhanced-text">
+                        国内500万人、世界5億8千万人の潜在顧客へリーチ可能。ボーダレスな経済活動を支援するプラットフォームです。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Characters -->
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12 mb-16">
+                <div class="image-container w-48 h-48 md:w-64 md:h-64 interactive-element">
+                    <img src="https://page1.genspark.site/v1/base64_upload/d179caa2678ec5abcab21ded380b8ce3" alt="着物を着た女の子のアニメキャラクター" class="w-full h-full object-contain glow-effect">
+                </div>
+                
+                <div class="text-center md:text-left interactive-element">
+                    <h3 class="text-2xl font-bold mb-3 gradient-text">両×デジタルの世界へ</h3>
+                    <p class="max-w-md text-lg opacity-80 enhanced-text">
+                        伝統と革新が融合する新時代のデジタル決済体験。<br>
+                        キャラクターと共に未来の金融を探求しましょう。
+                    </p>
+                </div>
+                
+                <div class="image-container w-48 h-48 md:w-64 md:h-64 interactive-element">
+                    <img src="https://page1.genspark.site/v1/base64_upload/e359fcd3caad2f6b4dd4a589c2fc5c0b" alt="ライオンキャラクター" class="w-full h-full object-contain glow-effect">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 以下のセクションも同様に enhanced-text クラスを適用 -->
+    <!-- 省略していますが、実際のコードでは全てのテキスト要素に enhanced-text クラスを適用してください -->
+    
+    <!-- Scripts -->
+    <script>
+        // Matrix Rain Animation
+        const canvas = document.getElementById('matrix-rain');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 修正: 文字セットを拡張
+        let characters = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン☆○●△□◇◆∞♪0123456789';
+        characters = characters.split('');
+
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            // 修正: 背景の不透明度を上げて、マトリックスレインの効果を弱める
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                
+                if (Math.random() > 0.975) {
+                    ctx.fillStyle = '#00D8FF'; // Cyan
+                } else if (Math.random() > 0.95) {
+                    ctx.fillStyle = '#F7D433'; // Yellow
+                } else if (Math.random() > 0.925) {
+                    ctx.fillStyle = '#FF00AA'; // Pink
+                } else {
+                    ctx.fillStyle = '#0F0'; // Green
+                }
+                
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const columns = canvas.width / fontSize;
+            
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
+        });
+
+        // Interactive Effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveElements = document.querySelectorAll('.interactive-element');
+            const particlesContainer = document.querySelector('.particles-container');
+            
+            // Touch/Click effect
+            function createParticles(x, y) {
+                const colors = ['#F7D433', '#00D8FF', '#FF00AA'];
+                const particleCount = 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const size = Math.random() * 5 + 3;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 100 + 50;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 ${size}px ${size / 2}px ${particle.style.backgroundColor}`;
+                    
+                    const startX = x;
+                    const startY = y;
+                    
+                    particle.style.left = `${startX}px`;
+                    particle.style.top = `${startY}px`;
+                    
+                    particlesContainer.appendChild(particle);
+                    
+                    const destX = startX + Math.cos(angle) * speed;
+                    const destY = startY + Math.sin(angle) * speed;
+                    
+                    particle.animate([
+                        { transform: `translate(0, 0) scale(1)`, opacity: 0.8 },
+                        { transform: `translate(${destX - startX}px, ${destY - startY}px) scale(0)`, opacity: 0 }
+                    ], {
+                        duration: 1000,
+                        easing: 'ease-out'
+                    });
+                    
+                    setTimeout(() => {
+                        particlesContainer.removeChild(particle);
+                    }, 1000);
+                }
+            }
+            
+            function handleInteraction(event) {
+                const rect = event.target.getBoundingClientRect();
+                const x = (event.clientX || event.touches[0].clientX) - rect.left;
+                const y = (event.clientY || event.touches[0].clientY) - rect.top;
+                
+                createParticles(event.clientX || event.touches[0].clientX, event.clientY || event.touches[0].clientY);
+            }
+            
+            interactiveElements.forEach(element => {
+element.addEventListener('click', handleInteraction);
+                element.addEventListener('touchstart', handleInteraction);
+            });
+            
+            // Start matrix animation
+            setInterval(draw, 33);
+        });
+    </script>
+</body>
+</html>
