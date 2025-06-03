@@ -27,15 +27,15 @@ class RyoCoinSoundNovel {
             }
         };
         
-        // シナリオデータ（直接パス指定対応）
+        // シナリオデータ（フォルダ管理対応）
         this.scenarios = this.getScenarioData();
         
         this.init();
     }
     
     // =============================== 
-    // シナリオデータ（直接パス指定版）
-    // =============================== 
+    // シナリオデータ（フォルダ管理版）
+    // ===============================
 getScenarioData() {
     return [
         {
@@ -151,7 +151,7 @@ getScenarioData() {
     ];
 }
     
-      // =============================== 
+    // =============================== 
     // 初期化
     // =============================== 
     init() {
@@ -206,9 +206,9 @@ getScenarioData() {
         return true;
     }
     
-    // 画像プリロード（直接パス対応）
+    // 画像プリロード（フォルダ管理対応）
     preloadImages() {
-        console.log('🖼️ 画像プリロード開始');
+        console.log('🖼️ 画像プリロード開始（フォルダ管理対応）');
         
         // シナリオで使用される画像をプリロード
         this.scenarios.forEach((scenario, index) => {
@@ -225,6 +225,12 @@ getScenarioData() {
             img.onload = () => console.log(`✅ ${character.name} 画像読み込み完了`);
             img.onerror = () => console.warn(`⚠️ ${character.name} 画像読み込み失敗`);
         });
+        
+        // 初期画像の確認
+        const initialImg = new Image();
+        initialImg.src = 'touroku/1.jpg';
+        initialImg.onload = () => console.log('✅ 初期画像確認完了: touroku/1.jpg');
+        initialImg.onerror = () => console.warn('⚠️ 初期画像が見つかりません: touroku/1.jpg');
     }
     
     setupEventListeners() {
@@ -250,7 +256,7 @@ getScenarioData() {
         if (audioOffBtn) audioOffBtn.addEventListener('click', () => this.disableAudio());
         if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
         
-        console.log('✅ イベントリスナー設定完了（広いタッチエリア対応）');
+        console.log('✅ イベントリスナー設定完了（フォルダ管理対応）');
     }
     
     // ミュート切り替え
@@ -408,6 +414,7 @@ getScenarioData() {
         const scenario = this.scenarios[this.currentScene];
         
         console.log(`📖 シーン ${this.currentScene + 1} 読み込み開始`);
+        console.log(`🖼️ 読み込み予定画像: ${scenario.screenshot}`);
         
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
@@ -415,7 +422,7 @@ getScenarioData() {
             this.isTyping = false;
         }
         
-        // スクリーンショット変更（直接パス対応）
+        // スクリーンショット変更（フォルダパス対応）
         this.changeScreenshot(scenario.screenshot);
         
         // キャラクター変更
@@ -435,7 +442,7 @@ getScenarioData() {
         console.log(`✅ シーン ${this.currentScene + 1} 読み込み完了`);
     }
     
-    // スクリーンショット変更（直接パス対応版）
+    // スクリーンショット変更（フォルダパス対応版）
     changeScreenshot(imagePath) {
         const screenshotImg = document.getElementById('screenshotImg');
         
@@ -444,37 +451,26 @@ getScenarioData() {
             return;
         }
         
-        console.log(`🖼️ スクリーンショット変更: ${imagePath}`);
+        console.log(`🖼️ スクリーンショット変更開始: ${imagePath}`);
         
         // フェードアウト
         screenshotImg.classList.remove('show');
         screenshotImg.classList.add('fade-out');
         
         setTimeout(() => {
-            // 直接パス指定かどうかをチェック
-            if (this.isDirectPath(imagePath)) {
-                // 直接パスの場合、そのまま使用
-                this.loadDirectImage(imagePath, screenshotImg);
-            } else {
-                // 従来通りのbg1形式の場合、拡張子を試行
-                const possibleExtensions = ['jpg', 'png', 'jpeg', 'webp'];
-                this.tryLoadImage(imagePath, possibleExtensions, 0, screenshotImg);
-            }
+            // 直接パス指定で画像読み込み
+            this.loadDirectImage(imagePath, screenshotImg);
         }, 250);
     }
     
-    // 直接パス判定
-    isDirectPath(path) {
-        // パスにスラッシュが含まれるか、拡張子が含まれる場合は直接パス
-        return path.includes('/') || path.includes('.');
-    }
-    
-    // 直接パス画像読み込み
+    // 直接パス画像読み込み（エラーハンドリング強化）
     loadDirectImage(imagePath, screenshotImg) {
+        console.log(`🔍 画像読み込み試行: ${imagePath}`);
+        
         const testImg = new Image();
         
         testImg.onload = () => {
-            console.log(`✅ 直接パス画像発見: ${imagePath}`);
+            console.log(`✅ 画像読み込み成功: ${imagePath}`);
             screenshotImg.src = imagePath;
             screenshotImg.onload = () => {
                 screenshotImg.classList.remove('fade-out');
@@ -487,45 +483,18 @@ getScenarioData() {
         };
         
         testImg.onerror = () => {
-            console.error(`❌ 直接パス画像読み込み失敗: ${imagePath}`);
-            // フォールバック: デフォルト画像
-            screenshotImg.src = 'image/bg1.jpg';
+            console.error(`❌ 画像読み込み失敗: ${imagePath}`);
+            console.log('📁 利用可能な画像を確認してください：');
+            console.log('- touroku/1.jpg');
+            console.log('- touroku/2.jpg');
+            console.log('- nyuukin/1.jpg');
+            
+            // フォールバック: とりあえず表示を戻す
             screenshotImg.classList.remove('fade-out');
             screenshotImg.classList.add('show');
         };
         
         testImg.src = imagePath;
-    }
-    
-    // 従来の画像読み込み試行メソッド（bg1形式用）
-    tryLoadImage(bgName, extensions, index, screenshotImg) {
-        if (index >= extensions.length) {
-            console.error(`❌ ${bgName} の画像が見つかりません（全拡張子試行済み）`);
-            screenshotImg.src = 'image/bg1.jpg';
-            screenshotImg.classList.remove('fade-out');
-            screenshotImg.classList.add('show');
-            return;
-        }
-        
-        const testPath = `image/${bgName}.${extensions[index]}`;
-        const testImg = new Image();
-        
-        testImg.onload = () => {
-            console.log(`✅ 画像発見: ${testPath}`);
-            screenshotImg.src = testPath;
-            screenshotImg.onload = () => {
-                screenshotImg.classList.remove('fade-out');
-                screenshotImg.classList.add('show');
-                console.log(`✅ スクリーンショット表示完了: ${testPath}`);
-            };
-        };
-        
-        testImg.onerror = () => {
-            console.log(`⚠️ ${testPath} 読み込み失敗 → 次の拡張子を試行`);
-            this.tryLoadImage(bgName, extensions, index + 1, screenshotImg);
-        };
-        
-        testImg.src = testPath;
     }
     
     changeCharacter(characterKey) {
@@ -646,11 +615,11 @@ getScenarioData() {
         }, 3000);
     }
     
-    // 新しいシナリオを簡単に追加する方法（直接パス対応）
+    // 新しいシナリオを簡単に追加する方法（フォルダ管理対応）
     addNewScenario(character, screenshot, texts, audio = null) {
         this.scenarios.push({
             character: character,   // 'ryoko' または 'zenta'
-            screenshot: screenshot, // 'image/my_screenshot.jpg' など直接パス
+            screenshot: screenshot, // 'touroku/5.jpg' や 'nyuukin/2.jpg' など
             texts: texts,          // テキストの配列
             audio: audio           // 音声ファイルパス（オプション）
         });
@@ -693,7 +662,7 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（直接パス対応）
+// 開発者向け便利機能（フォルダ管理対応）
 window.NovelUtils = {
     // ミュート切り替え
     toggleMute: () => {
@@ -702,7 +671,7 @@ window.NovelUtils = {
         }
     },
     
-    // 新しいシナリオ追加（直接パス対応）
+    // 新しいシナリオ追加（フォルダ管理対応）
     addScenario: (character, imagePath, texts, audio = null) => {
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.addNewScenario(character, imagePath, texts, audio);
@@ -718,33 +687,37 @@ window.NovelUtils = {
         }
     },
     
-    // 画像テスト（直接パス対応）
+    // 画像テスト（フォルダ管理対応）
     testImage: (imagePath) => {
         const img = new Image();
         img.src = imagePath;
         img.onload = () => console.log(`✅ ${imagePath} は存在します`);
         img.onerror = () => console.error(`❌ ${imagePath} が見つかりません`);
+    },
+    
+    // フォルダ内画像一覧テスト
+    testFolder: (folderName) => {
+        console.log(`📁 ${folderName}フォルダの画像をテスト中...`);
+        for (let i = 1; i <= 10; i++) {
+            NovelUtils.testImage(`${folderName}/${i}.jpg`);
+        }
     }
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル v5.0
-📱 タッチエリア拡大対応
-🖼️ 直接パス指定対応！
+🎭 RYOコインサウンドノベル v6.0
+📁 フォルダ管理完全対応！
 ✨ 小判エフェクト強化
 🔊 BGM機能追加
 🔇 ミュートボタン追加
 
-💡 使用方法:
-- screenshot: 'image/bg1.jpg' で直接パス指定
-- screenshot: 'bg1' で従来通りの自動拡張子検索
-- 両方の形式に対応済み
+💡 フォルダ構造:
+touroku/1.jpg - 登録関連スクリーンショット
+nyuukin/1.jpg - 入金関連スクリーンショット
+image/back.jpg - 背景画像
+image/ryokosensei.png - キャラクター画像
 
-📝 シナリオ例:
-{
-    character: 'ryoko',
-    screenshot: 'image/coincheck_tutorial.png', // 直接指定
-    texts: ['テキスト1', 'テキスト2'],
-    audio: 'audio/voice.mp3'
-}
+📝 テスト方法:
+NovelUtils.testImage('touroku/1.jpg') - 特定画像テスト
+NovelUtils.testFolder('touroku') - フォルダ内画像一覧テスト
 `);
