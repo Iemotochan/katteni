@@ -50,7 +50,7 @@ getScenarioData() {
         },
         {
             character: 'zenta',
-            screenshot: 'bg2', // 新規登録画面
+            screenshot: 'touroku/1.jpg', // 新規登録画面
             texts: [
                 'まずは取引所のアカウントを作成します。\n右上の「新規登録」をタップしてください。',
                 'BitTradeなどの信頼できる取引所を選びましょう。\n登録は無料で簡単です！'
@@ -58,7 +58,7 @@ getScenarioData() {
         },
         {
             character: 'ryoko',
-            screenshot: 'bg3', // メール・パスワード入力画面
+            screenshot: 'touroku/3.jpg', // メール・パスワード入力画面
             texts: [
                 'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で英数字を含む必要があります！',
                 '紹介コードがある場合は入力して\n「次へ」をタップしましょう✨'
