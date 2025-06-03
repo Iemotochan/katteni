@@ -46,7 +46,7 @@ class RyoCoinSoundNovel {
                     '仮想通貨を買うのは初めてでも大丈夫。\n一緒に順番に見ていきましょう。',
                     '準備はいいですか？\nそれでは始めましょう！'
                 ],
-                audio: 'audio/ryoko_scene1.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
@@ -56,7 +56,7 @@ class RyoCoinSoundNovel {
                     'bitFlyer、Coincheck、bitbankなどが有名ですね。',
                     '今回はCoincheckを例に説明します。'
                 ],
-                audio: 'audio/zenta_scene2.mp3'
+
             },
             {
                 character: 'ryoko',
@@ -76,7 +76,7 @@ class RyoCoinSoundNovel {
                     'スマホで書類を撮影して\nアップロードします。',
                     '審査は1-3営業日で完了します。'
                 ],
-                audio: 'audio/zenta_scene4.mp3'
+
             },
             {
                 character: 'ryoko',
@@ -86,7 +86,7 @@ class RyoCoinSoundNovel {
                     '日本円を入金して\n好きな通貨を購入しましょう。',
                     'RYOコインは将来性のある通貨です。\n余裕資金で投資してくださいね💎'
                 ],
-                audio: 'audio/ryoko_scene5.mp3'
+
             }
         ];
     }
