@@ -78,7 +78,7 @@ getScenarioData() {
         },
         {
             character: 'ryoko',
-            screenshot: 'touroku/3.jpg', // ホーム画面（赤い！マーク）
+            screenshot: 'touroku/8.jpg', // ホーム画面（赤い！マーク）
             texts: [
                 'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
                 'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
@@ -167,20 +167,6 @@ getScenarioData() {
             ],
             audio: 'audio/oshiete.mp3'
         },
-
-        {
-            character: 'ryoko',
-            screenshot: 'buy/5.jpg', // XRP購入画面
-            texts: [
-                'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
-                'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
-                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
-                '次は送金に挑戦！💫'
-            ]
-        },
-
-
-
 
 
 
