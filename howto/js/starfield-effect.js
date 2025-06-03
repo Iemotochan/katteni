@@ -1,6 +1,6 @@
 /*
  * RYO Coin Adaptive Multi-Touch Magic
- * 小判エフェクト強化版
+ * 軽量化・デバイス最適化版
  */
 
 class AdaptiveMultiTouchMagic {
@@ -19,6 +19,13 @@ class AdaptiveMultiTouchMagic {
         this.lastTouchPositions = new Map();
         this.knownTouchIds = new Set();
         
+        // デバイス判定
+        this.isMobile = this.detectMobile();
+        this.isLowPowerDevice = this.detectLowPowerDevice();
+        
+        console.log(`📱 デバイス: ${this.isMobile ? 'モバイル' : 'PC'}`);
+        console.log(`⚡ パフォーマンス: ${this.isLowPowerDevice ? '低' : '高'}`);
+        
         // ページタイプの自動判定
         this.pageType = this.detectPageType();
         console.log(`🎨 ページタイプ検出: ${this.pageType}`);
@@ -29,12 +36,35 @@ class AdaptiveMultiTouchMagic {
         // 画像の管理
         this.effectImages = [];
         this.imageLoaded = false;
-        this.imageSizes = [8, 12, 16, 20, 24];
+        this.imageSizes = [6, 10, 14, 18]; // サイズを小さく
         
         this.loadEffectImages();
         this.init();
         this.bindEvents();
         this.animate();
+    }
+    
+    // デバイス判定
+    detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               ('ontouchstart' in window) ||
+               (window.innerWidth <= 768);
+    }
+    
+    // 低パフォーマンスデバイス判定
+    detectLowPowerDevice() {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        
+        if (!gl) return true;
+        
+        const renderer = gl.getParameter(gl.RENDERER);
+        const vendor = gl.getParameter(gl.VENDOR);
+        
+        // 古いデバイスや統合GPUを検出
+        return /Intel|Software|Mesa|llvmpipe/i.test(renderer) ||
+               navigator.hardwareConcurrency < 4 ||
+               this.isMobile;
     }
     
     detectPageType() {
@@ -56,54 +86,42 @@ class AdaptiveMultiTouchMagic {
             this.imagePath = 'image/life.png';
             this.imageType = 'LIFE';
             this.colors = [
-                'rgba(34, 197, 94, 1.0)',   // エメラルドグリーン - 完全不透明
-                'rgba(22, 163, 74, 1.0)',   // グリーン - 完全不透明
-                'rgba(16, 185, 129, 1.0)',  // エメラルド - 完全不透明
-                'rgba(52, 211, 153, 1.0)',  // ライトエメラルド - 完全不透明
-                'rgba(110, 231, 183, 1.0)', // ペールグリーン - 完全不透明
-                'rgba(167, 243, 208, 1.0)', // ライトミント - 完全不透明
-                'rgba(134, 239, 172, 1.0)', // ライトグリーン - 完全不透明
-                'rgba(187, 247, 208, 1.0)'  // ペールミント - 完全不透明
+                'rgba(34, 197, 94, 0.9)',   // エメラルドグリーン
+                'rgba(22, 163, 74, 0.8)',   // グリーン
+                'rgba(16, 185, 129, 0.85)',  // エメラルド
+                'rgba(52, 211, 153, 0.8)',  // ライトエメラルド
             ];
-            this.trailColor = 'rgba(34, 197, 94, 0.5)';
-            this.shadowColor = 'rgba(34, 197, 94, 1.0)';
+            this.trailColor = 'rgba(34, 197, 94, 0.3)';
+            this.shadowColor = 'rgba(34, 197, 94, 0.8)';
             console.log('🌿 LIFE Walletテーマを適用');
         } else if (this.pageType === 'cryptoatm') {
             // Crypto ATM専用テーマ（ブルー＆ホワイト系）
             this.imagePath = 'image/ch.png';
             this.imageType = 'CH';
             this.colors = [
-                'rgba(59, 130, 246, 1.0)',  // ブルー - 完全不透明
-                'rgba(96, 165, 250, 1.0)',  // ライトブルー - 完全不透明
-                'rgba(147, 197, 253, 1.0)', // スカイブルー - 完全不透明
-                'rgba(191, 219, 254, 1.0)', // ペールブルー - 完全不透明
-                'rgba(255, 255, 255, 1.0)', // ピュアホワイト - 完全不透明
-                'rgba(248, 250, 252, 1.0)', // ソフトホワイト - 完全不透明
-                'rgba(30, 64, 175, 1.0)',   // ディープブルー - 完全不透明
-                'rgba(37, 99, 235, 1.0)'    // インディゴブルー - 完全不透明
+                'rgba(59, 130, 246, 0.9)',  // ブルー
+                'rgba(96, 165, 250, 0.8)',  // ライトブルー
+                'rgba(147, 197, 253, 0.85)', // スカイブルー
+                'rgba(255, 255, 255, 0.9)', // ピュアホワイト
             ];
-            this.trailColor = 'rgba(59, 130, 246, 0.5)';
-            this.shadowColor = 'rgba(59, 130, 246, 1.0)';
+            this.trailColor = 'rgba(59, 130, 246, 0.3)';
+            this.shadowColor = 'rgba(59, 130, 246, 0.8)';
             console.log('💎 Crypto ATMテーマを適用');
         } else {
-            // デフォルトテーマ（ゴールド系） - 大幅強化
+            // デフォルトテーマ（ゴールド系） - 色を自然に調整
             this.imagePath = 'image/koban.png';
             this.imageType = '小判';
             this.colors = [
-                'rgba(255, 215, 0, 1.0)',   // ゴールド - 完全不透明
-                'rgba(255, 223, 0, 1.0)',   // ブライトゴールド - 完全不透明
-                'rgba(255, 140, 0, 1.0)',   // オレンジゴールド - 完全不透明
-                'rgba(255, 255, 224, 1.0)', // ライトイエロー - 完全不透明
-                'rgba(218, 165, 32, 1.0)',  // ダークゴールド - 完全不透明
-                'rgba(255, 248, 220, 1.0)', // コーンシルク - 完全不透明
-                'rgba(255, 228, 181, 1.0)', // モカシン - 完全不透明
-                'rgba(240, 230, 140, 1.0)', // カーキ - 完全不透明
-                'rgba(255, 195, 0, 1.0)',   // 濃いゴールド - 完全不透明
-                'rgba(255, 165, 0, 1.0)'    // オレンジ - 完全不透明
+                'rgba(255, 215, 0, 0.9)',   // ゴールド - 自然な透明度
+                'rgba(255, 193, 7, 0.85)',  // アンバー
+                'rgba(255, 152, 0, 0.8)',   // オレンジ
+                'rgba(255, 235, 59, 0.8)',  // イエロー
+                'rgba(255, 193, 7, 0.9)',   // ゴールド2
+                'rgba(255, 171, 0, 0.85)'   // ダークオレンジ
             ];
-            this.trailColor = 'rgba(255, 215, 0, 0.6)'; // より濃く
-            this.shadowColor = 'rgba(255, 215, 0, 1.0)'; // 完全不透明
-            console.log('🏅 強化版小判テーマを適用');
+            this.trailColor = 'rgba(255, 215, 0, 0.25)';
+            this.shadowColor = 'rgba(255, 215, 0, 0.8)';
+            console.log('🏅 自然な小判テーマを適用');
         }
     }
     
@@ -136,7 +154,7 @@ class AdaptiveMultiTouchMagic {
     }
     
     bindEvents() {
-        // マルチタッチ完全対応
+        // マルチタッチ対応
         document.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
         document.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: true });
         document.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
@@ -161,32 +179,16 @@ class AdaptiveMultiTouchMagic {
                 this.activeTouches.set(touch.identifier, touchData);
                 this.lastTouchPositions.set(touch.identifier, { x: touch.clientX, y: touch.clientY });
                 
-                this.createOptimizedBurst(touch.clientX, touch.clientY);
+                this.createSimpleBurst(touch.clientX, touch.clientY);
                 this.addTouchPoint(touch.clientX, touch.clientY);
                 
-                console.log(`✨ 新規タッチ開始: ${touch.identifier}`);
+                console.log(`✨ タッチ開始: ${touch.identifier}`);
             }
         });
     }
     
     handleTouchMove(e) {
         Array.from(e.touches).forEach(touch => {
-            if (!this.knownTouchIds.has(touch.identifier)) {
-                console.log(`touchmoveで新規タッチ検出: ${touch.identifier}`);
-                this.knownTouchIds.add(touch.identifier);
-                const touchData = {
-                    x: touch.clientX,
-                    y: touch.clientY,
-                    startTime: Date.now(),
-                    lastTime: Date.now()
-                };
-                
-                this.activeTouches.set(touch.identifier, touchData);
-                this.lastTouchPositions.set(touch.identifier, { x: touch.clientX, y: touch.clientY });
-                
-                this.createOptimizedBurst(touch.clientX, touch.clientY);
-            }
-            
             if (this.activeTouches.has(touch.identifier)) {
                 const lastPos = this.lastTouchPositions.get(touch.identifier);
                 const currentPos = { x: touch.clientX, y: touch.clientY };
@@ -196,32 +198,10 @@ class AdaptiveMultiTouchMagic {
                     Math.pow(currentPos.y - lastPos.y, 2)
                 );
                 
-                if (distance > 15) {
-                    const steps = Math.floor(distance / 10);
-                    for (let i = 1; i <= steps; i++) {
-                        const ratio = i / steps;
-                        const interpX = lastPos.x + (currentPos.x - lastPos.x) * ratio;
-                        const interpY = lastPos.y + (currentPos.y - lastPos.y) * ratio;
-                        this.createOptimizedTrail(interpX, interpY);
-                    }
-                } else {
-                    this.createOptimizedTrail(currentPos.x, currentPos.y);
+                if (distance > 20) { // 距離を大きく
+                    this.createSimpleTrail(currentPos.x, currentPos.y);
+                    this.lastTouchPositions.set(touch.identifier, currentPos);
                 }
-                
-                this.addTouchPoint(currentPos.x, currentPos.y);
-                this.lastTouchPositions.set(touch.identifier, currentPos);
-                
-                const touchData = this.activeTouches.get(touch.identifier);
-                touchData.x = currentPos.x;
-                touchData.y = currentPos.y;
-                touchData.lastTime = Date.now();
-            }
-        });
-        
-        Array.from(e.changedTouches).forEach(touch => {
-            if (this.activeTouches.has(touch.identifier)) {
-                const currentPos = { x: touch.clientX, y: touch.clientY };
-                this.createOptimizedTrail(currentPos.x, currentPos.y);
             }
         });
     }
@@ -229,7 +209,7 @@ class AdaptiveMultiTouchMagic {
     handleTouchEnd(e) {
         Array.from(e.changedTouches).forEach(touch => {
             if (this.activeTouches.has(touch.identifier)) {
-                this.createOptimizedFinale(touch.clientX, touch.clientY);
+                this.createSimpleFinale(touch.clientX, touch.clientY);
                 this.activeTouches.delete(touch.identifier);
                 this.lastTouchPositions.delete(touch.identifier);
                 this.knownTouchIds.delete(touch.identifier);
@@ -241,8 +221,7 @@ class AdaptiveMultiTouchMagic {
         if (this.activeTouches.size === 0) {
             setTimeout(() => {
                 this.touchPoints = [];
-                console.log('全タッチ終了 - 軌跡クリア');
-            }, 200);
+            }, 150);
         }
     }
     
@@ -255,7 +234,7 @@ class AdaptiveMultiTouchMagic {
                 lastTime: Date.now()
             });
             this.lastTouchPositions.set('mouse', { x: e.clientX, y: e.clientY });
-            this.createOptimizedBurst(e.clientX, e.clientY);
+            this.createSimpleBurst(e.clientX, e.clientY);
             this.addTouchPoint(e.clientX, e.clientY);
         }
     }
@@ -270,32 +249,22 @@ class AdaptiveMultiTouchMagic {
                 Math.pow(currentPos.y - lastPos.y, 2)
             );
             
-            if (distance > 12) {
-                const steps = Math.floor(distance / 8);
-                for (let i = 1; i <= steps; i++) {
-                    const ratio = i / steps;
-                    const interpX = lastPos.x + (currentPos.x - lastPos.x) * ratio;
-                    const interpY = lastPos.y + (currentPos.y - lastPos.y) * ratio;
-                    this.createOptimizedTrail(interpX, interpY);
-                }
-            } else {
-                this.createOptimizedTrail(currentPos.x, currentPos.y);
+            if (distance > 15) { // PC用距離調整
+                this.createSimpleTrail(currentPos.x, currentPos.y);
+                this.lastTouchPositions.set('mouse', currentPos);
             }
-            
-            this.addTouchPoint(currentPos.x, currentPos.y);
-            this.lastTouchPositions.set('mouse', currentPos);
         }
     }
     
     handleMouseUp(e) {
         if (this.activeTouches.has('mouse')) {
-            this.createOptimizedFinale(e.clientX, e.clientY);
+            this.createSimpleFinale(e.clientX, e.clientY);
             this.activeTouches.delete('mouse');
             this.lastTouchPositions.delete('mouse');
             
             setTimeout(() => {
                 this.touchPoints = [];
-            }, 200);
+            }, 150);
         }
     }
     
@@ -307,85 +276,89 @@ class AdaptiveMultiTouchMagic {
         });
         
         this.touchPoints = this.touchPoints.filter(point => 
-            Date.now() - point.time < 250
+            Date.now() - point.time < 200
         );
     }
     
-    createOptimizedBurst(x, y) {
-        const particleCount = 12; // 増加
+    // シンプルなバーストエフェクト（デバイス別）
+    createSimpleBurst(x, y) {
+        const particleCount = this.isLowPowerDevice ? 
+            (this.isMobile ? 4 : 6) : // 低スペック: モバイル4個、PC6個
+            (this.isMobile ? 6 : 8);  // 高スペック: モバイル6個、PC8個
         
         for (let i = 0; i < particleCount; i++) {
             const angle = (i / particleCount) * Math.PI * 2;
-            const speed = Math.random() * 4 + 2;
-            const useImage = this.imageLoaded && Math.random() < 0.6;
+            const speed = Math.random() * 2 + 1;
+            const useImage = this.imageLoaded && Math.random() < 0.7; // 70%で小判
             
             this.particles.push({
                 x: x,
                 y: y,
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
-                size: Math.random() * 3 + 2,
+                size: Math.random() * 1.5 + 1,
                 life: 1,
-                decay: 0.02,
+                decay: 0.03,
                 color: this.colors[Math.floor(Math.random() * this.colors.length)],
                 type: useImage ? 'image' : 'star',
                 rotation: 0,
-                rotationSpeed: (Math.random() - 0.5) * 0.3,
-                imageIndex: useImage ? Math.floor(Math.random() * this.effectImages.length) : 0,
-                glowIntensity: 1.0 // 最大輝度
+                rotationSpeed: (Math.random() - 0.5) * 0.2,
+                imageIndex: useImage ? Math.floor(Math.random() * this.effectImages.length) : 0
             });
         }
     }
     
-    createOptimizedTrail(x, y) {
-        for (let i = 0; i < 4; i++) {
-            const offsetX = (Math.random() - 0.5) * 18;
-            const offsetY = (Math.random() - 0.5) * 18;
+    // シンプルなトレイルエフェクト
+    createSimpleTrail(x, y) {
+        const particleCount = this.isLowPowerDevice ? 1 : 2;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const offsetX = (Math.random() - 0.5) * 10;
+            const offsetY = (Math.random() - 0.5) * 10;
             const useImage = this.imageLoaded && Math.random() < 0.5;
             
             this.particles.push({
                 x: x + offsetX,
                 y: y + offsetY,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: -(Math.random() * 1.5 + 0.8),
-                size: Math.random() * 2.5 + 1.5,
+                vx: (Math.random() - 0.5) * 1,
+                vy: -(Math.random() * 1 + 0.5),
+                size: Math.random() * 1 + 0.8,
                 life: 1,
-                decay: 0.025,
+                decay: 0.04,
                 color: this.colors[Math.floor(Math.random() * this.colors.length)],
                 type: useImage ? 'image' : 'trail',
-                twinkle: Math.random() < 0.5,
-                twinklePhase: 0,
                 rotation: 0,
-                rotationSpeed: (Math.random() - 0.5) * 0.2,
-                imageIndex: useImage ? Math.floor(Math.random() * this.effectImages.length) : 0,
-                glowIntensity: 0.8
+                rotationSpeed: (Math.random() - 0.5) * 0.15,
+                imageIndex: useImage ? Math.floor(Math.random() * this.effectImages.length) : 0
             });
         }
     }
     
-    createOptimizedFinale(x, y) {
-        const particleCount = 16; // 増加
+    // シンプルなフィナーレエフェクト
+    createSimpleFinale(x, y) {
+        const particleCount = this.isLowPowerDevice ? 
+            (this.isMobile ? 6 : 8) : // 低スペック
+            (this.isMobile ? 8 : 10); // 高スペック
         
         for (let i = 0; i < particleCount; i++) {
             const angle = (i / particleCount) * Math.PI * 2;
-            const speed = Math.random() * 5 + 3;
-            const useImage = this.imageLoaded && Math.random() < 0.7;
+            const speed = Math.random() * 3 + 1.5;
+            const useImage = this.imageLoaded && Math.random() < 0.8; // 80%で小判
             
             this.particles.push({
                 x: x,
                 y: y,
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
-                size: Math.random() * 4 + 3,
+                size: Math.random() * 2 + 1.2,
                 life: 1,
-                decay: 0.015,
+                decay: 0.025,
                 color: this.colors[Math.floor(Math.random() * this.colors.length)],
                 type: useImage ? 'image' : 'finale',
                 rotation: 0,
-                rotationSpeed: (Math.random() - 0.5) * 0.4,
+                rotationSpeed: (Math.random() - 0.5) * 0.25,
                 imageIndex: useImage ? Math.floor(Math.random() * this.effectImages.length) : 0,
-                glow: true,
-                glowIntensity: 1.0
+                glow: true
             });
         }
     }
@@ -399,17 +372,19 @@ class AdaptiveMultiTouchMagic {
             particle.life -= particle.decay;
             particle.rotation += particle.rotationSpeed;
             
-            if (particle.twinkle) {
-                particle.twinklePhase += 0.3;
-            }
-            
-            particle.vy += 0.025;
-            particle.vx *= 0.995;
-            particle.vy *= 0.995;
+            particle.vy += 0.02; // 重力を軽く
+            particle.vx *= 0.996;
+            particle.vy *= 0.996;
             
             if (particle.life <= 0) {
                 this.particles.splice(i, 1);
             }
+        }
+        
+        // パーティクル数制限
+        const maxParticles = this.isLowPowerDevice ? 50 : 100;
+        if (this.particles.length > maxParticles) {
+            this.particles = this.particles.slice(-maxParticles);
         }
     }
     
@@ -421,30 +396,26 @@ class AdaptiveMultiTouchMagic {
         this.particles.forEach(particle => {
             this.ctx.save();
             
-            let alpha = particle.life * (particle.glowIntensity || 0.8);
-            
-            if (particle.twinkle) {
-                alpha *= (Math.sin(particle.twinklePhase) * 0.3 + 0.7);
-            }
-            
-            this.ctx.globalAlpha = Math.min(alpha, 1.0);
+            this.ctx.globalAlpha = particle.life * 0.8;
             this.ctx.translate(particle.x, particle.y);
             this.ctx.rotate(particle.rotation);
             
             if (particle.type === 'image' && this.imageLoaded && this.effectImages[particle.imageIndex]) {
-                // 画像（小判 or LIFE）の描画
+                // 小判画像の描画（色調整なし）
                 const img = this.effectImages[particle.imageIndex];
-                const size = this.imageSizes[particle.imageIndex] * (particle.size / 2);
+                const size = this.imageSizes[particle.imageIndex] * particle.size;
                 
+                // 軽いシャドウ
                 this.ctx.shadowColor = this.shadowColor;
-                this.ctx.shadowBlur = particle.glow ? 15 : 10;
+                this.ctx.shadowBlur = particle.glow ? 6 : 3;
                 
+                // 画像をそのまま描画（色変更なし）
                 this.ctx.drawImage(img, -size/2, -size/2, size, size);
             } else {
                 // 通常の星型パーティクル
                 this.ctx.fillStyle = particle.color;
                 this.ctx.shadowColor = particle.color;
-                this.ctx.shadowBlur = particle.glow ? 12 : 8;
+                this.ctx.shadowBlur = particle.glow ? 4 : 2;
                 
                 this.drawStar(0, 0, particle.size);
             }
@@ -479,12 +450,10 @@ class AdaptiveMultiTouchMagic {
         if (this.touchPoints.length > 1) {
             this.ctx.save();
             
-            this.ctx.globalAlpha = 0.08;
+            this.ctx.globalAlpha = 0.05;
             this.ctx.strokeStyle = this.trailColor;
-            this.ctx.lineWidth = 2;
+            this.ctx.lineWidth = 1.5;
             this.ctx.lineCap = 'round';
-            this.ctx.shadowBlur = 4;
-            this.ctx.shadowColor = this.trailColor;
             
             this.ctx.beginPath();
             this.ctx.moveTo(this.touchPoints[0].x, this.touchPoints[0].y);
@@ -505,17 +474,20 @@ class AdaptiveMultiTouchMagic {
     }
     
     optimizePerformance() {
-        if (this.particles.length > 300) {
-            this.particles = this.particles.slice(-200);
+        const maxParticles = this.isLowPowerDevice ? 30 : 60;
+        if (this.particles.length > maxParticles) {
+            this.particles = this.particles.slice(-maxParticles);
         }
     }
     
     enableLowPowerMode() {
-        this.lowPowerMode = true;
+        this.isLowPowerDevice = true;
+        console.log('🔋 低電力モード有効');
     }
     
     disableLowPowerMode() {
-        this.lowPowerMode = false;
+        this.isLowPowerDevice = false;
+        console.log('⚡ 通常モード復帰');
     }
     
     destroy() {
