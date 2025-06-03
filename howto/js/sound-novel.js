@@ -4,9 +4,14 @@ class RyoCoinSoundNovel {
         this.currentTextIndex = 0;
         this.isTyping = false;
         this.audioEnabled = false;
+        this.bgmEnabled = true; // BGM状態
         this.lastTouchTime = 0;
         this.touchCooldown = 400;
-        this.typewriterInterval = null; // タイマー管理用
+        this.typewriterInterval = null;
+        
+        // 音声要素の参照
+        this.voicePlayer = null;
+        this.bgmPlayer = null;
         
         // キャラクター設定
         this.characters = {
@@ -41,7 +46,7 @@ class RyoCoinSoundNovel {
                     '仮想通貨を買うのは初めてでも大丈夫。\n一緒に順番に見ていきましょう。',
                     '準備はいいですか？\nそれでは始めましょう！'
                 ],
-                audio: 'audio/oshiete.mp3'
+                audio: 'audio/ryoko_scene1.mp3'
             },
             {
                 character: 'zenta',
@@ -51,7 +56,7 @@ class RyoCoinSoundNovel {
                     'bitFlyer、Coincheck、bitbankなどが有名ですね。',
                     '今回はCoincheckを例に説明します。'
                 ],
-             
+                audio: 'audio/zenta_scene2.mp3'
             },
             {
                 character: 'ryoko',
@@ -61,7 +66,7 @@ class RyoCoinSoundNovel {
                     'メールアドレスとパスワードを入力して\nアカウントを作成してください。',
                     '登録後、本人確認書類の提出が必要です。'
                 ],
-       
+                audio: 'audio/ryoko_scene3.mp3'
             },
             {
                 character: 'zenta',
@@ -71,7 +76,7 @@ class RyoCoinSoundNovel {
                     'スマホで書類を撮影して\nアップロードします。',
                     '審査は1-3営業日で完了します。'
                 ],
-  
+                audio: 'audio/zenta_scene4.mp3'
             },
             {
                 character: 'ryoko',
@@ -81,7 +86,7 @@ class RyoCoinSoundNovel {
                     '日本円を入金して\n好きな通貨を購入しましょう。',
                     'RYOコインは将来性のある通貨です。\n余裕資金で投資してくださいね💎'
                 ],
-    
+                audio: 'audio/ryoko_scene5.mp3'
             }
         ];
     }
@@ -97,6 +102,7 @@ class RyoCoinSoundNovel {
             return;
         }
         
+        this.setupAudioElements();
         this.setupEventListeners();
         this.showAudioDialog();
         this.preloadImages();
@@ -104,12 +110,29 @@ class RyoCoinSoundNovel {
         console.log('✅ サウンドノベル初期化完了');
     }
     
+    // 音声要素の設定
+    setupAudioElements() {
+        this.voicePlayer = document.getElementById('voicePlayer');
+        this.bgmPlayer = document.getElementById('bgmPlayer');
+        
+        if (this.voicePlayer) {
+            console.log('✅ 音声プレイヤー設定完了');
+        }
+        
+        if (this.bgmPlayer) {
+            // BGMの音量を少し下げる
+            this.bgmPlayer.volume = 0.3;
+            console.log('✅ BGMプレイヤー設定完了');
+        }
+    }
+    
     // 必要な要素チェック
     checkRequiredElements() {
         const requiredIds = [
             'wideTouchArea', 'bubbleText', 'characterImg',
             'tapIndicator', 'progressBar', 'progressCurrent',
-            'progressTotal', 'audioDialog', 'screenshotImg'
+            'progressTotal', 'audioDialog', 'screenshotImg',
+            'muteBtn', 'muteIcon' // ミュートボタン追加
         ];
         
         for (let id of requiredIds) {
@@ -161,18 +184,57 @@ class RyoCoinSoundNovel {
             console.log('✅ 広いタッチエリア設定完了');
         }
         
-        // ボタン
+        // ナビゲーションボタン
         const skipBtn = document.getElementById('skipBtn');
         const backBtn = document.getElementById('backBtn');
         const audioOnBtn = document.getElementById('audioOnBtn');
         const audioOffBtn = document.getElementById('audioOffBtn');
+        const muteBtn = document.getElementById('muteBtn');
         
         if (skipBtn) skipBtn.addEventListener('click', () => this.nextScene());
         if (backBtn) backBtn.addEventListener('click', () => this.previousScene());
         if (audioOnBtn) audioOnBtn.addEventListener('click', () => this.enableAudio());
         if (audioOffBtn) audioOffBtn.addEventListener('click', () => this.disableAudio());
+        if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
         
         console.log('✅ イベントリスナー設定完了（広いタッチエリア対応）');
+    }
+    
+    // ミュート切り替え
+    toggleMute() {
+        this.bgmEnabled = !this.bgmEnabled;
+        const muteIcon = document.getElementById('muteIcon');
+        const muteBtn = document.getElementById('muteBtn');
+        
+        if (this.bgmEnabled) {
+            // ミュート解除
+            if (this.bgmPlayer) {
+                this.bgmPlayer.play().catch(e => {
+                    console.warn('🔇 BGM再生失敗:', e);
+                });
+            }
+            muteIcon.textContent = '🔊';
+            muteBtn.classList.remove('muted');
+            console.log('🔊 BGM有効化');
+        } else {
+            // ミュート
+            if (this.bgmPlayer) {
+                this.bgmPlayer.pause();
+            }
+            muteIcon.textContent = '🔇';
+            muteBtn.classList.add('muted');
+            console.log('🔇 BGMミュート');
+        }
+    }
+    
+    // BGM開始
+    startBGM() {
+        if (this.bgmEnabled && this.bgmPlayer) {
+            this.bgmPlayer.play().catch(e => {
+                console.warn('🔇 BGM自動再生失敗（ユーザー操作が必要）:', e);
+            });
+            console.log('🎵 BGM開始');
+        }
     }
     
     // タッチ処理（エリア拡大対応）
@@ -312,7 +374,7 @@ class RyoCoinSoundNovel {
         // キャラクター変更
         this.changeCharacter(scenario.character);
         
-        // 音声再生
+        // 音声再生（ボイスのみ、BGMは継続）
         this.playVoice();
         
         // UI更新
@@ -445,6 +507,7 @@ class RyoCoinSoundNovel {
         this.audioEnabled = true;
         this.hideAudioDialog();
         this.startStory();
+        this.startBGM(); // BGM開始
         console.log('🔊 音声モードで開始');
     }
     
@@ -452,7 +515,8 @@ class RyoCoinSoundNovel {
         this.audioEnabled = false;
         this.hideAudioDialog();
         this.startStory();
-        console.log('🔇 無音モードで開始');
+        this.startBGM(); // BGMは音声OFFでも再生
+        console.log('🔇 無音モードで開始（BGMは再生）');
     }
     
     hideAudioDialog() {
@@ -465,12 +529,15 @@ class RyoCoinSoundNovel {
     playVoice() {
         if (!this.audioEnabled) return;
         
-        const audio = document.getElementById('audioPlayer');
         const scenario = this.scenarios[this.currentScene];
         
-        if (audio && scenario.audio) {
-            audio.src = scenario.audio;
-            audio.play().catch(e => {
+        if (this.voicePlayer && scenario.audio) {
+            // 前の音声を停止
+            this.voicePlayer.pause();
+            this.voicePlayer.currentTime = 0;
+            
+            this.voicePlayer.src = scenario.audio;
+            this.voicePlayer.play().catch(e => {
                 console.warn('🔇 音声再生失敗:', e);
             });
         }
@@ -517,6 +584,15 @@ class RyoCoinSoundNovel {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
         }
+        
+        if (this.voicePlayer) {
+            this.voicePlayer.pause();
+        }
+        
+        if (this.bgmPlayer) {
+            this.bgmPlayer.pause();
+        }
+        
         console.log('🧹 サウンドノベル クリーンアップ完了');
     }
 }
@@ -540,6 +616,13 @@ window.addEventListener('beforeunload', () => {
 
 // 開発者向け便利機能
 window.NovelUtils = {
+    // ミュート切り替え
+    toggleMute: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.toggleMute();
+        }
+    },
+    
     // 新しいシナリオ追加
     addScenario: (character, bgNumber, texts, audio = null) => {
         if (window.ryoCoinNovel) {
@@ -567,39 +650,20 @@ window.NovelUtils = {
             imgPng.onload = () => console.log(`✅ bg${bgNumber}.png は存在します`);
             imgPng.onerror = () => console.error(`❌ bg${bgNumber} が見つかりません（jpg/png両方）`);
         };
-    },
-    
-    // レイヤー確認
-    checkLayers: () => {
-        const layers = [
-            { name: 'starfield', element: document.getElementById('starfield') },
-            { name: 'background-layer', element: document.querySelector('.background-layer') },
-            { name: 'content-area', element: document.querySelector('.content-area') },
-            { name: 'screenshot-img', element: document.getElementById('screenshotImg') },
-            { name: 'message-area', element: document.querySelector('.message-area') }
-        ];
-        
-        layers.forEach(layer => {
-            if (layer.element) {
-                const zIndex = window.getComputedStyle(layer.element).zIndex;
-                console.log(`${layer.name}: z-index = ${zIndex}`);
-            } else {
-                console.warn(`❌ ${layer.name} 要素が見つかりません`);
-            }
-        });
     }
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル v3.0
+🎭 RYOコインサウンドノベル v4.0
 📱 タッチエリア拡大対応
 🖼️ 画像切り替えシステム搭載
 ✨ 小判エフェクト強化
-🔧 レイヤー構造修正済み
+🔊 BGM機能追加
+🔇 ミュートボタン追加
 
 💡 使用方法:
 - imageフォルダにbg1.jpg ~ bg10.jpgを配置
-- シナリオのscreenshot: 'bg1'で画像指定
-- NovelUtils.testImage(1)で画像存在確認
-- NovelUtils.checkLayers()でレイヤー確認
+- audioフォルダにbgm.mp3を配置
+- 🔊ボタンでBGMのON/OFF切り替え
+- ナビボタンのタッチエリア拡張済み
 `);
