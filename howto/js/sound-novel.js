@@ -5,6 +5,7 @@ class RyoCoinSoundNovel {
         this.isTyping = false;
         this.audioEnabled = false;
         this.bgmEnabled = true;
+        this.bgmIsPlaying = false; // BGM再生状態追跡
         this.lastTouchTime = 0;
         this.touchCooldown = 400;
         this.typewriterInterval = null;
@@ -35,7 +36,7 @@ class RyoCoinSoundNovel {
     
     // =============================== 
     // シナリオデータ（フォルダ管理版）
-    // ===============================
+    // =============================== 
 getScenarioData() {
     return [
         {
@@ -170,7 +171,7 @@ getScenarioData() {
         console.log('✅ サウンドノベル初期化完了');
     }
     
-    // 音声要素の設定
+    // 音声要素の設定（ループ機能強化）
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
@@ -180,8 +181,56 @@ getScenarioData() {
         }
         
         if (this.bgmPlayer) {
+            // BGMの基本設定
             this.bgmPlayer.volume = 0.3;
-            console.log('✅ BGMプレイヤー設定完了');
+            this.bgmPlayer.loop = true; // HTML属性と併用
+            
+            // BGMループのイベントリスナー設定（確実にループさせる）
+            this.bgmPlayer.addEventListener('ended', () => {
+                console.log('🔄 BGM終了 → 自動再開');
+                if (this.bgmEnabled) {
+                    this.bgmPlayer.currentTime = 0;
+                    this.bgmPlayer.play().catch(e => {
+                        console.warn('🔇 BGM再ループ失敗:', e);
+                        setTimeout(() => this.retryBGM(), 1000);
+                    });
+                }
+            });
+            
+            // BGM再生開始イベント
+            this.bgmPlayer.addEventListener('play', () => {
+                this.bgmIsPlaying = true;
+                console.log('🎵 BGM再生開始');
+            });
+            
+            // BGM停止イベント
+            this.bgmPlayer.addEventListener('pause', () => {
+                this.bgmIsPlaying = false;
+                console.log('⏸️ BGM停止');
+            });
+            
+            // BGMエラーハンドリング
+            this.bgmPlayer.addEventListener('error', (e) => {
+                console.error('❌ BGMエラー:', e);
+                setTimeout(() => this.retryBGM(), 2000);
+            });
+            
+            // BGM読み込み完了
+            this.bgmPlayer.addEventListener('canplaythrough', () => {
+                console.log('✅ BGM読み込み完了');
+            });
+            
+            console.log('✅ BGMプレイヤー設定完了（ループ強化）');
+        }
+    }
+    
+    // BGM再試行
+    retryBGM() {
+        if (this.bgmEnabled && this.bgmPlayer && !this.bgmIsPlaying) {
+            console.log('🔄 BGM再試行');
+            this.bgmPlayer.play().catch(e => {
+                console.warn('🔇 BGM再試行失敗:', e);
+            });
         }
     }
     
@@ -259,22 +308,25 @@ getScenarioData() {
         console.log('✅ イベントリスナー設定完了（フォルダ管理対応）');
     }
     
-    // ミュート切り替え
+    // ミュート切り替え（ループ対応強化）
     toggleMute() {
         this.bgmEnabled = !this.bgmEnabled;
         const muteIcon = document.getElementById('muteIcon');
         const muteBtn = document.getElementById('muteBtn');
         
         if (this.bgmEnabled) {
+            // ミュート解除
             if (this.bgmPlayer) {
+                this.bgmPlayer.muted = false;
                 this.bgmPlayer.play().catch(e => {
                     console.warn('🔇 BGM再生失敗:', e);
                 });
             }
             muteIcon.textContent = '🔊';
             muteBtn.classList.remove('muted');
-            console.log('🔊 BGM有効化');
+            console.log('🔊 BGM有効化（ループ継続）');
         } else {
+            // ミュート
             if (this.bgmPlayer) {
                 this.bgmPlayer.pause();
             }
@@ -284,20 +336,41 @@ getScenarioData() {
         }
     }
     
-    // BGM開始
+    // BGM開始（ループ保証）
     startBGM() {
         if (this.bgmEnabled && this.bgmPlayer) {
+            // 確実にループ設定
+            this.bgmPlayer.loop = true;
+            this.bgmPlayer.muted = false;
+            
             this.bgmPlayer.play().catch(e => {
                 console.warn('🔇 BGM自動再生失敗（ユーザー操作が必要）:', e);
+                // ユーザー操作待ちの場合、最初のタッチで再生を試行
+                this.bgmPendingPlay = true;
             });
-            console.log('🎵 BGM開始');
+            console.log('🎵 BGMループ開始');
         }
     }
     
-    // タッチ処理
+    // ユーザー操作でBGM開始を試行
+    tryStartBGMOnUserAction() {
+        if (this.bgmPendingPlay && this.bgmEnabled && this.bgmPlayer) {
+            this.bgmPlayer.play().then(() => {
+                this.bgmPendingPlay = false;
+                console.log('🎵 ユーザー操作によりBGM開始成功');
+            }).catch(e => {
+                console.warn('🔇 ユーザー操作でもBGM開始失敗:', e);
+            });
+        }
+    }
+    
+    // タッチ処理（BGM開始試行追加）
     handleTouch(e) {
         e.preventDefault();
         e.stopPropagation();
+        
+        // ユーザー操作でBGM開始を試行
+        this.tryStartBGMOnUserAction();
         
         const now = Date.now();
         if (now - this.lastTouchTime < this.touchCooldown) {
@@ -428,7 +501,7 @@ getScenarioData() {
         // キャラクター変更
         this.changeCharacter(scenario.character);
         
-        // 音声再生
+        // 音声再生（BGMは継続）
         this.playVoice();
         
         // UI更新
@@ -557,16 +630,16 @@ getScenarioData() {
         this.audioEnabled = true;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM();
-        console.log('🔊 音声モードで開始');
+        this.startBGM(); // BGMループ開始
+        console.log('🔊 音声モードで開始（BGMループ有効）');
     }
     
     disableAudio() {
         this.audioEnabled = false;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM();
-        console.log('🔇 無音モードで開始（BGMは再生）');
+        this.startBGM(); // BGMは音声OFFでもループ再生
+        console.log('🔇 無音モードで開始（BGMはループ再生）');
     }
     
     hideAudioDialog() {
@@ -610,6 +683,10 @@ getScenarioData() {
         
         setTimeout(() => {
             if (confirm('購入ガイドが完了しました。\nメインページに戻りますか？')) {
+                // BGM停止
+                if (this.bgmPlayer) {
+                    this.bgmPlayer.pause();
+                }
                 window.location.href = '../index.html';
             }
         }, 3000);
@@ -626,7 +703,7 @@ getScenarioData() {
         console.log(`📝 新しいシナリオを追加: ${screenshot}`);
     }
     
-    // クリーンアップ
+    // クリーンアップ（BGMループ停止）
     destroy() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
@@ -639,9 +716,10 @@ getScenarioData() {
         
         if (this.bgmPlayer) {
             this.bgmPlayer.pause();
+            this.bgmPlayer.currentTime = 0;
         }
         
-        console.log('🧹 サウンドノベル クリーンアップ完了');
+        console.log('🧹 サウンドノベル クリーンアップ完了（BGMループ停止）');
     }
 }
 
@@ -668,6 +746,27 @@ window.NovelUtils = {
     toggleMute: () => {
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.toggleMute();
+        }
+    },
+    
+    // BGM状態確認
+    checkBGM: () => {
+        if (window.ryoCoinNovel && window.ryoCoinNovel.bgmPlayer) {
+            const bgm = window.ryoCoinNovel.bgmPlayer;
+            console.log('🎵 BGM状態:', {
+                playing: !bgm.paused,
+                looping: bgm.loop,
+                volume: bgm.volume,
+                currentTime: bgm.currentTime,
+                duration: bgm.duration
+            });
+        }
+    },
+    
+    // BGM手動再開
+    restartBGM: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.startBGM();
         }
     },
     
@@ -705,19 +804,22 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル v6.0
+🎭 RYOコインサウンドノベル v7.0
 📁 フォルダ管理完全対応！
+🔄 BGM自動ループ機能強化！
 ✨ 小判エフェクト強化
 🔊 BGM機能追加
 🔇 ミュートボタン追加
 
-💡 フォルダ構造:
-touroku/1.jpg - 登録関連スクリーンショット
-nyuukin/1.jpg - 入金関連スクリーンショット
-image/back.jpg - 背景画像
-image/ryokosensei.png - キャラクター画像
+💡 BGMループ機能:
+- HTML loop属性 + JavaScript両方でループ保証
+- 自動再開機能付き
+- ユーザー操作でBGM開始
+- NovelUtils.checkBGM() でBGM状態確認
+- NovelUtils.restartBGM() で手動再開
 
-📝 テスト方法:
-NovelUtils.testImage('touroku/1.jpg') - 特定画像テスト
-NovelUtils.testFolder('touroku') - フォルダ内画像一覧テスト
+📁 音声ファイル:
+audio/bgm.mp3 - メインBGM（ループ再生）
+audio/bgm.ogg - 対応ブラウザ用
+audio/bgm.wav - 対応ブラウザ用
 `);
