@@ -66,7 +66,6 @@ class RyoCoinSoundNovel {
                     'メールアドレスとパスワードを入力して\nアカウントを作成してください。',
                     '登録後、本人確認書類の提出が必要です。'
                 ],
-                audio: 'audio/ryoko_scene3.mp3'
             },
             {
                 character: 'zenta',
