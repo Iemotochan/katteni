@@ -41,7 +41,7 @@ class RyoCoinSoundNovel {
         return [
             {
                 character: 'ryoko',
-                screenshot: 'mexc/1.jpg',
+                screenshot: 'image/1.jpg',
                 texts: [
                     'こんにちは！リョウコです✨\n今日はMEXCでの新規登録方法を説明します！',
                     'まずは下のリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
@@ -53,7 +53,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'zenta',
-                screenshot: 'mexc/2.jpg',
+                screenshot: 'image/2.jpg',
                 texts: [
                     'ゼンタです！今回は\nメニューバーから新規登録で進めます。',
                     'Googleアカウントも便利ですが\n今回は手動登録で詳しく説明しますね。',
@@ -63,7 +63,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'ryoko',
-                screenshot: 'mexc/3.jpg',
+                screenshot: 'image/3.jpg',
                 texts: [
                     '登録フォームが表示されました！\n電話番号とパスワードを設定します📝',
                     'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
@@ -73,7 +73,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'zenta',
-                screenshot: 'mexc/4.jpg',
+                screenshot: 'image/4.jpg',
                 texts: [
                     '登録完了です！お疲れ様でした🎉',
                     '次は右下の「資産」をタップします。',
@@ -83,7 +83,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'ryoko',
-                screenshot: 'mexc/5.jpg',
+                screenshot: 'image/5.jpg',
                 texts: [
                     '資産画面が開きました！💰',
                     '「入金」をタップしてください。',
@@ -93,7 +93,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'zenta',
-                screenshot: 'mexc/6.jpg',
+                screenshot: 'image/6.jpg',
                 texts: [
                     '入金方法が表示されました！',
                     '「オンチェーン入金」をタップしてください。',
@@ -103,7 +103,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'ryoko',
-                screenshot: 'mexc/7.jpg',
+                screenshot: 'image/7.jpg',
                 texts: [
                     '通貨選択画面です！🔍',
                     'XRPを探してタップしてね。',
@@ -113,7 +113,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'zenta',
-                screenshot: 'mexc/8.jpg',
+                screenshot: 'image/8.jpg',
                 texts: [
                     'XRPが選択されていることを確認！✅',
                     '「アドレスとメモを表示」をタップしてください。',
@@ -123,7 +123,7 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'ryoko',
-                screenshot: 'mexc/9.jpg',
+                screenshot: 'image/9.jpg',
                 texts: [
                     'やった！アドレスとメモが表示されました🎉',
                     'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
@@ -251,9 +251,9 @@ class RyoCoinSoundNovel {
         
         // 初期画像の確認
         const initialImg = new Image();
-        initialImg.src = 'mexc/1.jpg';
-        initialImg.onload = () => console.log('✅ MEXC初期画像確認完了: mexc/1.jpg');
-        initialImg.onerror = () => console.warn('⚠️ MEXC初期画像が見つかりません: mexc/1.jpg');
+        initialImg.src = 'image/1.jpg';
+        initialImg.onload = () => console.log('✅ MEXC初期画像確認完了: image/1.jpg');
+        initialImg.onerror = () => console.warn('⚠️ MEXC初期画像が見つかりません: image/1.jpg');
     }
     
     setupEventListeners() {
@@ -546,7 +546,7 @@ class RyoCoinSoundNovel {
         testImg.onerror = () => {
             console.error(`❌ MEXC画像読み込み失敗: ${imagePath}`);
             console.log('📁 利用可能なMEXC画像を確認してください：');
-            console.log('- mexc/1.jpg ~ mexc/9.jpg');
+            console.log('- image/1.jpg ~ image/9.jpg');
             
             // フォールバック: とりあえず表示を戻す
             screenshotImg.classList.remove('fade-out');
@@ -741,7 +741,7 @@ window.NovelUtils = {
     testMEXCImages: () => {
         console.log('📁 MEXC画像をテスト中...');
         for (let i = 1; i <= 9; i++) {
-            NovelUtils.testImage(`mexc/${i}.jpg`);
+            NovelUtils.testImage(`image/${i}.jpg`);
         }
     },
     
@@ -762,19 +762,19 @@ console.log(`
 ✨ 小判エフェクト強化
 
 💡 MEXC専用機能:
-- mexc/1.jpg ~ mexc/9.jpg 対応
+- image/1.jpg ~ image/9.jpg 対応
 - https://www.mexc.com/ja-JP/ リンククリック可能
 - XRPアドレス取得まで完全ガイド
 - NovelUtils.testMEXCImages() で画像一括テスト
 
 📁 必要なフォルダ構造:
-mexc/1.jpg - MEXC公式サイト
-mexc/2.jpg - 新規登録メニュー
-mexc/3.jpg - 登録フォーム
-mexc/4.jpg - 資産メニュー
-mexc/5.jpg - 入金画面
-mexc/6.jpg - オンチェーン入金
-mexc/7.jpg - XRP選択
-mexc/8.jpg - アドレス表示ボタン
-mexc/9.jpg - アドレス・メモ確認
+image/1.jpg - MEXC公式サイト
+image/2.jpg - 新規登録メニュー
+image/3.jpg - 登録フォーム
+image/4.jpg - 資産メニュー
+image/5.jpg - 入金画面
+image/6.jpg - オンチェーン入金
+image/7.jpg - XRP選択
+image/8.jpg - アドレス表示ボタン
+image/9.jpg - アドレス・メモ確認
 `);
