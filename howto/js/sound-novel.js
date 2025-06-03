@@ -4,7 +4,7 @@ class RyoCoinSoundNovel {
         this.currentTextIndex = 0;
         this.isTyping = false;
         this.audioEnabled = false;
-        this.bgmEnabled = true; // BGM状態
+        this.bgmEnabled = true;
         this.lastTouchTime = 0;
         this.touchCooldown = 400;
         this.typewriterInterval = null;
@@ -27,14 +27,14 @@ class RyoCoinSoundNovel {
             }
         };
         
-        // シナリオデータ（bg画像指定対応）
+        // シナリオデータ（直接パス指定対応）
         this.scenarios = this.getScenarioData();
         
         this.init();
     }
     
     // =============================== 
-    // シナリオデータ（画像指定が簡単）
+    // シナリオデータ（直接パス指定版）
     // =============================== 
 getScenarioData() {
     return [
@@ -151,7 +151,7 @@ getScenarioData() {
     ];
 }
     
-    // =============================== 
+      // =============================== 
     // 初期化
     // =============================== 
     init() {
@@ -180,7 +180,6 @@ getScenarioData() {
         }
         
         if (this.bgmPlayer) {
-            // BGMの音量を少し下げる
             this.bgmPlayer.volume = 0.3;
             console.log('✅ BGMプレイヤー設定完了');
         }
@@ -192,7 +191,7 @@ getScenarioData() {
             'wideTouchArea', 'bubbleText', 'characterImg',
             'tapIndicator', 'progressBar', 'progressCurrent',
             'progressTotal', 'audioDialog', 'screenshotImg',
-            'muteBtn', 'muteIcon' // ミュートボタン追加
+            'muteBtn', 'muteIcon'
         ];
         
         for (let id of requiredIds) {
@@ -207,23 +206,17 @@ getScenarioData() {
         return true;
     }
     
-    // 画像プリロード
+    // 画像プリロード（直接パス対応）
     preloadImages() {
         console.log('🖼️ 画像プリロード開始');
         
-        // bg1-bg10の画像をプリロード
-        for (let i = 1; i <= 10; i++) {
+        // シナリオで使用される画像をプリロード
+        this.scenarios.forEach((scenario, index) => {
             const img = new Image();
-            img.src = `image/bg${i}.jpg`;
-            img.onload = () => console.log(`✅ bg${i}.jpg 読み込み完了`);
-            img.onerror = () => {
-                // .jpgで失敗した場合、.pngを試す
-                const imgPng = new Image();
-                imgPng.src = `image/bg${i}.png`;
-                imgPng.onload = () => console.log(`✅ bg${i}.png 読み込み完了`);
-                imgPng.onerror = () => console.warn(`⚠️ bg${i} 画像読み込み失敗（jpg/png両方）`);
-            };
-        }
+            img.src = scenario.screenshot;
+            img.onload = () => console.log(`✅ シーン${index + 1} 画像読み込み完了: ${scenario.screenshot}`);
+            img.onerror = () => console.warn(`⚠️ シーン${index + 1} 画像読み込み失敗: ${scenario.screenshot}`);
+        });
         
         // キャラクター画像もプリロード
         Object.values(this.characters).forEach(character => {
@@ -267,7 +260,6 @@ getScenarioData() {
         const muteBtn = document.getElementById('muteBtn');
         
         if (this.bgmEnabled) {
-            // ミュート解除
             if (this.bgmPlayer) {
                 this.bgmPlayer.play().catch(e => {
                     console.warn('🔇 BGM再生失敗:', e);
@@ -277,7 +269,6 @@ getScenarioData() {
             muteBtn.classList.remove('muted');
             console.log('🔊 BGM有効化');
         } else {
-            // ミュート
             if (this.bgmPlayer) {
                 this.bgmPlayer.pause();
             }
@@ -297,7 +288,7 @@ getScenarioData() {
         }
     }
     
-    // タッチ処理（エリア拡大対応）
+    // タッチ処理
     handleTouch(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -355,7 +346,7 @@ getScenarioData() {
         }
     }
     
-    // タイプライター効果（修正版）
+    // タイプライター効果
     displayText(text) {
         const bubbleText = document.getElementById('bubbleText');
         const tapIndicator = document.getElementById('tapIndicator');
@@ -365,7 +356,6 @@ getScenarioData() {
             return;
         }
         
-        // 既存のタイプライター処理をクリア
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
@@ -374,7 +364,6 @@ getScenarioData() {
         this.isTyping = true;
         tapIndicator.style.opacity = '0';
         
-        // テキストエリアを初期化
         bubbleText.textContent = '';
         
         let charIndex = 0;
@@ -387,7 +376,6 @@ getScenarioData() {
                 bubbleText.textContent += text[charIndex];
                 charIndex++;
             } else {
-                // タイピング完了
                 clearInterval(this.typewriterInterval);
                 this.typewriterInterval = null;
                 this.isTyping = false;
@@ -421,27 +409,25 @@ getScenarioData() {
         
         console.log(`📖 シーン ${this.currentScene + 1} 読み込み開始`);
         
-        // 既存のタイピングを停止
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
             this.isTyping = false;
         }
         
-        // スクリーンショット変更
+        // スクリーンショット変更（直接パス対応）
         this.changeScreenshot(scenario.screenshot);
         
         // キャラクター変更
         this.changeCharacter(scenario.character);
         
-        // 音声再生（ボイスのみ、BGMは継続）
+        // 音声再生
         this.playVoice();
         
         // UI更新
         this.updateProgress();
         this.updateButtonStates();
         
-        // 少し遅延してテキスト表示（画像切り替え完了後）
         setTimeout(() => {
             this.displayText(scenario.texts[0]);
         }, 300);
@@ -449,8 +435,8 @@ getScenarioData() {
         console.log(`✅ シーン ${this.currentScene + 1} 読み込み完了`);
     }
     
-    // スクリーンショット変更（拡張子対応版）
-    changeScreenshot(bgName) {
+    // スクリーンショット変更（直接パス対応版）
+    changeScreenshot(imagePath) {
         const screenshotImg = document.getElementById('screenshotImg');
         
         if (!screenshotImg) {
@@ -458,24 +444,63 @@ getScenarioData() {
             return;
         }
         
-        console.log(`🖼️ スクリーンショット変更: ${bgName}`);
+        console.log(`🖼️ スクリーンショット変更: ${imagePath}`);
         
         // フェードアウト
         screenshotImg.classList.remove('show');
         screenshotImg.classList.add('fade-out');
         
         setTimeout(() => {
-            // 複数の拡張子に対応
-            const possibleExtensions = ['jpg', 'png', 'jpeg', 'webp'];
-            this.tryLoadImage(bgName, possibleExtensions, 0, screenshotImg);
+            // 直接パス指定かどうかをチェック
+            if (this.isDirectPath(imagePath)) {
+                // 直接パスの場合、そのまま使用
+                this.loadDirectImage(imagePath, screenshotImg);
+            } else {
+                // 従来通りのbg1形式の場合、拡張子を試行
+                const possibleExtensions = ['jpg', 'png', 'jpeg', 'webp'];
+                this.tryLoadImage(imagePath, possibleExtensions, 0, screenshotImg);
+            }
         }, 250);
     }
     
-    // 画像読み込み試行メソッド
+    // 直接パス判定
+    isDirectPath(path) {
+        // パスにスラッシュが含まれるか、拡張子が含まれる場合は直接パス
+        return path.includes('/') || path.includes('.');
+    }
+    
+    // 直接パス画像読み込み
+    loadDirectImage(imagePath, screenshotImg) {
+        const testImg = new Image();
+        
+        testImg.onload = () => {
+            console.log(`✅ 直接パス画像発見: ${imagePath}`);
+            screenshotImg.src = imagePath;
+            screenshotImg.onload = () => {
+                screenshotImg.classList.remove('fade-out');
+                screenshotImg.classList.add('show');
+                console.log(`✅ スクリーンショット表示完了: ${imagePath}`);
+            };
+            screenshotImg.onerror = () => {
+                console.error(`❌ スクリーンショット表示エラー: ${imagePath}`);
+            };
+        };
+        
+        testImg.onerror = () => {
+            console.error(`❌ 直接パス画像読み込み失敗: ${imagePath}`);
+            // フォールバック: デフォルト画像
+            screenshotImg.src = 'image/bg1.jpg';
+            screenshotImg.classList.remove('fade-out');
+            screenshotImg.classList.add('show');
+        };
+        
+        testImg.src = imagePath;
+    }
+    
+    // 従来の画像読み込み試行メソッド（bg1形式用）
     tryLoadImage(bgName, extensions, index, screenshotImg) {
         if (index >= extensions.length) {
             console.error(`❌ ${bgName} の画像が見つかりません（全拡張子試行済み）`);
-            // デフォルト画像を表示
             screenshotImg.src = 'image/bg1.jpg';
             screenshotImg.classList.remove('fade-out');
             screenshotImg.classList.add('show');
@@ -493,14 +518,10 @@ getScenarioData() {
                 screenshotImg.classList.add('show');
                 console.log(`✅ スクリーンショット表示完了: ${testPath}`);
             };
-            screenshotImg.onerror = () => {
-                console.error(`❌ スクリーンショット表示エラー: ${testPath}`);
-            };
         };
         
         testImg.onerror = () => {
             console.log(`⚠️ ${testPath} 読み込み失敗 → 次の拡張子を試行`);
-            // 次の拡張子を試す
             this.tryLoadImage(bgName, extensions, index + 1, screenshotImg);
         };
         
@@ -567,7 +588,7 @@ getScenarioData() {
         this.audioEnabled = true;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM(); // BGM開始
+        this.startBGM();
         console.log('🔊 音声モードで開始');
     }
     
@@ -575,7 +596,7 @@ getScenarioData() {
         this.audioEnabled = false;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM(); // BGMは音声OFFでも再生
+        this.startBGM();
         console.log('🔇 無音モードで開始（BGMは再生）');
     }
     
@@ -592,7 +613,6 @@ getScenarioData() {
         const scenario = this.scenarios[this.currentScene];
         
         if (this.voicePlayer && scenario.audio) {
-            // 前の音声を停止
             this.voicePlayer.pause();
             this.voicePlayer.currentTime = 0;
             
@@ -609,7 +629,6 @@ getScenarioData() {
     }
     
     endStory() {
-        // タイピングを停止
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
@@ -627,11 +646,11 @@ getScenarioData() {
         }, 3000);
     }
     
-    // 新しいシナリオを簡単に追加する方法
+    // 新しいシナリオを簡単に追加する方法（直接パス対応）
     addNewScenario(character, screenshot, texts, audio = null) {
         this.scenarios.push({
             character: character,   // 'ryoko' または 'zenta'
-            screenshot: screenshot, // 'bg6', 'bg7' など
+            screenshot: screenshot, // 'image/my_screenshot.jpg' など直接パス
             texts: texts,          // テキストの配列
             audio: audio           // 音声ファイルパス（オプション）
         });
@@ -674,7 +693,7 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能
+// 開発者向け便利機能（直接パス対応）
 window.NovelUtils = {
     // ミュート切り替え
     toggleMute: () => {
@@ -683,10 +702,10 @@ window.NovelUtils = {
         }
     },
     
-    // 新しいシナリオ追加
-    addScenario: (character, bgNumber, texts, audio = null) => {
+    // 新しいシナリオ追加（直接パス対応）
+    addScenario: (character, imagePath, texts, audio = null) => {
         if (window.ryoCoinNovel) {
-            window.ryoCoinNovel.addNewScenario(character, `bg${bgNumber}`, texts, audio);
+            window.ryoCoinNovel.addNewScenario(character, imagePath, texts, audio);
         }
     },
     
@@ -699,31 +718,33 @@ window.NovelUtils = {
         }
     },
     
-    // 画像テスト
-    testImage: (bgNumber) => {
+    // 画像テスト（直接パス対応）
+    testImage: (imagePath) => {
         const img = new Image();
-        img.src = `image/bg${bgNumber}.jpg`;
-        img.onload = () => console.log(`✅ bg${bgNumber}.jpg は存在します`);
-        img.onerror = () => {
-            const imgPng = new Image();
-            imgPng.src = `image/bg${bgNumber}.png`;
-            imgPng.onload = () => console.log(`✅ bg${bgNumber}.png は存在します`);
-            imgPng.onerror = () => console.error(`❌ bg${bgNumber} が見つかりません（jpg/png両方）`);
-        };
+        img.src = imagePath;
+        img.onload = () => console.log(`✅ ${imagePath} は存在します`);
+        img.onerror = () => console.error(`❌ ${imagePath} が見つかりません`);
     }
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル v4.0
+🎭 RYOコインサウンドノベル v5.0
 📱 タッチエリア拡大対応
-🖼️ 画像切り替えシステム搭載
+🖼️ 直接パス指定対応！
 ✨ 小判エフェクト強化
 🔊 BGM機能追加
 🔇 ミュートボタン追加
 
 💡 使用方法:
-- imageフォルダにbg1.jpg ~ bg10.jpgを配置
-- audioフォルダにbgm.mp3を配置
-- 🔊ボタンでBGMのON/OFF切り替え
-- ナビボタンのタッチエリア拡張済み
+- screenshot: 'image/bg1.jpg' で直接パス指定
+- screenshot: 'bg1' で従来通りの自動拡張子検索
+- 両方の形式に対応済み
+
+📝 シナリオ例:
+{
+    character: 'ryoko',
+    screenshot: 'image/coincheck_tutorial.png', // 直接指定
+    texts: ['テキスト1', 'テキスト2'],
+    audio: 'audio/voice.mp3'
+}
 `);
