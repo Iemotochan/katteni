@@ -55,7 +55,8 @@ getScenarioData() {
             texts: [
                 'まずは取引所のアカウントを作成します。\n右上の「新規登録」をタップしてください。',
                 'BitTradeなどの信頼できる取引所を選びましょう。\n登録は無料で簡単です！'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
@@ -67,88 +68,127 @@ getScenarioData() {
         },
         {
             character: 'zenta',
-            screenshot: 'bg4', // メール認証画面
+            screenshot: 'touroku/3.jpg', // メール認証画面
             texts: [
                 '登録したメールアドレスに\n認証コードが送信されました📧',
                 'メールをチェックして\n6桁の数字を入力してください。',
                 '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'bg5', // ホーム画面（赤い！マーク）
+            screenshot: 'touroku/3.jpg', // ホーム画面（赤い！マーク）
             texts: [
                 'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
                 'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'zenta',
-            screenshot: 'bg6', // 本人確認ステータス画面
+            screenshot: 'touroku/5.jpg', // 本人確認ステータス画面
             texts: [
                 '本人確認のステータス画面です。\n取引を始めるには本人確認が必須です。',
                 '「簡単本人確認」を選択すると\nスマホで撮影するだけで完了します📱'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'bg7', // 簡単本人確認画面
+            screenshot: 'touroku/5.jpg', // 簡単本人確認画面
             texts: [
                 '簡単本人確認では運転免許証や\nマイナンバーカードが使えます。',
                 'スマホのカメラで撮影して\nアップロードするだけ！簡単ですね✨'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'zenta',
-            screenshot: 'bg8', // 個人情報入力画面
+            screenshot: 'touroku/6.jpg', // 個人情報入力画面
             texts: [
                 '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
                 '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1-3営業日で完了です。'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'bg9', // 入金画面
+            screenshot: 'nyuukin/1.jpg', // 入金画面
             texts: [
                 '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
                 '表示された専用口座に\n銀行振込で入金してください。'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'zenta',
-            screenshot: 'bg10', // 入金詳細画面
+            screenshot: 'nyuukin/2.jpg', // 入金詳細画面
             texts: [
                 '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
                 '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
-                '銀行振込なら制限なしで\nすぐに取引できます🏦'
-            ]
+                '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'bg11', // 取引所画面
+            screenshot: 'buy/1.jpg', // 取引所画面
             texts: [
                 '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
                 '画面下部の「取引所」をタップして\n取引画面に移動します。'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'zenta',
-            screenshot: 'bg12', // 通貨検索画面
+            screenshot: 'buy/2.jpg', // 通貨検索画面
             texts: [
                 '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。',
-                '検索窓に「XRP」と入力して\nXRP/JPYを選択しましょう🔍'
-            ]
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+            {
+            character: 'zenta',
+            screenshot: 'buy/3.jpg', // 通貨検索画面
+            texts: [
+                '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
+            ],
+            audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'bg13', // XRP購入画面
+            screenshot: 'buy/5.jpg', // XRP購入画面
             texts: [
                 'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
                 'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
-                '🎉おめでとうございます！\nこれでRYOコインの準備が完了です✨',
-                'RYOコインで未来の金融革命に\n参加しましょう！💫'
+                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
+                '次は送金に挑戦！💫'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+
+        {
+            character: 'ryoko',
+            screenshot: 'buy/5.jpg', // XRP購入画面
+            texts: [
+                'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
+                'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
+                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
+                '次は送金に挑戦！💫'
             ]
-        }
+        },
+
+
+
+
+
+
+
+
+
+
+        
     ];
 }
     
