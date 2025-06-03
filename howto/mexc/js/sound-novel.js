@@ -49,7 +49,7 @@ class RyoCoinSoundNovel {
                     '右上の三本線メニューバーから\n「新規登録」を選ぶか...',
                     '面倒な人はGoogleアカウントで\nサクッと登録しちゃおう！'
                 ],
-                audio: 'audio/ryoko_mexc1.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
@@ -59,7 +59,7 @@ class RyoCoinSoundNovel {
                     'Googleアカウントも便利ですが\n今回は手動登録で詳しく説明しますね。',
                     '三本線メニューをタップして\n「新規登録」を選択してください！'
                 ],
-                audio: 'audio/zenta_mexc2.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'ryoko',
@@ -69,7 +69,7 @@ class RyoCoinSoundNovel {
                     'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
                     '例：MyPassword123\nこんな感じで強力にしよう💪'
                 ],
-                audio: 'audio/ryoko_mexc3.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
@@ -89,7 +89,7 @@ class RyoCoinSoundNovel {
                     '「入金」をタップしてください。',
                     'ここで日本の取引所（bitFlyerやCoincheckなど）で\n購入したXRPをMEXCに送ります🚀'
                 ],
-                audio: 'audio/ryoko_mexc5.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
@@ -99,7 +99,7 @@ class RyoCoinSoundNovel {
                     '「オンチェーン入金」をタップしてください。',
                     'これで暗号資産のネットワーク経由で\n他の取引所からXRPを受け取れます⚡'
                 ],
-                audio: 'audio/zenta_mexc6.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'ryoko',
@@ -109,7 +109,7 @@ class RyoCoinSoundNovel {
                     'XRPを探してタップしてね。',
                     'たくさんある場合は上の検索ボックスで\n「XRP」と入力すると簡単に見つかるよ✨'
                 ],
-                audio: 'audio/ryoko_mexc7.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
@@ -119,7 +119,7 @@ class RyoCoinSoundNovel {
                     '「アドレスとメモを表示」をタップしてください。',
                     'ここが重要なポイントです！\nMEXCの入金アドレスを取得します🎯'
                 ],
-                audio: 'audio/zenta_mexc8.mp3'
+                audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'ryoko',
@@ -128,12 +128,16 @@ class RyoCoinSoundNovel {
                     'やった！アドレスとメモが表示されました🎉',
                     'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
                     'これはMEXC内のあなた専用の\nアドレスとメモ番号です📍',
-                    '両方とも必要になるから\nしっかりコピーしておいてね！💎'
+                    '両方とも必要になるから\nしっかりコピーしてお苦か、このページに戻ってこれるようにね！💎'
                 ],
-                audio: 'audio/ryoko_mexc9.mp3'
+                audio: 'audio/oshiete.mp3'
             }
         ];
     }
+
+
+
+    
     
     // =============================== 
     // 初期化
