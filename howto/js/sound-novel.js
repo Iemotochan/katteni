@@ -41,7 +41,7 @@ getScenarioData() {
     return [
         {
             character: 'ryoko',
-            screenshot: 'touroku/1.jpg', // 取引所トップページ
+            screenshot: 'image/guide.jpg', // 取引所トップページ
             texts: [
                 'こんにちは！リョウコです✨\n今日はRYOコインの購入方法を完全ガイドします！',
                 '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
