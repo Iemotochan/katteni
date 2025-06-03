@@ -19,22 +19,7 @@ html, body {
 }
 
 /* ============================== */
-/* z-index階層定義 */
-/* ============================== */
-/*
- * レイヤー構造:
- * z-index 1: スターフィールド（小判エフェクト）
- * z-index 2: 背景画像（back.jpg）
- * z-index 3: メインコンテンツ（bg1.jpg等）
- * z-index 4: タッチエリア
- * z-index 5: メッセージエリア
- * z-index 10: ナビゲーション
- * z-index 15: プログレスエリア
- * z-index 1000: 音声ダイアログ
- */
-
-/* ============================== */
-/* エフェクト用キャンバス - 小判強化 */
+/* エフェクト用キャンバス - 適度な強化 */
 /* ============================== */
 #starfield {
     position: fixed;
@@ -44,9 +29,9 @@ html, body {
     height: 100%;
     z-index: 1;
     pointer-events: none;
-    /* 小判エフェクトを大幅強化 */
-    filter: brightness(3.5) contrast(3.0) saturate(2.5);
-    opacity: 1;
+    /* 小判エフェクトを適度に強化（白くなりすぎないように調整） */
+    filter: brightness(1.8) contrast(1.4) saturate(1.2);
+    opacity: 0.95;
 }
 
 /* エフェクト強化用のオーバーレイ */
@@ -59,7 +44,7 @@ html, body {
     height: 100%;
     background: radial-gradient(
         circle at 50% 50%, 
-        rgba(255, 215, 0, 0.2) 0%, 
+        rgba(255, 215, 0, 0.1) 0%, 
         transparent 60%
     );
     pointer-events: none;
@@ -621,20 +606,3 @@ html, body {
         padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
 }
-
-/* ============================== */
-/* デバッグ用（問題解決時に削除） */
-/* ============================== */
-/*
-.screenshot-container {
-    border: 3px solid lime !important;
-}
-
-.background-layer {
-    border: 3px solid red !important;
-}
-
-.content-area {
-    border: 3px solid blue !important;
-}
-*/
