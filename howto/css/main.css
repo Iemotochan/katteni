@@ -99,7 +99,7 @@ html, body {
 }
 
 /* ============================== */
-/* 上部ナビゲーション */
+/* 上部ナビゲーション（タッチエリア拡張） */
 /* ============================== */
 .top-nav {
     position: absolute;
@@ -113,10 +113,11 @@ html, body {
 }
 
 .nav-btn { 
+    position: relative;
     display: flex; 
     align-items: center; 
     gap: 8px; 
-    padding: 12px 20px; 
+    padding: 16px 24px; /* パディング拡張 */
     background: rgba(0, 0, 0, 0.8); 
     border: 2px solid #FFD700; 
     border-radius: 30px; 
@@ -126,8 +127,22 @@ html, body {
     cursor: pointer; 
     transition: all 0.3s ease; 
     backdrop-filter: blur(15px); 
-    min-height: 44px;
+    min-height: 52px; /* 高さ拡張 */
+    min-width: 100px; /* 幅確保 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* タッチエリア拡張（重要！） */
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* 上に10px拡張 */
+    left: -10px; /* 左に10px拡張 */
+    right: -10px; /* 右に10px拡張 */
+    bottom: -10px; /* 下に10px拡張 */
+    z-index: -1;
+    /* デバッグ用 - 本番では削除 */
+    /* background: rgba(255, 255, 0, 0.3); */
 }
 
 .nav-btn:hover, .nav-btn:active { 
@@ -148,6 +163,65 @@ html, body {
 
 .nav-text {
     font-size: 14px;
+}
+
+/* ============================== */
+/* 音声ミュートボタン */
+/* ============================== */
+.audio-controls {
+    position: absolute;
+    top: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 11;
+    padding-top: max(0px, env(safe-area-inset-top));
+}
+
+.mute-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ミュートボタンのタッチエリア拡張 */
+.mute-btn::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    z-index: -1;
+    /* デバッグ用 - 本番では削除 */
+    /* background: rgba(0, 255, 255, 0.3); */
+}
+
+.mute-btn:hover, .mute-btn:active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFA500;
+    transform: scale(1.1);
+}
+
+.mute-btn.muted {
+    background: rgba(128, 128, 128, 0.8);
+    border-color: #999;
+}
+
+.mute-icon {
+    font-size: 20px;
+    transition: all 0.3s ease;
 }
 
 /* ============================== */
@@ -537,6 +611,16 @@ html, body {
     .content-area {
         padding: 70px 15px 110px 15px;
     }
+    
+    .nav-btn {
+        min-width: 80px;
+        padding: 14px 20px;
+    }
+    
+    .mute-btn {
+        width: 48px;
+        height: 48px;
+    }
 }
 
 @media (max-height: 667px) {
@@ -576,6 +660,15 @@ html, body {
         font-size: 14px;
         line-height: 1.4;
     }
+    
+    .audio-controls {
+        top: 15px;
+    }
+    
+    .mute-btn {
+        width: 45px;
+        height: 45px;
+    }
 }
 
 /* ============================== */
@@ -588,7 +681,8 @@ html, body {
     }
     
     .nav-btn,
-    .dialog-btn {
+    .dialog-btn,
+    .mute-btn {
         -webkit-appearance: none;
         -webkit-tap-highlight-color: transparent;
     }
@@ -599,6 +693,10 @@ html, body {
 /* ============================== */
 @supports (padding: max(0px)) {
     .top-nav {
+        padding-top: max(20px, env(safe-area-inset-top));
+    }
+    
+    .audio-controls {
         padding-top: max(20px, env(safe-area-inset-top));
     }
     
