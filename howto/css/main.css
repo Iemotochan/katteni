@@ -55,10 +55,10 @@ html, body {
 /* ============================== */
 .wide-touch-area {
     position: fixed;
-    top: 60px; /* ナビを避ける */
-    left: 20px; /* 端を少し避ける */
-    right: 20px; /* 端を少し避ける */
-    bottom: 100px; /* プログレスエリアを避ける */
+    top: 50px; /* 上に詰める（60px → 50px） */
+    left: 20px;
+    right: 20px;
+    bottom: 100px;
     z-index: 4;
     cursor: pointer;
     /* デバッグ用 - 本番では削除 */
@@ -99,11 +99,11 @@ html, body {
 }
 
 /* ============================== */
-/* 上部ナビゲーション（タッチエリア拡張） */
+/* 上部ナビゲーション（上に詰める） */
 /* ============================== */
 .top-nav {
     position: absolute;
-    top: 20px;
+    top: 15px; /* 上に詰める（20px → 15px） */
     left: 20px;
     right: 20px;
     display: flex;
@@ -166,11 +166,11 @@ html, body {
 }
 
 /* ============================== */
-/* 音声ミュートボタン */
+/* 音声ミュートボタン（上に詰める） */
 /* ============================== */
 .audio-controls {
     position: absolute;
-    top: 20px;
+    top: 15px; /* 上に詰める（20px → 15px） */
     right: 50%;
     transform: translateX(50%);
     z-index: 11;
@@ -317,7 +317,7 @@ html, body {
 }
 
 /* ============================== */
-/* メインコンテンツ（中層） */
+/* メインコンテンツ（上に詰める） */
 /* ============================== */
 .content-area {
     position: absolute;
@@ -328,7 +328,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 80px 20px 120px 20px; /* ナビとプログレスエリアを避ける */
+    padding: 70px 20px 140px 20px; /* 上を詰める（80px → 70px）、下を広げる（120px → 140px） */
     z-index: 3; /* 背景より上、メッセージより下 */
 }
 
@@ -340,11 +340,12 @@ html, body {
     width: 100%;
     height: 100%;
     max-width: 90%;
-    max-height: 90%;
+    max-height: 85%; /* 高さを少し制限（90% → 85%） */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 3; /* 確実に背景より上 */
+    transform: translateY(-10px); /* 少し上に移動 */
 }
 
 .screenshot-img {
@@ -391,11 +392,11 @@ html, body {
 }
 
 /* ============================== */
-/* メッセージエリア（上層） */
+/* メッセージエリア（位置微調整） */
 /* ============================== */
 .message-area {
     position: absolute;
-    bottom: 80px;
+    bottom: 85px; /* 少し上げる（80px → 85px） */
     left: 20px;
     right: 20px;
     display: flex;
@@ -517,7 +518,7 @@ html, body {
 }
 
 /* ============================== */
-/* プログレスエリア（最上層） */
+/* プログレスエリア（位置維持） */
 /* ============================== */
 .progress-area {
     position: absolute;
@@ -592,7 +593,7 @@ html, body {
 }
 
 /* ============================== */
-/* レスポンシブ */
+/* レスポンシブ（微調整） */
 /* ============================== */
 @media (max-width: 375px) {
     .character-container {
@@ -609,7 +610,7 @@ html, body {
     }
     
     .content-area {
-        padding: 70px 15px 110px 15px;
+        padding: 65px 15px 135px 15px; /* モバイルでさらに調整 */
     }
     
     .nav-btn {
@@ -621,30 +622,40 @@ html, body {
         width: 48px;
         height: 48px;
     }
+    
+    .screenshot-container {
+        max-height: 80%; /* モバイルでさらに制限 */
+        transform: translateY(-15px); /* モバイルでさらに上に */
+    }
 }
 
 @media (max-height: 667px) {
     .message-area {
-        bottom: 60px;
+        bottom: 70px; /* 低い画面でさらに調整 */
     }
     
     .content-area {
-        padding: 70px 20px 100px 20px;
+        padding: 65px 20px 130px 20px;
+    }
+    
+    .screenshot-container {
+        max-height: 75%;
+        transform: translateY(-20px);
     }
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
     .content-area {
-        padding: 60px 20px 80px 20px;
+        padding: 55px 20px 110px 20px; /* 横画面でコンパクトに */
     }
     
     .wide-touch-area {
-        top: 50px;
-        bottom: 80px;
+        top: 45px;
+        bottom: 90px;
     }
     
     .message-area {
-        bottom: 50px;
+        bottom: 60px;
     }
     
     .character-container {
@@ -662,12 +673,21 @@ html, body {
     }
     
     .audio-controls {
-        top: 15px;
+        top: 10px;
+    }
+    
+    .top-nav {
+        top: 10px;
     }
     
     .mute-btn {
         width: 45px;
         height: 45px;
+    }
+    
+    .screenshot-container {
+        max-height: 70%;
+        transform: translateY(-25px);
     }
 }
 
@@ -693,11 +713,11 @@ html, body {
 /* ============================== */
 @supports (padding: max(0px)) {
     .top-nav {
-        padding-top: max(20px, env(safe-area-inset-top));
+        padding-top: max(15px, env(safe-area-inset-top)); /* 調整 */
     }
     
     .audio-controls {
-        padding-top: max(20px, env(safe-area-inset-top));
+        padding-top: max(15px, env(safe-area-inset-top)); /* 調整 */
     }
     
     .progress-area {
