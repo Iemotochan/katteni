@@ -1,6 +1,6 @@
 /*
     RYO Coin Main Application
-    適応型エフェクト制御システム
+    適応型エフェクト制御システム - BitTrade版
 */
 
 class RYOCoinApp {
@@ -122,13 +122,13 @@ class RYOCoinApp {
         chImg.onerror = () => console.warn('⚠️ CH画像が見つかりません: image/ch.png');
         chImg.src = 'image/ch.png';
 
-        // 音声ファイルの存在確認（追加）
+        // 音声ファイルの存在確認（BitTrade版用追加）
         this.checkAudioFiles();
         // ページタイプの表示
         this.displayPageInfo();
     }
 
-    // 音声ファイル確認（新機能）
+    // 音声ファイル確認（BitTrade版用追加機能）
     checkAudioFiles() {
         // メイン音声ファイル
         const mainAudio = new Audio();
@@ -141,6 +141,12 @@ class RYOCoinApp {
         bgmAudio.oncanplaythrough = () => console.log('✅ BGM音声確認完了: audio/bgm.mp3');
         bgmAudio.onerror = () => console.warn('⚠️ BGM音声が見つかりません: audio/bgm.mp3');
         bgmAudio.src = 'audio/bgm.mp3';
+
+        // 小判効果音
+        const kobanAudio = new Audio();
+        kobanAudio.oncanplaythrough = () => console.log('✅ 小判効果音確認完了: audio/koban.mp3');
+        kobanAudio.onerror = () => console.warn('⚠️ 小判効果音が見つかりません: audio/koban.mp3');
+        kobanAudio.src = 'audio/koban.mp3';
     }
 
     displayPageInfo() {
@@ -151,8 +157,8 @@ class RYOCoinApp {
             console.log('🌿 LIFE Walletページ - 緑テーマ適用');
         } else if (path.includes('cryptoatm') || path.includes('atm') || title.includes('crypto atm')) {
             console.log('💎 Crypto ATMページ - ブルー＆ホワイトテーマ適用');
-        } else if (path.includes('mexc') || title.includes('mexc')) {
-            console.log('🏆 MEXCページ - 音声ループ対応ゴールドテーマ適用');
+        } else if (path.includes('bittrade') || title.includes('bittrade') || title.includes('ryo')) {
+            console.log('🏆 BitTradeページ - 音声ループ対応ゴールドテーマ適用');
         } else {
             console.log('🏅 標準ページ - 小判テーマ適用');
         }
@@ -202,12 +208,14 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // 開発者向け情報
 console.log(`
-🎌 RYO Coin Effects System Version: 2.1
+🎌 RYO Coin Effects System - BitTrade版
+Version: 2.1
 Adaptive Features:
 - ✅ 適応型テーマ切り替え
 - ✅ マルチタッチ対応
 - ✅ パフォーマンス監視
 - ✅ バッテリー最適化
 - ✅ エラーハンドリング
-- ✅ 音声ファイル確認機能
+- ✅ 音声ファイル確認機能（BitTrade版）
+- ✅ リンク対応システム
 `);
