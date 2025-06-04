@@ -23,7 +23,7 @@ class RyoCoinSoundNovel {
         // キャラクター設定
         this.characters = {
             ryoko: {
-                name: 'リョウコ先生',
+                name: '両子先生',
                 image: 'image/ryokosensei.png',
                 voice: 'female'
             },
@@ -49,7 +49,7 @@ class RyoCoinSoundNovel {
                 character: 'ryoko',
                 screenshot: 'image/guide.jpg',
                 texts: [
-                    'こんにちは！リョウコです✨\n今日はMEXCでの新規登録方法を説明します！',
+                    'こんにちは！両子です✨\n今日はMEXCでの新規登録方法を説明します！',
                     '作業はちょっぴり多いけど、順番に行けば簡単だから説明していくね！',
                 ],
                 audio: 'audio/oshiete.mp3'
