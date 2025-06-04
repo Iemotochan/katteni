@@ -58,7 +58,6 @@ html, body {
     display: flex;
     flex-direction: column;
     z-index: 3;
-    /* 全体をタッチ可能にする */
     cursor: pointer;
 }
 
@@ -92,7 +91,7 @@ html, body {
     right: 20px;
     display: flex;
     justify-content: space-between;
-    z-index: 20; /* 高いz-indexでタッチを確実にキャッチ */
+    z-index: 20;
     padding-top: max(0px, env(safe-area-inset-top));
 }
 
@@ -114,7 +113,6 @@ html, body {
     min-height: 52px;
     min-width: 100px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    /* タッチイベントを確実にキャッチ */
     pointer-events: auto;
     z-index: 21;
 }
@@ -378,7 +376,7 @@ html, body {
 }
 
 /* ============================== */
-/* メッセージエリア（タッチ対応強化） */
+/* メッセージエリア */
 /* ============================== */
 .message-area {
     position: absolute;
@@ -388,8 +386,7 @@ html, body {
     display: flex;
     align-items: flex-end;
     gap: 15px;
-    z-index: 15; /* 高いz-indexでタッチを受け取る */
-    /* リンククリック用にpointer-eventsを有効化 */
+    z-index: 15;
     pointer-events: auto;
 }
 
@@ -403,7 +400,6 @@ html, body {
     position: relative;
     animation: float 3s ease-in-out infinite;
     z-index: 15;
-    /* キャラクター画像はタッチを通す */
     pointer-events: none;
 }
 
@@ -417,7 +413,7 @@ html, body {
 }
 
 /* ============================== */
-/* 吹き出し（リンク対応強化） */
+/* 吹き出し（リンク対応最強化） */
 /* ============================== */
 .speech-bubble { 
     flex: 1; 
@@ -433,7 +429,6 @@ html, body {
     transition: all 0.2s ease; 
     min-height: 80px;
     z-index: 15;
-    /* 吹き出し全体は基本的にタッチを通すが、リンクは受け取る */
     pointer-events: auto;
 }
 
@@ -463,12 +458,12 @@ html, body {
 }
 
 /* ============================== */
-/* 吹き出し内容（リンク専用対応） */
+/* 吹き出し内容（リンク完全対応） */
 /* ============================== */
 .bubble-content {
     position: relative;
     z-index: 1;
-    /* 基本的にタッチを通すが、リンクのみ受け取る */
+    /* 通常はタッチを通すが、リンクは受け取る */
     pointer-events: none;
 }
 
@@ -483,29 +478,83 @@ html, body {
     pointer-events: none;
 }
 
-/* リンクスタイル強化（タッチ対応） */
+/* ============================== */
+/* リンクスタイル（最強化版） */
+/* ============================== */
 .bubble-text a,
-.bubble-text .text-link {
+.bubble-text .story-link {
+    /* 基本スタイル */
     color: #FFD700 !important;
     text-decoration: underline !important;
     font-weight: bold !important;
     cursor: pointer !important;
-    /* リンクのみタッチイベントを受け取る */
+    
+    /* レイアウト */
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    margin: 2px 4px !important;
+    border-radius: 8px !important;
+    
+    /* 背景とボーダー */
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important;
+    border: 2px solid rgba(255, 215, 0, 0.5) !important;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important;
+    
+    /* アニメーション */
+    transition: all 0.3s ease !important;
+    transform: scale(1) !important;
+    
+    /* タッチ対応 */
     pointer-events: auto !important;
-    /* タッチエリアを少し広げる */
-    padding: 2px 4px;
-    margin: -2px -4px;
-    border-radius: 4px;
-    background: rgba(255, 215, 0, 0.1);
-    transition: background-color 0.2s ease;
+    -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
+    -webkit-touch-callout: default !important;
+    
+    /* フォント */
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: 1.4 !important;
+    
+    /* 確実にクリック可能にする */
+    position: relative !important;
+    z-index: 1000 !important;
+    
+    /* タッチエリア拡張 */
+    min-width: 44px !important;
+    min-height: 44px !important;
+    text-align: center !important;
 }
 
+/* ホバー・アクティブ状態 */
 .bubble-text a:hover,
-.bubble-text .text-link:hover,
+.bubble-text .story-link:hover,
 .bubble-text a:active,
-.bubble-text .text-link:active {
-    background: rgba(255, 215, 0, 0.2) !important;
+.bubble-text .story-link:active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.3)) !important;
+    border-color: rgba(255, 215, 0, 0.8) !important;
+    box-shadow: 0 4px 16px rgba(255, 215, 0, 0.5) !important;
+    transform: scale(1.05) !important;
     text-decoration: none !important;
+}
+
+/* フォーカス状態 */
+.bubble-text a:focus,
+.bubble-text .story-link:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.6) !important;
+    outline-offset: 2px !important;
+}
+
+/* リンク専用擬似要素でタッチエリア拡張 */
+.bubble-text a::before,
+.bubble-text .story-link::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -10px !important;
+    left: -10px !important;
+    right: -10px !important;
+    bottom: -10px !important;
+    z-index: -1 !important;
+    /* デバッグ用 - 本番では削除 */
+    /* background: rgba(255, 0, 0, 0.2) !important; */
 }
 
 /* ============================== */
@@ -615,7 +664,7 @@ html, body {
 }
 
 /* ============================== */
-/* レスポンシブ（タッチエリア対応） */
+/* レスポンシブ（リンク対応） */
 /* ============================== */
 @media (max-width: 375px) {
     .character-container {
@@ -632,9 +681,12 @@ html, body {
     }
     
     .bubble-text a,
-    .bubble-text .text-link {
-        padding: 4px 6px;
-        margin: -4px -6px;
+    .bubble-text .story-link {
+        padding: 8px 10px !important;
+        margin: 2px 2px !important;
+        font-size: 14px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
     }
     
     .content-area {
@@ -695,6 +747,12 @@ html, body {
         line-height: 1.4;
     }
     
+    .bubble-text a,
+    .bubble-text .story-link {
+        padding: 6px 8px !important;
+        font-size: 13px !important;
+    }
+    
     .audio-controls {
         top: 10px;
     }
@@ -715,7 +773,7 @@ html, body {
 }
 
 /* ============================== */
-/* iOS対応（タッチ最適化） */
+/* iOS対応（リンク最適化） */
 /* ============================== */
 @supports (-webkit-appearance: none) {
     .app-container {
@@ -731,9 +789,11 @@ html, body {
     }
     
     .bubble-text a,
-    .bubble-text .text-link {
-        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
-        -webkit-touch-callout: default; /* リンクの長押しメニューを有効 */
+    .bubble-text .story-link {
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.4) !important;
+        -webkit-touch-callout: default !important;
+        -webkit-user-select: none !important;
+        -webkit-appearance: none !important;
     }
 }
 
