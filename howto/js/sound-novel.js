@@ -1319,4 +1319,279 @@ class RyoCoinSoundNovel {
 
         const bubbleText = document.getElementById('bubbleText');
         if (bubbleText) {
-            bubbleText.innerHTML = 'BitTradeでのXRP
+            bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
+        }
+
+        setTimeout(() => {
+            if (confirm('BitTradeでの購入ガイドが完了しました。\n送金編に移動しますか？')) {
+                this.destroy();
+                window.location.href = '../2/index.html';
+            }
+        }, 3000);
+    }
+
+    // クリーンアップ（完全レスポンシブ対応版）
+    destroy() {
+        // レイアウト観察の停止
+        if (this.layoutObserver) {
+            this.layoutObserver.disconnect();
+            this.layoutObserver = null;
+        }
+
+        // イベントリスナーのクリーンアップ
+        this.pcReturnHandlers.forEach(cleanup => cleanup());
+        this.pcReturnHandlers = [];
+
+        if (this.typewriterInterval) {
+            clearInterval(this.typewriterInterval);
+            this.typewriterInterval = null;
+        }
+
+        if (this.voicePlayer) {
+            this.voicePlayer.pause();
+            this.voicePlayer.currentTime = 0;
+        }
+
+        if (this.bgmPlayer) {
+            this.bgmPlayer.pause();
+            this.bgmPlayer.currentTime = 0;
+        }
+
+        if (this.kobanSoundPlayer) {
+            this.kobanSoundPlayer.pause();
+            this.kobanSoundPlayer.currentTime = 0;
+        }
+
+        console.log('🧹 クリーンアップ完了（完全レスポンシブ版）');
+    }
+}
+
+// 初期化
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM読み込み完了');
+    
+    setTimeout(() => {
+        console.log('🎬 サウンドノベル開始準備');
+        window.ryoCoinNovel = new RyoCoinSoundNovel();
+    }, 500);
+});
+
+// ページ離脱時のクリーンアップ
+window.addEventListener('beforeunload', () => {
+    if (window.ryoCoinNovel) {
+        window.ryoCoinNovel.destroy();
+    }
+});
+
+// 開発者向け便利機能（完全レスポンシブ対応版）
+window.NovelUtils = {
+    // BitTradeリンクテスト
+    testBittradeLink: () => {
+        const testUrl = 'https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
+        console.log('🏆 Bittradeリンクテスト:', testUrl);
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.returnDetectionActive = true;
+        }
+        window.location.href = testUrl; // 同一タブで開く
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+        }
+        console.log('✅ Bittradeリンクテスト完了（同一タブ移動＋復帰検出）');
+    },
+
+    // PC復帰シミュレーションテスト
+    simulatePCReturn: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🖥️ PC復帰シミュレーション開始');
+            window.ryoCoinNovel.returnDetectionActive = true;
+            window.ryoCoinNovel.handleAdvancedPageReturn('simulation');
+            console.log('✅ PC復帰シミュレーション実行');
+        }
+    },
+
+    // 積極的BGMテスト
+    testAggressiveBGM: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🎵 積極的BGM再生テスト開始');
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.bgmEnabled = true;
+            window.ryoCoinNovel.aggressiveBGMRetry();
+            console.log('✅ 積極的BGM再生テスト実行');
+        }
+    },
+
+    // 通常リンクテスト
+    testExternalLink: () => {
+        const testUrl = 'https://google.com/';
+        console.log('🔗 外部リンクテスト:', testUrl);
+        window.open(testUrl, '_blank', 'noopener,noreferrer'); // 新しいタブで開く
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+        }
+        console.log('✅ 外部リンクテスト完了（新しいタブ）');
+    },
+
+    // リンク検出テスト
+    testLinkDetection: () => {
+        const testText = 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
+        if (window.ryoCoinNovel) {
+            const processed = window.ryoCoinNovel.processTextWithLinks(testText);
+            console.log('🔍 リンク検出テスト結果:', processed);
+        }
+    },
+
+    // BGM強制再生テスト
+    forceBGM: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.bgmEnabled = true;
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.playBGM();
+            console.log('🎵 BGM強制再生実行');
+        }
+    },
+
+    // 効果音テスト
+    playKobanTest: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+            console.log('🪙 小判効果音テスト実行');
+        }
+    },
+
+    // 音声強制再生テスト
+    forcePlayVoice: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.audioEnabled = true;
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.playVoice();
+            console.log('🎵 強制音声再生実行');
+        }
+    },
+
+    // レスポンシブテスト機能（新機能）
+    testResponsiveMode: () => {
+        if (window.ryoCoinNovel) {
+            console.log('📱 レスポンシブモードテスト:', window.ryoCoinNovel.responsiveMode);
+            window.ryoCoinNovel.handleLayoutChange();
+            console.log('✅ レスポンシブ調整実行');
+        }
+    },
+
+    // ビューポートシミュレーション（新機能）
+    simulateViewport: (width, height) => {
+        if (window.ryoCoinApp && typeof window.ryoCoinApp.simulateResize === 'function') {
+            window.ryoCoinApp.simulateResize(width, height);
+        }
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.handleViewportChange();
+        }
+        console.log(`📏 ビューポートシミュレーション: ${width}×${height}`);
+    },
+
+    // オリエンテーション変更シミュレーション（新機能）
+    simulateOrientationChange: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.handleOrientationChange();
+            console.log('🔄 オリエンテーション変更シミュレーション実行');
+        }
+    },
+
+    // レイアウト強制再計算（新機能）
+    forceRecalculateLayout: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.recalculateLayout();
+            console.log('🔧 レイアウト強制再計算実行');
+        }
+    },
+
+    // テキストサイズ調整テスト（新機能）
+    testTextSizing: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.adjustTextSizing();
+            console.log('📝 テキストサイズ調整テスト実行');
+        }
+    },
+
+    // 全状態確認（拡張版）
+    fullStatus: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🔍 システム状態:', {
+                audioEnabled: window.ryoCoinNovel.audioEnabled,
+                bgmEnabled: window.ryoCoinNovel.bgmEnabled,
+                bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying,
+                voiceIsPlaying: window.ryoCoinNovel.voiceIsPlaying,
+                userHasInteracted: window.ryoCoinNovel.userHasInteracted,
+                returnDetectionActive: window.ryoCoinNovel.returnDetectionActive,
+                wasPageHidden: window.ryoCoinNovel.wasPageHidden,
+                currentScene: window.ryoCoinNovel.currentScene + 1,
+                totalScenes: window.ryoCoinNovel.scenarios.length,
+                responsiveMode: window.ryoCoinNovel.responsiveMode,
+                messageAreaHeight: window.ryoCoinNovel.messageAreaHeight,
+                viewport: `${window.innerWidth}×${window.innerHeight}`
+            });
+        }
+    },
+
+    // 全音声停止
+    stopAllAudio: () => {
+        if (window.ryoCoinNovel) {
+            if (window.ryoCoinNovel.voicePlayer) {
+                window.ryoCoinNovel.voicePlayer.pause();
+            }
+            if (window.ryoCoinNovel.bgmPlayer) {
+                window.ryoCoinNovel.bgmPlayer.pause();
+            }
+            console.log('⏸️ 全音声停止');
+        }
+    },
+
+    // デバイス情報表示（新機能）
+    showDeviceInfo: () => {
+        if (window.ryoCoinApp && window.ryoCoinApp.deviceInfo) {
+            console.log('📱 デバイス情報:', window.ryoCoinApp.deviceInfo);
+        } else {
+            console.log('⚠️ デバイス情報が利用できません');
+        }
+    },
+
+    // パフォーマンスモード切り替え（新機能）
+    togglePerformanceMode: () => {
+        if (window.ryoCoinApp) {
+            const isPerformanceMode = document.documentElement.classList.contains('performance-mode');
+            if (isPerformanceMode) {
+                document.documentElement.classList.remove('performance-mode');
+                console.log('⚡ パフォーマンスモード無効化');
+            } else {
+                window.ryoCoinApp.enablePerformanceMode();
+                console.log('🚀 パフォーマンスモード有効化');
+            }
+        }
+    }
+};
+
+console.log(`
+🎭 RYOコインサウンドノベル完全レスポンシブ版
+Version: 4.0 (Ultimate Responsive)
+
+📱 完全対応デバイス:
+- ✅ iPhone (全モデル、ノッチ/Dynamic Island対応)
+- ✅ Android (全画面サイズ)
+- ✅ 折りたたみスマホ
+- ✅ タブレット
+- ✅ 極小画面 (320px以下)
+- ✅ 極高画面 (2000px以上)
+
+🔧 レスポンシブ機能:
+- ✅ 動的レイアウト調整
+- ✅ 適応型テキストサイズ
+- ✅ フレキシブルメッセージエリア
+- ✅ オリエンテーション対応
+- ✅ キーボード表示検出
+- ✅ セーフエリア完全対応
+- ✅ ビューポート高さ動的計算
+
+🎵 音声システム:
+- ✅ audio/oshiete.mp3 専用ループシステム
+- ✅ audio/bgm.mp3 バックグラウンド音楽システム（PC強化）
+- ✅ audio/koban.mp3 効果音システム（音量: 0.3）
+- ✅ 復<span class="cursor">█</span>
