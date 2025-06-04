@@ -1,5 +1,5 @@
 /* ============================== */
-/* リセット & 基本設定 */
+/* リセット & 基本設定（強化版） */
 /* ============================== */
 * {
     margin: 0;
@@ -10,12 +10,22 @@
 html, body {
     width: 100%;
     height: 100%;
+    height: calc(var(--vh) * 100); /* 動的ビューポート高さ */
     overflow: hidden;
-    font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
     user-select: none;
     touch-action: manipulation;
     background: #000;
     position: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* iOS Safari対応 */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        height: -webkit-fill-available;
+    }
 }
 
 /* ============================== */
@@ -27,6 +37,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
+    height: calc(var(--vh) * 100);
     z-index: 1;
     pointer-events: none;
     filter: brightness(1.8) contrast(1.4) saturate(1.2);
@@ -49,16 +60,19 @@ html, body {
 }
 
 /* ============================== */
-/* メインコンテナ */
+/* メインコンテナ（完全適応型） */
 /* ============================== */
 .app-container {
     position: relative;
     width: 100vw;
     height: 100vh;
+    height: calc(var(--vh) * 100);
     display: flex;
     flex-direction: column;
     z-index: 3;
     cursor: pointer;
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
 }
 
 /* ============================== */
@@ -82,17 +96,17 @@ html, body {
 }
 
 /* ============================== */
-/* 上部ナビゲーション */
+/* 上部ナビゲーション（適応型） */
 /* ============================== */
 .top-nav {
     position: absolute;
-    top: 15px;
-    left: 20px;
-    right: 20px;
+    top: calc(var(--safe-area-inset-top) + 10px);
+    left: calc(var(--safe-area-inset-left) + 15px);
+    right: calc(var(--safe-area-inset-right) + 15px);
     display: flex;
     justify-content: space-between;
     z-index: 20;
-    padding-top: max(0px, env(safe-area-inset-top));
+    min-height: 44px; /* タッチターゲット最小サイズ */
 }
 
 .nav-btn {
@@ -100,31 +114,21 @@ html, body {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 16px 24px;
+    padding: 12px 20px;
     background: rgba(0, 0, 0, 0.8);
     border: 2px solid #FFD700;
-    border-radius: 30px;
+    border-radius: 25px;
     color: #fff;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(15px);
-    min-height: 52px;
-    min-width: 100px;
+    min-height: 44px;
+    min-width: 80px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     pointer-events: auto;
     z-index: 21;
-}
-
-.nav-btn::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    z-index: -1;
 }
 
 .nav-btn:hover,
@@ -149,7 +153,7 @@ html, body {
 }
 
 /* ============================== */
-/* 音声ダイアログ */
+/* 音声ダイアログ（完全センタリング） */
 /* ============================== */
 .audio-dialog {
     position: fixed;
@@ -164,6 +168,7 @@ html, body {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
 }
 
 .audio-dialog.show {
@@ -190,6 +195,7 @@ html, body {
     margin: 20px;
     text-align: center;
     max-width: 320px;
+    width: 90%;
     color: #fff;
     z-index: 1001;
 }
@@ -244,35 +250,32 @@ html, body {
 }
 
 /* ============================== */
-/* メインコンテンツ */
+/* メインコンテンツ（フレキシブル） */
 /* ============================== */
 .content-area {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: calc(var(--safe-area-inset-top) + 60px);
+    left: calc(var(--safe-area-inset-left) + 15px);
+    right: calc(var(--safe-area-inset-right) + 15px);
+    bottom: 180px; /* メッセージエリア + プログレスエリア分 */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 70px 20px 140px 20px;
     z-index: 3;
+    overflow: hidden;
 }
 
 /* ============================== */
-/* スクリーンショット表示 */
+/* スクリーンショット表示（適応型） */
 /* ============================== */
 .screenshot-container {
     position: relative;
     width: 100%;
     height: 100%;
-    max-width: 90%;
-    max-height: 85%;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 3;
-    transform: translateY(-10px);
 }
 
 .screenshot-img {
@@ -281,7 +284,9 @@ html, body {
     max-width: 100%;
     max-height: 100%;
     border-radius: 16px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.4);
+    box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 215, 0, 0.4);
     transition: all 0.5s ease;
     object-fit: contain;
     opacity: 1;
@@ -317,27 +322,29 @@ html, body {
 }
 
 /* ============================== */
-/* メッセージエリア */
+/* メッセージエリア（完全適応型） */
 /* ============================== */
 .message-area {
     position: absolute;
-    bottom: 85px;
-    left: 20px;
-    right: 20px;
+    bottom: calc(var(--safe-area-inset-bottom) + 80px);
+    left: calc(var(--safe-area-inset-left) + 15px);
+    right: calc(var(--safe-area-inset-right) + 15px);
     display: flex;
     align-items: flex-end;
-    gap: 15px;
+    gap: 12px;
     z-index: 15;
     pointer-events: auto;
+    min-height: 80px;
+    max-height: 120px;
 }
 
 /* ============================== */
-/* キャラクター */
+/* キャラクター（スケーラブル） */
 /* ============================== */
 .character-container {
     flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     position: relative;
     animation: float 3s ease-in-out infinite;
     z-index: 15;
@@ -354,45 +361,49 @@ html, body {
 }
 
 /* ============================== */
-/* 吹き出し */
+/* 吹き出し（フレキシブル） */
 /* ============================== */
 .speech-bubble {
     flex: 1;
     position: relative;
     background: rgba(255, 255, 255, 0.96);
     border: 3px solid #FFD700;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3);
     backdrop-filter: blur(15px);
     transition: all 0.2s ease;
-    min-height: 80px;
+    min-height: 70px;
+    max-height: 120px;
     z-index: 15;
     pointer-events: auto;
+    overflow-y: auto;
 }
 
 .bubble-arrow {
     position: absolute;
-    left: -12px;
-    bottom: 30px;
+    left: -10px;
+    bottom: 25px;
     width: 0;
     height: 0;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-right: 12px solid rgba(255, 255, 255, 0.96);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid rgba(255, 255, 255, 0.96);
     pointer-events: none;
 }
 
 .bubble-arrow::before {
     content: '';
     position: absolute;
-    left: 3px;
-    top: -15px;
+    left: 2px;
+    top: -12px;
     width: 0;
     height: 0;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-right: 15px solid #FFD700;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid #FFD700;
     pointer-events: none;
 }
 
@@ -407,8 +418,8 @@ html, body {
 
 .bubble-text {
     color: #333;
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.5;
     margin: 0;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -417,7 +428,7 @@ html, body {
 }
 
 /* ============================== */
-/* リンクスタイル（MEXC版技術適用） */
+/* リンクスタイル（完全対応） */
 /* ============================== */
 .bubble-text a,
 .bubble-text .story-link {
@@ -426,8 +437,8 @@ html, body {
     font-weight: bold !important;
     cursor: pointer !important;
     display: inline-block !important;
-    padding: 6px 12px !important;
-    margin: 2px 4px !important;
+    padding: 8px 12px !important;
+    margin: 3px 2px !important;
     border-radius: 8px !important;
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important;
     border: 2px solid rgba(255, 215, 0, 0.5) !important;
@@ -442,6 +453,7 @@ html, body {
     text-align: center !important;
     -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
     -webkit-touch-callout: default !important;
+    font-size: 14px !important;
 }
 
 .bubble-text a:hover,
@@ -455,29 +467,18 @@ html, body {
     text-decoration: none !important;
 }
 
-.bubble-text a::before,
-.bubble-text .story-link::before {
-    content: '' !important;
-    position: absolute !important;
-    top: -10px !important;
-    left: -10px !important;
-    right: -10px !important;
-    bottom: -10px !important;
-    z-index: -1 !important;
-}
-
 /* ============================== */
 /* タップインジケーター */
 /* ============================== */
 .tap-indicator {
     position: absolute;
     bottom: 8px;
-    right: 15px;
+    right: 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     color: #FFD700;
-    font-size: 12px;
+    font-size: 11px;
     pointer-events: none;
 }
 
@@ -488,8 +489,8 @@ html, body {
 }
 
 .tap-pulse {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: #FFD700;
     border-radius: 50%;
     animation: pulse 1.5s infinite;
@@ -497,11 +498,11 @@ html, body {
 }
 
 /* ============================== */
-/* プログレスエリア */
+/* プログレスエリア（適応型） */
 /* ============================== */
 .progress-area {
     position: absolute;
-    bottom: 20px;
+    bottom: calc(var(--safe-area-inset-bottom) + 20px);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -514,19 +515,19 @@ html, body {
 
 .progress-info {
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     background: rgba(0, 0, 0, 0.7);
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 18px;
     border: 1px solid rgba(255, 215, 0, 0.4);
     backdrop-filter: blur(10px);
 }
 
 .progress-bar-bg {
-    width: 200px;
-    height: 6px;
+    width: 180px;
+    height: 5px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
     overflow: hidden;
@@ -548,18 +549,12 @@ html, body {
 /* ============================== */
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-6px); }
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
 }
 
 @keyframes fadeInOut {
@@ -573,115 +568,280 @@ html, body {
 }
 
 /* ============================== */
-/* レスポンシブ */
+/* 超小型デバイス対応（320px以下） */
 /* ============================== */
-@media (max-width: 375px) {
-    .character-container {
-        width: 70px;
-        height: 70px;
-    }
-
-    .speech-bubble {
-        padding: 16px;
-    }
-
-    .bubble-text {
-        font-size: 15px;
-    }
-
-    .bubble-text a,
-    .bubble-text .story-link {
-        padding: 8px 10px !important;
-        margin: 2px 2px !important;
-        font-size: 14px !important;
-        min-width: 40px !important;
-        min-height: 40px !important;
-    }
-
-    .content-area {
-        padding: 65px 15px 135px 15px;
-    }
-
-    .nav-btn {
-        min-width: 80px;
-        padding: 14px 20px;
-    }
-
-    .screenshot-container {
-        max-height: 80%;
-        transform: translateY(-15px);
-    }
-}
-
-@media (max-height: 667px) {
-    .message-area {
-        bottom: 70px;
-    }
-
-    .content-area {
-        padding: 65px 20px 130px 20px;
-    }
-
-    .screenshot-container {
-        max-height: 75%;
-        transform: translateY(-20px);
-    }
-}
-
-@media (orientation: landscape) and (max-height: 500px) {
-    .content-area {
-        padding: 55px 20px 110px 20px;
-    }
-
-    .message-area {
-        bottom: 60px;
-    }
-
+@media (max-width: 320px) {
     .character-container {
         width: 60px;
         height: 60px;
     }
-
+    
     .speech-bubble {
-        padding: 15px;
+        padding: 12px;
+        min-height: 60px;
     }
-
+    
     .bubble-text {
         font-size: 14px;
         line-height: 1.4;
     }
-
+    
     .bubble-text a,
     .bubble-text .story-link {
-        padding: 6px 8px !important;
+        padding: 6px 10px !important;
+        margin: 2px 1px !important;
         font-size: 13px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
     }
-
-    .top-nav {
-        top: 10px;
+    
+    .nav-btn {
+        min-width: 70px;
+        padding: 10px 16px;
+        font-size: 12px;
     }
-
-    .screenshot-container {
-        max-height: 70%;
-        transform: translateY(-25px);
+    
+    .progress-bar-bg {
+        width: 150px;
     }
 }
 
 /* ============================== */
-/* iOS対応 */
+/* 小型デバイス対応（375px以下） */
+/* ============================== */
+@media (max-width: 375px) {
+    .character-container {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .speech-bubble {
+        padding: 14px;
+        border-radius: 16px;
+    }
+    
+    .bubble-text {
+        font-size: 14px;
+    }
+    
+    .message-area {
+        gap: 10px;
+        bottom: calc(var(--safe-area-inset-bottom) + 75px);
+    }
+    
+    .content-area {
+        bottom: 170px;
+    }
+}
+
+/* ============================== */
+/* 高さ制限対応（667px以下） */
+/* ============================== */
+@media (max-height: 667px) {
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 55px);
+        bottom: 160px;
+    }
+    
+    .message-area {
+        bottom: calc(var(--safe-area-inset-bottom) + 70px);
+        max-height: 100px;
+    }
+    
+    .speech-bubble {
+        min-height: 60px;
+        max-height: 100px;
+        padding: 14px;
+    }
+    
+    .character-container {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .bubble-text {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}
+
+/* ============================== */
+/* 極小高さ対応（600px以下） */
+/* ============================== */
+@media (max-height: 600px) {
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 50px);
+        bottom: 145px;
+    }
+    
+    .message-area {
+        bottom: calc(var(--safe-area-inset-bottom) + 65px);
+        max-height: 90px;
+        min-height: 70px;
+    }
+    
+    .speech-bubble {
+        min-height: 55px;
+        max-height: 90px;
+        padding: 12px;
+        border-radius: 14px;
+    }
+    
+    .character-container {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .bubble-text {
+        font-size: 13px;
+        line-height: 1.3;
+    }
+    
+    .nav-btn {
+        padding: 10px 18px;
+        min-height: 40px;
+    }
+    
+    .top-nav {
+        top: calc(var(--safe-area-inset-top) + 8px);
+    }
+    
+    .progress-info {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+    
+    .progress-bar-bg {
+        height: 4px;
+    }
+}
+
+/* ============================== */
+/* 横画面対応（500px以下の高さ） */
+/* ============================== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 45px);
+        bottom: 130px;
+    }
+    
+    .message-area {
+        bottom: calc(var(--safe-area-inset-bottom) + 55px);
+        max-height: 80px;
+        min-height: 60px;
+        gap: 8px;
+    }
+    
+    .character-container {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .speech-bubble {
+        padding: 10px;
+        min-height: 50px;
+        max-height: 80px;
+        border-radius: 12px;
+    }
+    
+    .bubble-text {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+    
+    .bubble-text a,
+    .bubble-text .story-link {
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+    
+    .top-nav {
+        top: calc(var(--safe-area-inset-top) + 5px);
+        left: calc(var(--safe-area-inset-left) + 10px);
+        right: calc(var(--safe-area-inset-right) + 10px);
+    }
+    
+    .nav-btn {
+        padding: 8px 14px;
+        min-height: 36px;
+        font-size: 12px;
+    }
+    
+    .progress-area {
+        bottom: calc(var(--safe-area-inset-bottom) + 15px);
+    }
+    
+    .progress-info {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+    
+    .progress-bar-bg {
+        width: 160px;
+        height: 4px;
+    }
+}
+
+/* ============================== */
+/* 極小横画面対応（400px以下の高さ） */
+/* ============================== */
+@media (orientation: landscape) and (max-height: 400px) {
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 40px);
+        bottom: 110px;
+    }
+    
+    .message-area {
+        bottom: calc(var(--safe-area-inset-bottom) + 45px);
+        max-height: 70px;
+        min-height: 50px;
+    }
+    
+    .character-container {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .speech-bubble {
+        padding: 8px;
+        min-height: 45px;
+        max-height: 70px;
+    }
+    
+    .bubble-text {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+    
+    .nav-btn {
+        padding: 6px 12px;
+        min-height: 32px;
+        font-size: 11px;
+    }
+    
+    .progress-bar-bg {
+        width: 140px;
+        height: 3px;
+    }
+}
+
+/* ============================== */
+/* iOS対応強化 */
 /* ============================== */
 @supports (-webkit-appearance: none) {
     .app-container {
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
     }
-
+    
     .nav-btn,
     .dialog-btn {
         -webkit-appearance: none;
         -webkit-tap-highlight-color: transparent;
     }
-
+    
     .bubble-text a,
     .bubble-text .story-link {
         -webkit-appearance: none !important;
@@ -690,14 +850,92 @@ html, body {
 }
 
 /* ============================== */
-/* 安全領域対応 */
+/* セーフエリア完全対応 */
 /* ============================== */
 @supports (padding: max(0px)) {
     .top-nav {
-        padding-top: max(15px, env(safe-area-inset-top));
+        padding-top: max(10px, var(--safe-area-inset-top));
+        padding-left: max(15px, var(--safe-area-inset-left));
+        padding-right: max(15px, var(--safe-area-inset-right));
     }
-
+    
     .progress-area {
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-bottom: max(20px, var(--safe-area-inset-bottom));
+    }
+    
+    .message-area {
+        padding-left: max(15px, var(--safe-area-inset-left));
+        padding-right: max(15px, var(--safe-area-inset-right));
+        padding-bottom: max(80px, calc(var(--safe-area-inset-bottom) + 80px));
+    }
+    
+    .content-area {
+        padding-left: max(15px, var(--safe-area-inset-left));
+        padding-right: max(15px, var(--safe-area-inset-right));
     }
 }
+
+/* ============================== */
+/* 新型iPhone対応（Dynamic Island等） */
+/* ============================== */
+@media (max-width: 430px) and (min-height: 932px) {
+    /* iPhone 14 Pro Max */
+    .top-nav {
+        top: calc(var(--safe-area-inset-top) + 15px);
+    }
+    
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 70px);
+    }
+}
+
+@media (max-width: 393px) and (min-height: 852px) {
+    /* iPhone 14 Pro */
+    .top-nav {
+        top: calc(var(--safe-area-inset-top) + 12px);
+    }
+    
+    .content-area {
+        top: calc(var(--safe-area-inset-top) + 65px);
+    }
+}
+
+/* ============================== */
+/* 折りたたみスマホ対応 */
+/* ============================== */
+@media (min-width: 600px) and (max-height: 400px) {
+    /* 折りたたみスマホの横画面 */
+    .message-area {
+        flex-direction: row;
+        max-height: 60px;
+    }
+    
+    .character-container {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .speech-bubble {
+        max-height: 60px;
+        font-size: 12px;
+    }
+}
+
+/* ============================== */
+/* デバッグ用（開発時のみ） */
+/* ============================== */
+/* 
+.app-container::before {
+    content: attr(data-debug);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+    z-index: 9999;
+    pointer-events: none;
+}
+*/
