@@ -168,15 +168,15 @@ class RyoCoinSoundNovel {
         console.log('✅ MEXCサウンドノベル初期化完了');
     }
     
-    // 音声要素の設定（小判音量調整版）
+    // 音声要素の設定
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
         
-        // 小判効果音プレイヤーを動的に作成（音量調整）
+        // 小判効果音プレイヤーを動的に作成
         this.kobanSoundPlayer = new Audio();
         this.kobanSoundPlayer.src = 'audio/koban.mp3';
-        this.kobanSoundPlayer.volume = 0.3; // 0.6から0.3に変更（半分）
+        this.kobanSoundPlayer.volume = 0.3;
         this.kobanSoundPlayer.preload = 'auto';
         
         this.kobanSoundPlayer.addEventListener('loadeddata', () => {
@@ -237,7 +237,7 @@ class RyoCoinSoundNovel {
             console.log('✅ 音声プレイヤー設定完了');
         }
         
-        // BGMプレイヤーの設定
+        // BGMプレイヤーの設定（ミュート対応強化）
         if (this.bgmPlayer) {
             this.checkBGMFile().then(exists => {
                 if (!exists) {
@@ -264,11 +264,17 @@ class RyoCoinSoundNovel {
                     this.bgmIsPlaying = true;
                     this.bgmRetryCount = 0;
                     console.log('🎵 BGM再生開始！');
+                    
+                    // ミュートボタンの表示更新
+                    this.updateMuteButton();
                 });
                 
                 this.bgmPlayer.addEventListener('pause', () => {
                     this.bgmIsPlaying = false;
                     console.log('⏸️ BGM停止');
+                    
+                    // ミュートボタンの表示更新
+                    this.updateMuteButton();
                 });
                 
                 this.bgmPlayer.addEventListener('ended', () => {
@@ -284,11 +290,29 @@ class RyoCoinSoundNovel {
                     this.retryBGM();
                 });
                 
-                console.log('✅ BGMプレイヤー設定完了');
+                console.log('✅ BGMプレイヤー設定完了（ミュート対応）');
             });
         }
         
-        console.log('✅ 全音声要素設定完了（小判音量調整）');
+        console.log('✅ 全音声要素設定完了');
+    }
+    
+    // ミュートボタン表示更新（新機能）
+    updateMuteButton() {
+        const muteIcon = document.getElementById('muteIcon');
+        const muteBtn = document.getElementById('muteBtn');
+        
+        if (muteIcon && muteBtn) {
+            if (this.bgmEnabled && this.bgmIsPlaying) {
+                muteIcon.textContent = '🔊';
+                muteBtn.classList.remove('muted');
+                console.log('🔊 ミュートボタン: 音声ON表示');
+            } else {
+                muteIcon.textContent = '🔇';
+                muteBtn.classList.add('muted');
+                console.log('🔇 ミュートボタン: 音声OFF表示');
+            }
+        }
     }
     
     // BGMファイル存在確認
@@ -379,6 +403,7 @@ class RyoCoinSoundNovel {
                 playPromise.then(() => {
                     console.log('✅ BGM再生成功！');
                     this.bgmIsPlaying = true;
+                    this.updateMuteButton(); // ボタン更新
                 }).catch(error => {
                     console.error('❌ BGM再生失敗:', error);
                     this.retryBGM();
@@ -389,6 +414,7 @@ class RyoCoinSoundNovel {
             if (this.fallbackBGMFunction) {
                 this.fallbackBGMFunction();
                 this.bgmIsPlaying = true;
+                this.updateMuteButton(); // ボタン更新
             }
         }
     }
@@ -413,7 +439,7 @@ class RyoCoinSoundNovel {
         }, 3000);
     }
     
-    // 小判効果音再生（音量調整版）
+    // 小判効果音再生
     playKobanSound() {
         if (!this.kobanSoundPlayer) return;
         
@@ -504,12 +530,15 @@ class RyoCoinSoundNovel {
         }
     }
     
-    // BGM停止
+    // BGM停止（強化版）
     stopBGM() {
         if (this.bgmPlayer && this.bgmIsPlaying) {
             this.bgmPlayer.pause();
             this.bgmIsPlaying = false;
             console.log('⏸️ BGM停止完了');
+            
+            // ミュートボタンの表示更新
+            this.updateMuteButton();
         }
     }
     
@@ -551,29 +580,77 @@ class RyoCoinSoundNovel {
         });
     }
     
-    // イベントリスナー設定（リンククリック強化版）
+    // イベントリスナー設定（ミュートボタン修正版）
     setupEventListeners() {
         // 全画面タッチ対応
         document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
         document.addEventListener('click', (e) => this.handleGlobalTouch(e));
         
-        // ボタンイベント設定
+        // ボタンイベント設定（ミュートボタン修正）
         const skipBtn = document.getElementById('skipBtn');
         const backBtn = document.getElementById('backBtn');
         const audioOnBtn = document.getElementById('audioOnBtn');
         const audioOffBtn = document.getElementById('audioOffBtn');
         const muteBtn = document.getElementById('muteBtn');
         
-        if (skipBtn) skipBtn.addEventListener('click', (e) => { e.stopPropagation(); this.nextScene(); });
-        if (backBtn) backBtn.addEventListener('click', (e) => { e.stopPropagation(); this.previousScene(); });
-        if (audioOnBtn) audioOnBtn.addEventListener('click', (e) => { e.stopPropagation(); this.enableAudio(); });
-        if (audioOffBtn) audioOffBtn.addEventListener('click', (e) => { e.stopPropagation(); this.disableAudio(); });
-        if (muteBtn) muteBtn.addEventListener('click', (e) => { e.stopPropagation(); this.toggleMute(); });
+        if (skipBtn) {
+            skipBtn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                this.nextScene(); 
+                console.log('⏭️ 次のシーンボタンクリック');
+            });
+        }
         
-        console.log('✅ イベントリスナー設定完了（リンククリック対応）');
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                this.previousScene(); 
+                console.log('⏮️ 前のシーンボタンクリック');
+            });
+        }
+        
+        if (audioOnBtn) {
+            audioOnBtn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                this.enableAudio(); 
+                console.log('🔊 音声ONボタンクリック');
+            });
+        }
+        
+        if (audioOffBtn) {
+            audioOffBtn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                this.disableAudio(); 
+                console.log('🔇 音声OFFボタンクリック');
+            });
+        }
+        
+        // ミュートボタンのイベント設定（強化版）
+        if (muteBtn) {
+            // クリックイベント
+            muteBtn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                console.log('🔘 ミュートボタンクリック検出');
+                this.toggleMute(); 
+            });
+            
+            // タッチイベント（iOS対応）
+            muteBtn.addEventListener('touchend', (e) => { 
+                e.preventDefault();
+                e.stopPropagation(); 
+                console.log('👆 ミュートボタンタッチ検出');
+                this.toggleMute(); 
+            });
+            
+            console.log('✅ ミュートボタンイベント設定完了');
+        } else {
+            console.error('❌ ミュートボタンが見つかりません');
+        }
+        
+        console.log('✅ イベントリスナー設定完了（ミュートボタン対応）');
     }
     
-    // グローバルタッチ処理（リンククリック検出強化）
+    // グローバルタッチ処理
     handleGlobalTouch(e) {
         // ダイアログが表示中は無視
         const audioDialog = document.getElementById('audioDialog');
@@ -581,13 +658,13 @@ class RyoCoinSoundNovel {
             return;
         }
         
-        // ボタンクリックは無視
+        // ボタンクリック（ミュートボタン含む）は無視
         if (e.target.closest('.nav-btn, .mute-btn, .dialog-btn')) {
             console.log('🔘 ボタンクリック検出 - スキップ');
             return;
         }
         
-        // リンククリック検出（改善版）
+        // リンククリック検出
         const linkElement = e.target.closest('a');
         if (linkElement) {
             e.preventDefault();
@@ -596,13 +673,8 @@ class RyoCoinSoundNovel {
             const url = linkElement.href;
             if (url && url.startsWith('http')) {
                 console.log('🔗 リンククリック検出:', url);
-                
-                // 新しいタブで開く
                 window.open(url, '_blank', 'noopener,noreferrer');
-                
-                // リンククリック時も効果音
                 this.playKobanSound();
-                
                 console.log('✅ リンク別窓で開きました');
             }
             return;
@@ -656,25 +728,37 @@ class RyoCoinSoundNovel {
         this.nextText();
     }
     
-    // ミュート切り替え
+    // ミュート切り替え（完全修正版）
     toggleMute() {
+        console.log('🔄 ミュート切り替え開始');
+        console.log('現在の状態:', { 
+            bgmEnabled: this.bgmEnabled, 
+            bgmIsPlaying: this.bgmIsPlaying,
+            userHasInteracted: this.userHasInteracted
+        });
+        
+        // BGM有効/無効の切り替え
         this.bgmEnabled = !this.bgmEnabled;
-        const muteIcon = document.getElementById('muteIcon');
-        const muteBtn = document.getElementById('muteBtn');
         
         if (this.bgmEnabled) {
-            if (this.userHasInteracted) {
-                this.playBGM();
-            }
-            muteIcon.textContent = '🔊';
-            muteBtn.classList.remove('muted');
+            // BGMを有効化
             console.log('🔊 BGM有効化');
+            
+            if (this.userHasInteracted) {
+                setTimeout(() => {
+                    this.playBGM();
+                }, 100);
+            }
         } else {
-            this.stopBGM();
-            muteIcon.textContent = '🔇';
-            muteBtn.classList.add('muted');
+            // BGMを無効化
             console.log('🔇 BGM無効化');
+            this.stopBGM();
         }
+        
+        // ミュートボタンの表示を即座に更新
+        this.updateMuteButton();
+        
+        console.log('✅ ミュート切り替え完了');
     }
     
     completeTyping() {
@@ -712,15 +796,15 @@ class RyoCoinSoundNovel {
         }
     }
     
-    // リンク処理（強化版）
+    // リンク処理
     processTextWithLinks(text) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="story-link" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 4px 8px; margin: -4px -8px; border-radius: 6px; background: rgba(255, 215, 0, 0.15); display: inline-block; border: 2px solid rgba(255, 215, 0, 0.3);">🔗 ${url}</a>`;
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="story-link" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${url}</a>`;
         });
     }
     
-    // リンクイベント設定（新機能）
+    // リンクイベント設定
     setupLinkEvents(container) {
         const links = container.querySelectorAll('a.story-link');
         
@@ -1018,9 +1102,39 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（リンクテスト追加）
+// 開発者向け便利機能（ミュートテスト追加）
 window.NovelUtils = {
-    // リンクテスト（新機能）
+    // ミュートボタンテスト（新機能）
+    testMuteButton: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🔘 ミュートボタンテスト開始');
+            console.log('現在の状態:', {
+                bgmEnabled: window.ryoCoinNovel.bgmEnabled,
+                bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying
+            });
+            window.ryoCoinNovel.toggleMute();
+            console.log('✅ ミュートテスト完了');
+        }
+    },
+    
+    // ミュートボタン状態確認（新機能）
+    checkMuteStatus: () => {
+        if (window.ryoCoinNovel) {
+            const muteBtn = document.getElementById('muteBtn');
+            const muteIcon = document.getElementById('muteIcon');
+            
+            console.log('🔘 ミュートボタン状態:', {
+                bgmEnabled: window.ryoCoinNovel.bgmEnabled,
+                bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying,
+                buttonExists: !!muteBtn,
+                iconExists: !!muteIcon,
+                iconText: muteIcon ? muteIcon.textContent : 'なし',
+                buttonClasses: muteBtn ? muteBtn.className : 'なし'
+            });
+        }
+    },
+    
+    // リンクテスト
     testLinkClick: () => {
         console.log('🔗 リンククリックテスト開始');
         const testUrl = 'https://www.mexc.com/ja-JP/';
@@ -1061,7 +1175,7 @@ window.NovelUtils = {
         }
     },
     
-    // 効果音テスト（音量確認）
+    // 効果音テスト
     playKobanTest: () => {
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.playKobanSound();
@@ -1113,10 +1227,11 @@ window.NovelUtils = {
     
     // 全状態確認
     fullStatus: () => {
+        NovelUtils.checkMuteStatus();
         NovelUtils.checkBGMStatus();
         NovelUtils.checkVoiceStatus();
         NovelUtils.testAudioFiles();
-        console.log('🔍 フル診断完了（リンク対応）');
+        console.log('🔍 フル診断完了（ミュートボタン含む）');
     },
     
     // 全音声停止
@@ -1130,17 +1245,20 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - リンククリック完全対応版
+🎭 RYOコインサウンドノベル - 完璧版（ミュートボタン対応）
 🎵 audio/oshiete.mp3 専用ループシステム
 🎶 audio/bgm.mp3 バックグラウンド音楽システム
 🪙 audio/koban.mp3 効果音システム（音量: 0.3）
-🔗 リンク別窓対応システム（強化版）
+🔗 リンク別窓対応システム
+🔇 ミュートボタン完全対応
 
 🎮 デバッグコマンド:
+NovelUtils.testMuteButton() - ミュートボタンテスト
+NovelUtils.checkMuteStatus() - ミュートボタン状態確認
 NovelUtils.testLinkClick() - リンククリックテスト
 NovelUtils.forceBGM() - BGM強制再生
 NovelUtils.checkBGMStatus() - BGM状態詳細確認
-NovelUtils.playKobanTest() - 小判効果音テスト（音量確認）
+NovelUtils.playKobanTest() - 小判効果音テスト
 NovelUtils.forcePlayVoice() - 強制音声再生
 NovelUtils.testAudioFiles() - 全音声ファイル確認
 NovelUtils.fullStatus() - 全状態診断
@@ -1149,12 +1267,12 @@ NovelUtils.stopAllAudio() - 全音声停止
 📁 必要ファイル:
 audio/oshiete.mp3 - メイン音声ファイル
 audio/bgm.mp3 - バックグラウンド音楽
-audio/koban.mp3 - 小判効果音（音量調整済み）
+audio/koban.mp3 - 小判効果音
 
-🎯 リンク問題解決機能:
-- ✅ リンク直接イベント設定
-- ✅ リンク専用スタイル強化
+🎯 ミュートボタン問題解決機能:
+- ✅ ミュートボタンイベント強化
 - ✅ タッチとクリック両対応
-- ✅ リンククリック専用テスト機能
-- ✅ 小判音量50%削減（0.6→0.3）
+- ✅ リアルタイム表示更新
+- ✅ BGM状態連動
+- ✅ ミュート専用テスト機能
 `);
