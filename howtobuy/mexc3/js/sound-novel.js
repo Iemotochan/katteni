@@ -40,107 +40,172 @@ class RyoCoinSoundNovel {
         this.init();
     }
     
-    // =============================== 
-    // シナリオデータ（MEXC版）
-    // =============================== 
-    getScenarioData() {
-        return [
-            {
-                character: 'ryoko',
-                screenshot: 'image/guide.jpg',
-                texts: [
-                    'こんにちは！両子です✨\n今日はMEXCでの新規登録方法を説明します！',
-                    '作業はちょっぴり多いけど、順番に行けば簡単だから説明していくね！',
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'touroku/1.jpg',
-                texts: [
-                    'まずは次に表示されるリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
-                    '先に説明を見てもいいよ🌟\n新規登録が済んだら戻ってきてね📱',
-                    'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
-                    '例：MyPassword123\nこんな感じで強力にしよう💪'
-                    'リンク: https://promote.mexc.com/r/OrGHfa2q',
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'touroku/2.jpg',
-                texts: [
-                    '電話番号とパスワードを入れたら\nパズルを完成させよう！',
-                    '矢印をスライドさせてピッタリ合わせてみよう。',
-                    '何秒で出来るかな？'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/4.jpg',
-                texts: [
-                    'サイト内で「資産」と書いているところを探してみて🔍',
+// =============================== 
+// シナリオデータ（MEXCでRYOコイン購入版）
+// =============================== 
+getScenarioData() {
+    return [
+        {
+            character: 'ryoko',
+            screenshot: 'image/guide.jpg',
+            texts: [
+                'こんにちは！両子です✨\nついにRYOコインを購入する時がきたよ！',
+                'MEXCでXRPをUSDTに交換して\nそのUSDTでRYOコインを買うんだ💎',
+                'ドキドキするね！一緒に頑張ろう🚀'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/1.jpg',
+            texts: [
+                'まずはmexc.com/ja-jpを開いて\nログインしてください📱',
+                'ログインできたら\n「資産」ボタンをタップしてね💰',
+                'ここからRYOコイン購入の旅が始まります！✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/2.jpg',
+            texts: [
+                '資産画面が開いたら\n画面を下にスライドしていってね📱',
+                'たくさんの通貨が表示されるから\nXRPを探してみよう🔍',
+                'さっき送金したXRPが届いているかチェックだよ💫'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/3.jpg',
+            texts: [
+                'あった！XRPが届いていることを確認できたね🎉',
+                '今度はこのXRPを売却して\nUSDTに交換するんだ💱',
+                'USDTに交換することで\nRYOコインが買えるようになるよ！',
+                '赤い丸の部分をタップしてみて👆'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/4.jpg',
+            texts: [
+                'よし！取引ペア選択画面が開いたよ📊',
+                '「XRP/USDT」を探してタップしてね🎯',
+                'これでXRPをUSDTに交換する準備ができるんだ✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/5.jpg',
+            texts: [
+                'XRP/USDTになっていることを確認したら\n「売却」をタップしてください📈',
+                'ここでXRPを売ってUSDTを手に入れるよ💰',
+                'ちょっと緊張するけど大丈夫！🌟'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/6.jpg',
+            texts: [
+                '「成行注文」をタップしてね💫',
+                'ゲージをスライドすると\n簡単に数量を選べるよ📊',
+                '一気に攻めたい人は\n一番右までスライドしちゃおう！',
+                'そのあと「XRPを売却」をタップ✨',
+                'あっけないけど、もうUSDTをゲットできるよ🎉'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/7.jpg',
+            texts: [
+                'さあ、資産画面に戻って\n下にスライドしてみよう📱',
+                'USDT（テザー）の残高が\n増えているかチェックしてね👀',
+                'XRPが無事にUSDTに変わったかな？💱'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/8.jpg',
+            texts: [
+                'あった！USDTの残高が増えてるね🎉',
+                'よーし、いよいよRYOコインを買うよ💎',
+                '画面下の「取引」をタップしてね📊',
+                'ついに最終ステップです！ワクワク✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/9.jpg',
+            texts: [
+                '取引画面が開いたら\n検索窓を探してね🔍',
+                '検索窓に「RYO」と入力してください💫',
+                'ついにRYOコインとご対面です！✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/10.jpg',
+            texts: [
+                'でてきた！「RYO/USDT」！🎉',
+                'いよいよだね、心の準備はOK？💕',
+                'RYO/USDTをタップしてね👆',
+                '注意書きが出てきたら\n「確認」を押して進んでください✅'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/11.jpg',
+            texts: [
+                'RYO/USDTになっていることを確認して\n「購入」をタップだ！💰',
+                'ついにRYOコインを買う瞬間がきたよ🚀',
+                'ドキドキしちゃうね✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/12.jpg',
+            texts: [
+                '少額の場合は「成行注文」がオススメ📊',
+                'いきなり全力ではなく\nお試しでバーをスライドして購入してみよう！💫',
+                '慣れてきたら全部選んでもOKだよ✨',
+                '準備ができたら「RYOを購入」をタップ！🎯'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/13.jpg',
+            texts: [
+                'はい完了！おめでとうございます🎉✨',
+                '資産画面を見ると\nRYOコインの枚数が表示されているよ💎',
+                'ついにRYOコインホルダーの仲間入りだね！🚀',
+                'お疲れ様でした！よく頑張ったね💕'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/14.jpg',
+            texts: [
+                '次は購入したRYOコインを\nウォレットに送金する方法を案内するよ！💼',
+                'でも今日はひとまずここまで☕',
+                '本当にお疲れ様でした！✨',
+                'RYOコインの未来を一緒に楽しもうね🌟'
+            ],
+            audio: 'audio/oshiete.mp3'
+        }
+    ];
+}
 
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-         
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/5.jpg',
-                texts: [
-                    '資産画面が開きました！💰',
-                    '「入金」をタップしてください。',
-                    'ここで日本の取引所（bittradeやCoincheckなど）で\n購入したXRPをMEXCに送ります🚀'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/6.jpg',
-                texts: [
-                    '入金方法が表示されました！',
-                    '「オンチェーン入金」をタップしてください。',
-                    'これで暗号資産のネットワーク経由で\n他の取引所からXRPを受け取れます⚡'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/7.jpg',
-                texts: [
-                    '通貨選択画面です！🔍',
-                    'XRPを探してタップしてね。',
-                    'たくさんある場合は上の検索ボックスで\n「XRP」と入力すると簡単に見つかるよ✨'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/8.jpg',
-                texts: [
-                    'XRPが選択されていることを確認！✅',
-                    '「アドレスとメモを表示」をタップしてください。',
-                    'ここが重要なポイントです！\nあなた専用のMEXCの入金アドレスを取得します🎯'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/9.jpg',
-                texts: [
-                    'やった！アドレスとメモが表示されました🎉',
-                    'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
-                    'これはMEXC内のあなた専用の\nアドレスとメモ番号です📍',
-                    '両方とも必要になるから\nしっかりコピーしてお苦か、このページに戻ってこれるようにね！💎'
-                ],
-                audio: 'audio/oshiete.mp3'
-            }
-        ];
-    }
-    
     // =============================== 
     // 初期化
     // =============================== 
