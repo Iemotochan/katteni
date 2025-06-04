@@ -13,9 +13,6 @@
     <!-- スターフィールドエフェクト -->
     <canvas id="starfield"></canvas>
     
-    <!-- 広いタッチエリア -->
-    <div id="wideTouchArea" class="wide-touch-area"></div>
-    
     <!-- アプリコンテナ -->
     <div class="app-container">
         <!-- 背景レイヤー（最下層） -->
@@ -53,8 +50,8 @@
             </div>
         </div>
         
-        <!-- メッセージエリア（上層） -->
-        <div class="message-area">
+        <!-- メッセージエリア（上層）- ID追加 -->
+        <div id="messageArea" class="message-area">
             <div class="character-container">
                 <img id="characterImg" 
                      src="image/ryokosensei.png" 
@@ -100,7 +97,7 @@
         </div>
     </div>
     
-    <!-- 音声要素（ループ強化版） -->
+    <!-- 音声要素（効果音対応版） -->
     <audio id="voicePlayer" preload="auto">
         <source src="audio/oshiete.mp3" type="audio/mpeg">
     </audio>
