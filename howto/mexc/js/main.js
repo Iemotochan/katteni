@@ -123,8 +123,26 @@ class RYOCoinApp {
         chImg.onerror = () => console.warn('⚠️ CH画像が見つかりません: image/ch.png');
         chImg.src = 'image/ch.png';
         
+        // 音声ファイルの存在確認（追加）
+        this.checkAudioFiles();
+        
         // ページタイプの表示
         this.displayPageInfo();
+    }
+    
+    // 音声ファイル確認（新機能）
+    checkAudioFiles() {
+        // メイン音声ファイル
+        const mainAudio = new Audio();
+        mainAudio.oncanplaythrough = () => console.log('✅ メイン音声確認完了: audio/oshiete.mp3');
+        mainAudio.onerror = () => console.warn('⚠️ メイン音声が見つかりません: audio/oshiete.mp3');
+        mainAudio.src = 'audio/oshiete.mp3';
+        
+        // BGM
+        const bgmAudio = new Audio();
+        bgmAudio.oncanplaythrough = () => console.log('✅ BGM音声確認完了: audio/bgm.mp3');
+        bgmAudio.onerror = () => console.warn('⚠️ BGM音声が見つかりません: audio/bgm.mp3');
+        bgmAudio.src = 'audio/bgm.mp3';
     }
     
     displayPageInfo() {
@@ -135,6 +153,8 @@ class RYOCoinApp {
             console.log('🌿 LIFE Walletページ - 緑テーマ適用');
         } else if (path.includes('cryptoatm') || path.includes('atm') || title.includes('crypto atm')) {
             console.log('💎 Crypto ATMページ - ブルー＆ホワイトテーマ適用');
+        } else if (path.includes('mexc') || title.includes('mexc')) {
+            console.log('🏆 MEXCページ - 音声ループ対応ゴールドテーマ適用');
         } else {
             console.log('🏅 標準ページ - 小判テーマ適用');
         }
@@ -186,11 +206,132 @@ window.addEventListener('unhandledrejection', (event) => {
 // 開発者向け情報
 console.log(`
 🎌 RYO Coin Effects System
-Version: 2.0
+Version: 2.1
 Adaptive Features:
 - ✅ 適応型テーマ切り替え
 - ✅ マルチタッチ対応
 - ✅ パフォーマンス監視
 - ✅ バッテリー最適化
 - ✅ エラーハンドリング
+- ✅ 音声ファイル確認機能
 `);
+修正版 HTML（変更なし、参考として掲載）
+
+Copy<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MEXC新規登録ガイド | RYOコイン</title>
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <!-- スターフィールドエフェクト -->
+    <canvas id="starfield"></canvas>
+    
+    <!-- 広いタッチエリア -->
+    <div id="wideTouchArea" class="wide-touch-area"></div>
+    
+    <!-- アプリコンテナ -->
+    <div class="app-container">
+        <!-- 背景レイヤー（最下層） -->
+        <div class="background-layer">
+            <img src="image/back.jpg" alt="背景" class="background-img">
+        </div>
+        
+        <!-- 上部ナビゲーション -->
+        <nav class="top-nav">
+            <button id="backBtn" class="nav-btn">
+                <span class="nav-icon">←</span>
+                <span class="nav-text">戻る</span>
+            </button>
+            <button id="skipBtn" class="nav-btn">
+                <span class="nav-text">次へ</span>
+                <span class="nav-icon">→</span>
+            </button>
+        </nav>
+        
+        <!-- 音声ミュートボタン -->
+        <div class="audio-controls">
+            <button id="muteBtn" class="mute-btn">
+                <span id="muteIcon" class="mute-icon">🔊</span>
+            </button>
+        </div>
+        
+        <!-- メインコンテンツエリア（中層） -->
+        <div class="content-area">
+            <div class="screenshot-container">
+                <img id="screenshotImg" 
+                     src="image/guide.jpg" 
+                     alt="MEXC説明画像" 
+                     class="screenshot-img show">
+                <div class="screenshot-overlay"></div>
+            </div>
+        </div>
+        
+        <!-- メッセージエリア（上層） -->
+        <div class="message-area">
+            <div class="character-container">
+                <img id="characterImg" 
+                     src="image/ryokosensei.png" 
+                     alt="キャラクター" 
+                     class="character-img">
+            </div>
+            <div class="speech-bubble">
+                <div class="bubble-arrow"></div>
+                <div class="bubble-content">
+                    <p id="bubbleText" class="bubble-text">
+                        こんにちは！リョウコです✨
+                    </p>
+                </div>
+                <div id="tapIndicator" class="tap-indicator">
+                    <span class="tap-text">画面をタップして続行</span>
+                    <div class="tap-pulse"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- プログレスエリア（最上層） -->
+        <div class="progress-area">
+            <div class="progress-info">
+                <span id="progressCurrent">1</span> / <span id="progressTotal">10</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音声ダイアログ -->
+    <div id="audioDialog" class="audio-dialog">
+        <div class="dialog-overlay"></div>
+        <div class="dialog-content">
+            <div class="audio-icon">🔊</div>
+            <h3>音声を再生しますか？</h3>
+            <p>より良い体験のために音声をオンにすることをお勧めします</p>
+            <div class="dialog-buttons">
+                <button id="audioOnBtn" class="dialog-btn primary">音声ON</button>
+                <button id="audioOffBtn" class="dialog-btn secondary">音声OFF</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音声要素（ループ強化版） -->
+    <audio id="voicePlayer" preload="auto">
+        <source src="audio/oshiete.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgmPlayer" preload="auto" loop>
+        <source src="audio/bgm.mp3" type="audio/mpeg">
+        <source src="audio/bgm.ogg" type="audio/ogg">
+        <source src="audio/bgm.wav" type="audio/wav">
+    </audio>
+    
+    <!-- スクリプト読み込み -->
+    <script src="js/starfield-effect.js"></script>
+    <script src="js/sound-novel.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
