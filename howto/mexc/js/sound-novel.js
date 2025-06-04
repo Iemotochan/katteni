@@ -14,9 +14,8 @@ class RyoCoinSoundNovel {
         // 音声要素の参照
         this.voicePlayer = null;
         this.bgmPlayer = null;
-        this.kobanSoundPlayer = null; // 効果音追加
         this.voiceInitialized = false;
-        this.userHasInteracted = false;
+        this.userHasInteracted = false; // ユーザー操作フラグ
         
         // キャラクター設定
         this.characters = {
@@ -166,27 +165,14 @@ class RyoCoinSoundNovel {
         console.log('✅ MEXCサウンドノベル初期化完了');
     }
     
-    // 音声要素の設定（効果音追加版）
+    // 音声要素の設定（確実再生対応版）
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
         
-        // 小判効果音プレイヤーを動的に作成
-        this.kobanSoundPlayer = new Audio();
-        this.kobanSoundPlayer.src = 'audio/koban.mp3';
-        this.kobanSoundPlayer.volume = 0.6;
-        this.kobanSoundPlayer.preload = 'auto';
-        
-        this.kobanSoundPlayer.addEventListener('loadeddata', () => {
-            console.log('✅ 小判効果音読み込み完了: audio/koban.mp3');
-        });
-        
-        this.kobanSoundPlayer.addEventListener('error', () => {
-            console.warn('⚠️ 小判効果音が見つかりません: audio/koban.mp3（後で追加予定）');
-        });
-        
         // 音声プレイヤーの設定
         if (this.voicePlayer) {
+            // 複数の音声フォーマットでパスを確認
             this.voicePlayer.innerHTML = `
                 <source src="audio/oshiete.mp3" type="audio/mpeg">
                 <source src="audio/oshiete.wav" type="audio/wav">
@@ -197,6 +183,7 @@ class RyoCoinSoundNovel {
             this.voicePlayer.volume = 0.8;
             this.voicePlayer.preload = 'auto';
             
+            // 音声イベントリスナー
             this.voicePlayer.addEventListener('canplaythrough', () => {
                 console.log('✅ 音声ファイル準備完了');
                 this.voiceInitialized = true;
@@ -252,24 +239,6 @@ class RyoCoinSoundNovel {
             
             console.log('✅ BGMプレイヤー設定完了');
         }
-        
-        console.log('✅ 全音声要素設定完了（効果音含む）');
-    }
-    
-    // 小判効果音再生（新機能）
-    playKobanSound() {
-        if (!this.kobanSoundPlayer) return;
-        
-        try {
-            this.kobanSoundPlayer.currentTime = 0;
-            this.kobanSoundPlayer.play().then(() => {
-                console.log('🪙 小判効果音再生！');
-            }).catch(e => {
-                console.warn('🔇 小判効果音再生失敗:', e);
-            });
-        } catch (error) {
-            console.warn('🔇 小判効果音エラー:', error);
-        }
     }
     
     // 音声再生（確実実行版）
@@ -291,12 +260,14 @@ class RyoCoinSoundNovel {
         
         console.log('🎵 音声再生試行...');
         
+        // 音声ファイルの存在確認
         this.checkAudioFile().then(exists => {
             if (!exists) {
                 console.error('❌ audio/oshiete.mp3 が見つかりません');
                 return;
             }
             
+            // 音声再生実行
             this.voicePlayer.currentTime = 0;
             const playPromise = this.voicePlayer.play();
             
@@ -350,7 +321,7 @@ class RyoCoinSoundNovel {
     // 必要な要素チェック
     checkRequiredElements() {
         const requiredIds = [
-            'bubbleText', 'characterImg',
+            'wideTouchArea', 'bubbleText', 'characterImg',
             'tapIndicator', 'progressBar', 'progressCurrent',
             'progressTotal', 'audioDialog', 'screenshotImg',
             'muteBtn', 'muteIcon'
@@ -385,17 +356,12 @@ class RyoCoinSoundNovel {
         });
     }
     
-    // イベントリスナー設定（タッチエリア改善版）
     setupEventListeners() {
-        // 全画面タッチ対応（改善版）
-        document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
-        document.addEventListener('click', (e) => this.handleGlobalTouch(e));
+        const wideTouchArea = document.getElementById('wideTouchArea');
         
-        // メッセージエリア内のリンクタッチ対応
-        const messageArea = document.getElementById('messageArea');
-        if (messageArea) {
-            messageArea.addEventListener('click', (e) => this.handleMessageAreaClick(e));
-            messageArea.addEventListener('touchend', (e) => this.handleMessageAreaClick(e));
+        if (wideTouchArea) {
+            wideTouchArea.addEventListener('touchend', (e) => this.handleTouch(e));
+            wideTouchArea.addEventListener('click', (e) => this.handleTouch(e));
         }
         
         const skipBtn = document.getElementById('skipBtn');
@@ -404,64 +370,20 @@ class RyoCoinSoundNovel {
         const audioOffBtn = document.getElementById('audioOffBtn');
         const muteBtn = document.getElementById('muteBtn');
         
-        if (skipBtn) skipBtn.addEventListener('click', (e) => { e.stopPropagation(); this.nextScene(); });
-        if (backBtn) backBtn.addEventListener('click', (e) => { e.stopPropagation(); this.previousScene(); });
-        if (audioOnBtn) audioOnBtn.addEventListener('click', (e) => { e.stopPropagation(); this.enableAudio(); });
-        if (audioOffBtn) audioOnBtn.addEventListener('click', (e) => { e.stopPropagation(); this.disableAudio(); });
-        if (muteBtn) muteBtn.addEventListener('click', (e) => { e.stopPropagation(); this.toggleMute(); });
+        if (skipBtn) skipBtn.addEventListener('click', () => this.nextScene());
+        if (backBtn) backBtn.addEventListener('click', () => this.previousScene());
+        if (audioOnBtn) audioOnBtn.addEventListener('click', () => this.enableAudio());
+        if (audioOffBtn) audioOffBtn.addEventListener('click', () => this.disableAudio());
+        if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
         
-        console.log('✅ イベントリスナー設定完了（全画面タッチ対応）');
+        console.log('✅ イベントリスナー設定完了');
     }
     
-    // グローバルタッチ処理（新機能）
-    handleGlobalTouch(e) {
-        // ダイアログが表示中は無視
-        const audioDialog = document.getElementById('audioDialog');
-        if (audioDialog && audioDialog.classList.contains('show')) {
-            return;
-        }
-        
-        // ボタンクリックは無視
-        if (e.target.closest('.nav-btn, .mute-btn, .dialog-btn')) {
-            return;
-        }
-        
-        // リンククリックは別処理
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
-            console.log('🔗 リンククリック検出 - 別窓で開きます');
-            return; // リンクの通常動作を許可
-        }
-        
-        // 通常のタッチ処理を実行
-        this.handleTouch(e);
-    }
-    
-    // メッセージエリア内のクリック処理（新機能）
-    handleMessageAreaClick(e) {
-        // リンククリックの場合は別窓で開く
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const link = e.target.tagName === 'A' ? e.target : e.target.closest('a');
-            const url = link.href;
-            
-            if (url) {
-                console.log('🔗 リンククリック:', url);
-                window.open(url, '_blank', 'noopener,noreferrer');
-                
-                // リンククリック時も効果音
-                this.playKobanSound();
-            }
-            return;
-        }
-        
-        // リンク以外のクリックは通常のタッチ処理
-        this.handleTouch(e);
-    }
-    
-    // ユーザー操作処理（効果音追加版）
+    // ユーザー操作処理（音声開始トリガー）
     handleTouch(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         // 初回ユーザー操作を記録
         if (!this.userHasInteracted) {
             this.userHasInteracted = true;
@@ -476,7 +398,7 @@ class RyoCoinSoundNovel {
             
             // 音声開始（有効な場合）
             if (this.audioEnabled) {
-                setTimeout(() => this.playVoice(), 500);
+                setTimeout(() => this.playVoice(), 500); // 少し遅延を入れる
             }
         }
         
@@ -486,9 +408,6 @@ class RyoCoinSoundNovel {
         }
         
         this.lastTouchTime = now;
-        
-        // 効果音再生（重要：タッチ時に必ず鳴らす）
-        this.playKobanSound();
         
         if (this.isTyping) {
             this.completeTyping();
@@ -551,11 +470,10 @@ class RyoCoinSoundNovel {
         }
     }
     
-    // リンク処理（別窓強制対応）
     processTextWithLinks(text) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-link" style="color: #FFD700; text-decoration: underline; font-weight: bold; cursor: pointer; pointer-events: auto;">🔗 ${url}</a>`;
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #FFD700; text-decoration: underline; font-weight: bold;">🔗 ${url}</a>`;
         });
     }
     
@@ -577,7 +495,6 @@ class RyoCoinSoundNovel {
             bubbleText.innerHTML = this.processTextWithLinks(text);
             this.isTyping = false;
             tapIndicator.style.opacity = '1';
-            console.log('🔗 リンク付きテキスト表示完了');
         } else {
             bubbleText.textContent = '';
             
@@ -700,7 +617,7 @@ class RyoCoinSoundNovel {
     // 音声有効化（確実実行版）
     enableAudio() {
         this.audioEnabled = true;
-        this.userHasInteracted = true;
+        this.userHasInteracted = true; // 強制的にフラグを立てる
         this.hideAudioDialog();
         this.startStory();
         
@@ -720,7 +637,6 @@ class RyoCoinSoundNovel {
     // 音声無効化
     disableAudio() {
         this.audioEnabled = false;
-        this.userHasInteracted = true; // 効果音のために必要
         this.hideAudioDialog();
         this.startStory();
         
@@ -729,7 +645,7 @@ class RyoCoinSoundNovel {
             this.bgmPlayer.play().catch(e => console.warn('🔇 BGM開始失敗:', e));
         }
         
-        console.log('🔇 無音モード（BGM＋効果音のみ）');
+        console.log('🔇 無音モード（BGMのみ）');
     }
     
     hideAudioDialog() {
@@ -763,7 +679,7 @@ class RyoCoinSoundNovel {
         }, 3000);
     }
     
-    // クリーンアップ（効果音対応版）
+    // クリーンアップ
     destroy() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
@@ -780,12 +696,7 @@ class RyoCoinSoundNovel {
             this.bgmPlayer.currentTime = 0;
         }
         
-        if (this.kobanSoundPlayer) {
-            this.kobanSoundPlayer.pause();
-            this.kobanSoundPlayer.currentTime = 0;
-        }
-        
-        console.log('🧹 クリーンアップ完了（効果音含む）');
+        console.log('🧹 クリーンアップ完了');
     }
 }
 
@@ -806,16 +717,8 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（効果音追加版）
+// 開発者向け便利機能
 window.NovelUtils = {
-    // 効果音テスト（新機能）
-    playKobanTest: () => {
-        if (window.ryoCoinNovel) {
-            window.ryoCoinNovel.playKobanSound();
-            console.log('🪙 小判効果音テスト実行');
-        }
-    },
-    
     // 音声強制再生テスト
     forcePlayVoice: () => {
         if (window.ryoCoinNovel) {
@@ -848,10 +751,6 @@ window.NovelUtils = {
         const audio = new Audio('audio/oshiete.mp3');
         audio.oncanplaythrough = () => console.log('✅ audio/oshiete.mp3 存在確認');
         audio.onerror = () => console.error('❌ audio/oshiete.mp3 見つからない');
-        
-        const koban = new Audio('audio/koban.mp3');
-        koban.oncanplaythrough = () => console.log('✅ audio/koban.mp3 存在確認');
-        koban.onerror = () => console.warn('⚠️ audio/koban.mp3 見つからない（後で追加予定）');
     },
     
     // 全状態確認
@@ -863,13 +762,10 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - タッチ＆効果音対応版
+🎭 RYOコインサウンドノベル - 音声確実再生版
 🎵 audio/oshiete.mp3 専用ループシステム
-🪙 audio/koban.mp3 効果音システム
-🔗 リンク別窓対応システム
 
 🎮 デバッグコマンド:
-NovelUtils.playKobanTest() - 小判効果音テスト
 NovelUtils.forcePlayVoice() - 強制音声再生
 NovelUtils.checkVoiceStatus() - 音声状態確認  
 NovelUtils.testAudioFile() - ファイル存在確認
@@ -877,12 +773,5 @@ NovelUtils.fullStatus() - 全状態診断
 
 📁 必要ファイル:
 audio/oshiete.mp3 - メイン音声ファイル
-audio/koban.mp3 - 小判効果音（後で追加）
 audio/bgm.mp3 - 背景音楽
-
-🎯 新機能:
-- ✅ 全画面タッチ対応
-- ✅ リンク別窓自動開き
-- ✅ 小判効果音システム
-- ✅ テキスト枠内リンククリック対応
 `);
