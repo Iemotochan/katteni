@@ -28,7 +28,7 @@ class RyoCoinSoundNovel {
                 voice: 'female'
             },
             zenta: {
-                name: 'ゼンタ先生',
+                name: '禅太先生',
                 image: 'image/zentasensei.png',
                 voice: 'male'
             }
@@ -69,7 +69,7 @@ class RyoCoinSoundNovel {
                 character: 'zenta',
                 screenshot: 'image/2.jpg',
                 texts: [
-                    'ゼンタです！今回は\nメニューバーから新規登録で進めます。',
+                    '禅太です！今回は\nメニューバーから新規登録で進めます。',
                     'Googleアカウントも便利ですが\n今回は手動登録で詳しく説明しますね。',
                     '三本線メニューをタップして\n「新規登録」を選択してください！'
                 ],
