@@ -14,8 +14,11 @@ class RyoCoinSoundNovel {
         // 音声要素の参照
         this.voicePlayer = null;
         this.bgmPlayer = null;
+        this.kobanSoundPlayer = null;
         this.voiceInitialized = false;
-        this.userHasInteracted = false; // ユーザー操作フラグ
+        this.bgmInitialized = false; // BGM初期化フラグ追加
+        this.userHasInteracted = false;
+        this.bgmRetryCount = 0; // BGMリトライカウンター
         
         // キャラクター設定
         this.characters = {
@@ -165,14 +168,27 @@ class RyoCoinSoundNovel {
         console.log('✅ MEXCサウンドノベル初期化完了');
     }
     
-    // 音声要素の設定（確実再生対応版）
+    // 音声要素の設定（BGM強化版）
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
         
+        // 小判効果音プレイヤーを動的に作成
+        this.kobanSoundPlayer = new Audio();
+        this.kobanSoundPlayer.src = 'audio/koban.mp3';
+        this.kobanSoundPlayer.volume = 0.6;
+        this.kobanSoundPlayer.preload = 'auto';
+        
+        this.kobanSoundPlayer.addEventListener('loadeddata', () => {
+            console.log('✅ 小判効果音読み込み完了: audio/koban.mp3');
+        });
+        
+        this.kobanSoundPlayer.addEventListener('error', () => {
+            console.warn('⚠️ 小判効果音が見つかりません: audio/koban.mp3（後で追加予定）');
+        });
+        
         // 音声プレイヤーの設定
         if (this.voicePlayer) {
-            // 複数の音声フォーマットでパスを確認
             this.voicePlayer.innerHTML = `
                 <source src="audio/oshiete.mp3" type="audio/mpeg">
                 <source src="audio/oshiete.wav" type="audio/wav">
@@ -183,7 +199,6 @@ class RyoCoinSoundNovel {
             this.voicePlayer.volume = 0.8;
             this.voicePlayer.preload = 'auto';
             
-            // 音声イベントリスナー
             this.voicePlayer.addEventListener('canplaythrough', () => {
                 console.log('✅ 音声ファイル準備完了');
                 this.voiceInitialized = true;
@@ -222,22 +237,206 @@ class RyoCoinSoundNovel {
             console.log('✅ 音声プレイヤー設定完了');
         }
         
-        // BGMプレイヤーの設定
+        // BGMプレイヤーの設定（強化版）
         if (this.bgmPlayer) {
-            this.bgmPlayer.volume = 0.3;
-            this.bgmPlayer.loop = true;
+            // BGMファイルの存在確認を先に行う
+            this.checkBGMFile().then(exists => {
+                if (!exists) {
+                    console.warn('⚠️ BGMファイルが見つかりません: audio/bgm.mp3');
+                    this.createFallbackBGM(); // フォールバック作成
+                    return;
+                }
+                
+                this.bgmPlayer.volume = 0.3;
+                this.bgmPlayer.loop = true;
+                this.bgmPlayer.preload = 'auto';
+                
+                // BGMイベントリスナー設定
+                this.bgmPlayer.addEventListener('loadeddata', () => {
+                    console.log('✅ BGM読み込み完了: audio/bgm.mp3');
+                    this.bgmInitialized = true;
+                });
+                
+                this.bgmPlayer.addEventListener('canplaythrough', () => {
+                    console.log('✅ BGM再生準備完了');
+                    this.bgmInitialized = true;
+                });
+                
+                this.bgmPlayer.addEventListener('play', () => {
+                    this.bgmIsPlaying = true;
+                    this.bgmRetryCount = 0; // リトライカウンターリセット
+                    console.log('🎵 BGM再生開始！');
+                });
+                
+                this.bgmPlayer.addEventListener('pause', () => {
+                    this.bgmIsPlaying = false;
+                    console.log('⏸️ BGM停止');
+                });
+                
+                this.bgmPlayer.addEventListener('ended', () => {
+                    console.log('🔄 BGM終了 → 自動再開');
+                    if (this.bgmEnabled) {
+                        this.bgmPlayer.currentTime = 0;
+                        this.playBGM();
+                    }
+                });
+                
+                this.bgmPlayer.addEventListener('error', (e) => {
+                    console.error('❌ BGMエラー:', e);
+                    this.retryBGM();
+                });
+                
+                // BGMの音量調整（段階的に上げる）
+                this.bgmPlayer.addEventListener('loadstart', () => {
+                    console.log('🔄 BGM読み込み開始...');
+                });
+                
+                console.log('✅ BGMプレイヤー設定完了');
+            });
+        }
+        
+        console.log('✅ 全音声要素設定完了（BGM強化）');
+    }
+    
+    // BGMファイル存在確認（新機能）
+    async checkBGMFile() {
+        return new Promise((resolve) => {
+            const audio = new Audio();
             
-            this.bgmPlayer.addEventListener('play', () => {
+            const timeout = setTimeout(() => {
+                console.warn('⚠️ BGM確認タイムアウト');
+                resolve(false);
+            }, 5000);
+            
+            audio.oncanplaythrough = () => {
+                clearTimeout(timeout);
+                console.log('✅ audio/bgm.mp3 確認済み');
+                resolve(true);
+            };
+            
+            audio.onerror = () => {
+                clearTimeout(timeout);
+                console.error('❌ audio/bgm.mp3 が見つかりません');
+                resolve(false);
+            };
+            
+            audio.src = 'audio/bgm.mp3?t=' + Date.now(); // キャッシュ回避
+        });
+    }
+    
+    // フォールバックBGM作成（新機能）
+    createFallbackBGM() {
+        console.log('🔄 フォールバックBGM作成中...');
+        
+        // 代替BGMとして簡単な音を生成（Web Audio API使用）
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            const createTone = (frequency, duration, delay = 0) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + delay);
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime + delay);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + delay + duration);
+                
+                oscillator.start(audioContext.currentTime + delay);
+                oscillator.stop(audioContext.currentTime + delay + duration);
+            };
+            
+            // 簡単なメロディーでフォールバック（音が小さく、邪魔にならない）
+            const playFallbackBGM = () => {
+                if (this.bgmEnabled && !this.bgmIsPlaying) {
+                    createTone(440, 0.5, 0);    // A
+                    createTone(523, 0.5, 0.5);  // C
+                    createTone(659, 0.5, 1.0);  // E
+                    
+                    setTimeout(playFallbackBGM, 5000); // 5秒後に繰り返し
+                }
+            };
+            
+            this.fallbackBGMFunction = playFallbackBGM;
+            console.log('✅ フォールバックBGM準備完了');
+            
+        } catch (error) {
+            console.warn('⚠️ フォールバックBGM作成失敗:', error);
+        }
+    }
+    
+    // BGM再生（確実実行版）
+    playBGM() {
+        if (!this.bgmEnabled) {
+            console.log('🔇 BGM無効モード');
+            return;
+        }
+        
+        if (!this.userHasInteracted) {
+            console.log('⏳ BGM: ユーザー操作待ち');
+            return;
+        }
+        
+        // 通常のBGMファイルを試行
+        if (this.bgmPlayer && this.bgmInitialized) {
+            console.log('🎵 BGM再生試行...');
+            
+            this.bgmPlayer.currentTime = 0;
+            const playPromise = this.bgmPlayer.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('✅ BGM再生成功！');
+                    this.bgmIsPlaying = true;
+                }).catch(error => {
+                    console.error('❌ BGM再生失敗:', error);
+                    this.retryBGM();
+                });
+            }
+        } else {
+            // フォールバックBGMを使用
+            console.log('🔄 フォールバックBGMを使用');
+            if (this.fallbackBGMFunction) {
+                this.fallbackBGMFunction();
                 this.bgmIsPlaying = true;
-                console.log('🎵 BGM再生開始');
+            }
+        }
+    }
+    
+    // BGM再生リトライ（新機能）
+    retryBGM() {
+        this.bgmRetryCount++;
+        
+        if (this.bgmRetryCount > 3) {
+            console.warn('⚠️ BGM再試行上限に達しました - フォールバック使用');
+            if (this.fallbackBGMFunction) {
+                this.fallbackBGMFunction();
+            }
+            return;
+        }
+        
+        console.log(`🔄 BGM再試行 ${this.bgmRetryCount}/3 （3秒後）`);
+        setTimeout(() => {
+            if (this.bgmEnabled && this.userHasInteracted && !this.bgmIsPlaying) {
+                this.playBGM();
+            }
+        }, 3000);
+    }
+    
+    // 小判効果音再生
+    playKobanSound() {
+        if (!this.kobanSoundPlayer) return;
+        
+        try {
+            this.kobanSoundPlayer.currentTime = 0;
+            this.kobanSoundPlayer.play().then(() => {
+                console.log('🪙 小判効果音再生！');
+            }).catch(e => {
+                console.warn('🔇 小判効果音再生失敗:', e);
             });
-            
-            this.bgmPlayer.addEventListener('pause', () => {
-                this.bgmIsPlaying = false;
-                console.log('⏸️ BGM停止');
-            });
-            
-            console.log('✅ BGMプレイヤー設定完了');
+        } catch (error) {
+            console.warn('🔇 小判効果音エラー:', error);
         }
     }
     
@@ -260,14 +459,12 @@ class RyoCoinSoundNovel {
         
         console.log('🎵 音声再生試行...');
         
-        // 音声ファイルの存在確認
         this.checkAudioFile().then(exists => {
             if (!exists) {
                 console.error('❌ audio/oshiete.mp3 が見つかりません');
                 return;
             }
             
-            // 音声再生実行
             this.voicePlayer.currentTime = 0;
             const playPromise = this.voicePlayer.play();
             
@@ -318,10 +515,19 @@ class RyoCoinSoundNovel {
         }
     }
     
+    // BGM停止（新機能）
+    stopBGM() {
+        if (this.bgmPlayer && this.bgmIsPlaying) {
+            this.bgmPlayer.pause();
+            this.bgmIsPlaying = false;
+            console.log('⏸️ BGM停止完了');
+        }
+    }
+    
     // 必要な要素チェック
     checkRequiredElements() {
         const requiredIds = [
-            'wideTouchArea', 'bubbleText', 'characterImg',
+            'bubbleText', 'characterImg',
             'tapIndicator', 'progressBar', 'progressCurrent',
             'progressTotal', 'audioDialog', 'screenshotImg',
             'muteBtn', 'muteIcon'
@@ -356,12 +562,15 @@ class RyoCoinSoundNovel {
         });
     }
     
+    // イベントリスナー設定
     setupEventListeners() {
-        const wideTouchArea = document.getElementById('wideTouchArea');
+        document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
+        document.addEventListener('click', (e) => this.handleGlobalTouch(e));
         
-        if (wideTouchArea) {
-            wideTouchArea.addEventListener('touchend', (e) => this.handleTouch(e));
-            wideTouchArea.addEventListener('click', (e) => this.handleTouch(e));
+        const messageArea = document.getElementById('messageArea');
+        if (messageArea) {
+            messageArea.addEventListener('click', (e) => this.handleMessageAreaClick(e));
+            messageArea.addEventListener('touchend', (e) => this.handleMessageAreaClick(e));
         }
         
         const skipBtn = document.getElementById('skipBtn');
@@ -370,35 +579,71 @@ class RyoCoinSoundNovel {
         const audioOffBtn = document.getElementById('audioOffBtn');
         const muteBtn = document.getElementById('muteBtn');
         
-        if (skipBtn) skipBtn.addEventListener('click', () => this.nextScene());
-        if (backBtn) backBtn.addEventListener('click', () => this.previousScene());
-        if (audioOnBtn) audioOnBtn.addEventListener('click', () => this.enableAudio());
-        if (audioOffBtn) audioOffBtn.addEventListener('click', () => this.disableAudio());
-        if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
+        if (skipBtn) skipBtn.addEventListener('click', (e) => { e.stopPropagation(); this.nextScene(); });
+        if (backBtn) backBtn.addEventListener('click', (e) => { e.stopPropagation(); this.previousScene(); });
+        if (audioOnBtn) audioOnBtn.addEventListener('click', (e) => { e.stopPropagation(); this.enableAudio(); });
+        if (audioOffBtn) audioOffBtn.addEventListener('click', (e) => { e.stopPropagation(); this.disableAudio(); });
+        if (muteBtn) muteBtn.addEventListener('click', (e) => { e.stopPropagation(); this.toggleMute(); });
         
-        console.log('✅ イベントリスナー設定完了');
+        console.log('✅ イベントリスナー設定完了（BGM対応）');
     }
     
-    // ユーザー操作処理（音声開始トリガー）
-    handleTouch(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    // グローバルタッチ処理
+    handleGlobalTouch(e) {
+        const audioDialog = document.getElementById('audioDialog');
+        if (audioDialog && audioDialog.classList.contains('show')) {
+            return;
+        }
         
+        if (e.target.closest('.nav-btn, .mute-btn, .dialog-btn')) {
+            return;
+        }
+        
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+            console.log('🔗 リンククリック検出 - 別窓で開きます');
+            return;
+        }
+        
+        this.handleTouch(e);
+    }
+    
+    // メッセージエリア内のクリック処理
+    handleMessageAreaClick(e) {
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const link = e.target.tagName === 'A' ? e.target : e.target.closest('a');
+            const url = link.href;
+            
+            if (url) {
+                console.log('🔗 リンククリック:', url);
+                window.open(url, '_blank', 'noopener,noreferrer');
+                this.playKobanSound();
+            }
+            return;
+        }
+        
+        this.handleTouch(e);
+    }
+    
+    // ユーザー操作処理（BGM開始強化版）
+    handleTouch(e) {
         // 初回ユーザー操作を記録
         if (!this.userHasInteracted) {
             this.userHasInteracted = true;
-            console.log('✅ ユーザー操作検出 - 音声再生可能状態');
+            console.log('✅ ユーザー操作検出 - 全音声再生可能状態');
             
-            // BGM開始
-            if (this.bgmEnabled && this.bgmPlayer) {
-                this.bgmPlayer.play().catch(e => {
-                    console.warn('🔇 BGM再生失敗:', e);
-                });
-            }
+            // BGM開始（確実に実行）
+            setTimeout(() => {
+                if (this.bgmEnabled) {
+                    this.playBGM();
+                }
+            }, 100);
             
             // 音声開始（有効な場合）
             if (this.audioEnabled) {
-                setTimeout(() => this.playVoice(), 500); // 少し遅延を入れる
+                setTimeout(() => this.playVoice(), 500);
             }
         }
         
@@ -409,6 +654,15 @@ class RyoCoinSoundNovel {
         
         this.lastTouchTime = now;
         
+        // 効果音再生
+        this.playKobanSound();
+        
+        // BGMが停止していたら再開を試行
+        if (this.bgmEnabled && !this.bgmIsPlaying && this.userHasInteracted) {
+            console.log('🔄 BGM再開試行');
+            this.playBGM();
+        }
+        
         if (this.isTyping) {
             this.completeTyping();
             return;
@@ -417,24 +671,24 @@ class RyoCoinSoundNovel {
         this.nextText();
     }
     
-    // ミュート切り替え
+    // ミュート切り替え（BGM対応強化）
     toggleMute() {
         this.bgmEnabled = !this.bgmEnabled;
         const muteIcon = document.getElementById('muteIcon');
         const muteBtn = document.getElementById('muteBtn');
         
         if (this.bgmEnabled) {
-            if (this.bgmPlayer && this.userHasInteracted) {
-                this.bgmPlayer.play().catch(e => console.warn('🔇 BGM再生失敗:', e));
+            if (this.userHasInteracted) {
+                this.playBGM();
             }
             muteIcon.textContent = '🔊';
             muteBtn.classList.remove('muted');
+            console.log('🔊 BGM有効化');
         } else {
-            if (this.bgmPlayer) {
-                this.bgmPlayer.pause();
-            }
+            this.stopBGM();
             muteIcon.textContent = '🔇';
             muteBtn.classList.add('muted');
+            console.log('🔇 BGM無効化');
         }
     }
     
@@ -473,7 +727,7 @@ class RyoCoinSoundNovel {
     processTextWithLinks(text) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #FFD700; text-decoration: underline; font-weight: bold;">🔗 ${url}</a>`;
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-link" style="color: #FFD700; text-decoration: underline; font-weight: bold; cursor: pointer; pointer-events: auto;">🔗 ${url}</a>`;
         });
     }
     
@@ -495,6 +749,7 @@ class RyoCoinSoundNovel {
             bubbleText.innerHTML = this.processTextWithLinks(text);
             this.isTyping = false;
             tapIndicator.style.opacity = '1';
+            console.log('🔗 リンク付きテキスト表示完了');
         } else {
             bubbleText.textContent = '';
             
@@ -614,38 +869,43 @@ class RyoCoinSoundNovel {
         }
     }
     
-    // 音声有効化（確実実行版）
+    // 音声有効化（BGM開始確実版）
     enableAudio() {
         this.audioEnabled = true;
-        this.userHasInteracted = true; // 強制的にフラグを立てる
+        this.userHasInteracted = true;
         this.hideAudioDialog();
         this.startStory();
         
-        // BGM開始
-        if (this.bgmEnabled && this.bgmPlayer) {
-            this.bgmPlayer.play().catch(e => console.warn('🔇 BGM開始失敗:', e));
-        }
+        // BGM確実開始
+        setTimeout(() => {
+            if (this.bgmEnabled) {
+                this.playBGM();
+            }
+        }, 100);
         
-        // 音声開始（少し遅延）
+        // 音声開始
         setTimeout(() => {
             this.playVoice();
         }, 1000);
         
-        console.log('🔊 音声モード有効化 - 1秒後に音声開始');
+        console.log('🔊 音声モード有効化 - BGM＋音声開始');
     }
     
-    // 音声無効化
+    // 音声無効化（BGM開始確実版）
     disableAudio() {
         this.audioEnabled = false;
+        this.userHasInteracted = true;
         this.hideAudioDialog();
         this.startStory();
         
-        // BGMのみ開始
-        if (this.bgmEnabled && this.bgmPlayer) {
-            this.bgmPlayer.play().catch(e => console.warn('🔇 BGM開始失敗:', e));
-        }
+        // BGM確実開始
+        setTimeout(() => {
+            if (this.bgmEnabled) {
+                this.playBGM();
+            }
+        }, 100);
         
-        console.log('🔇 無音モード（BGMのみ）');
+        console.log('🔇 無音モード（BGM＋効果音のみ）');
     }
     
     hideAudioDialog() {
@@ -679,7 +939,7 @@ class RyoCoinSoundNovel {
         }, 3000);
     }
     
-    // クリーンアップ
+    // クリーンアップ（BGM対応版）
     destroy() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
@@ -696,7 +956,12 @@ class RyoCoinSoundNovel {
             this.bgmPlayer.currentTime = 0;
         }
         
-        console.log('🧹 クリーンアップ完了');
+        if (this.kobanSoundPlayer) {
+            this.kobanSoundPlayer.pause();
+            this.kobanSoundPlayer.currentTime = 0;
+        }
+        
+        console.log('🧹 クリーンアップ完了（全音声停止）');
     }
 }
 
@@ -717,8 +982,46 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能
+// 開発者向け便利機能（BGM診断強化版）
 window.NovelUtils = {
+    // BGM強制再生テスト（新機能）
+    forceBGM: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.bgmEnabled = true;
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.playBGM();
+            console.log('🎵 BGM強制再生実行');
+        }
+    },
+    
+    // BGM状態詳細確認（新機能）
+    checkBGMStatus: () => {
+        if (window.ryoCoinNovel && window.ryoCoinNovel.bgmPlayer) {
+            const bgm = window.ryoCoinNovel.bgmPlayer;
+            console.log('🎵 BGM状態:', {
+                src: bgm.src,
+                canPlay: bgm.readyState >= 2,
+                playing: !bgm.paused,
+                volume: bgm.volume,
+                loop: bgm.loop,
+                duration: bgm.duration,
+                currentTime: bgm.currentTime,
+                bgmEnabled: window.ryoCoinNovel.bgmEnabled,
+                bgmInitialized: window.ryoCoinNovel.bgmInitialized,
+                userInteracted: window.ryoCoinNovel.userHasInteracted,
+                retryCount: window.ryoCoinNovel.bgmRetryCount
+            });
+        }
+    },
+    
+    // 効果音テスト
+    playKobanTest: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+            console.log('🪙 小判効果音テスト実行');
+        }
+    },
+    
     // 音声強制再生テスト
     forcePlayVoice: () => {
         if (window.ryoCoinNovel) {
@@ -746,32 +1049,67 @@ window.NovelUtils = {
         }
     },
     
-    // 音声ファイル確認
-    testAudioFile: () => {
+    // 音声ファイル確認（BGM追加）
+    testAudioFiles: () => {
+        // 音声ファイル確認
         const audio = new Audio('audio/oshiete.mp3');
         audio.oncanplaythrough = () => console.log('✅ audio/oshiete.mp3 存在確認');
         audio.onerror = () => console.error('❌ audio/oshiete.mp3 見つからない');
+        
+        // BGMファイル確認
+        const bgm = new Audio('audio/bgm.mp3');
+        bgm.oncanplaythrough = () => console.log('✅ audio/bgm.mp3 存在確認');
+        bgm.onerror = () => console.error('❌ audio/bgm.mp3 見つからない');
+        
+        // 効果音ファイル確認
+        const koban = new Audio('audio/koban.mp3');
+        koban.oncanplaythrough = () => console.log('✅ audio/koban.mp3 存在確認');
+        koban.onerror = () => console.warn('⚠️ audio/koban.mp3 見つからない（後で追加予定）');
     },
     
-    // 全状態確認
+    // 全状態確認（BGM追加）
     fullStatus: () => {
+        NovelUtils.checkBGMStatus();
         NovelUtils.checkVoiceStatus();
-        NovelUtils.testAudioFile();
-        console.log('🔍 フル診断完了');
+        NovelUtils.testAudioFiles();
+        console.log('🔍 フル診断完了（BGM含む）');
+    },
+    
+    // 全音声停止
+    stopAllAudio: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.stopVoice();
+            window.ryoCoinNovel.stopBGM();
+            console.log('⏸️ 全音声停止');
+        }
     }
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - 音声確実再生版
+🎭 RYOコインサウンドノベル - BGM確実再生版
 🎵 audio/oshiete.mp3 専用ループシステム
+🎶 audio/bgm.mp3 バックグラウンド音楽システム
+🪙 audio/koban.mp3 効果音システム
+🔗 リンク別窓対応システム
 
 🎮 デバッグコマンド:
+NovelUtils.forceBGM() - BGM強制再生
+NovelUtils.checkBGMStatus() - BGM状態詳細確認
+NovelUtils.playKobanTest() - 小判効果音テスト
 NovelUtils.forcePlayVoice() - 強制音声再生
-NovelUtils.checkVoiceStatus() - 音声状態確認  
-NovelUtils.testAudioFile() - ファイル存在確認
+NovelUtils.testAudioFiles() - 全音声ファイル確認
 NovelUtils.fullStatus() - 全状態診断
+NovelUtils.stopAllAudio() - 全音声停止
 
 📁 必要ファイル:
 audio/oshiete.mp3 - メイン音声ファイル
-audio/bgm.mp3 - 背景音楽
+audio/bgm.mp3 - バックグラウンド音楽 ⭐
+audio/koban.mp3 - 小判効果音（後で追加）
+
+🎯 BGM問題解決機能:
+- ✅ BGMファイル存在確認
+- ✅ BGM確実再生システム
+- ✅ BGMリトライ機能
+- ✅ フォールバックBGM
+- ✅ BGM詳細診断機能
 `);
