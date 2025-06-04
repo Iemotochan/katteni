@@ -82,7 +82,7 @@ html, body {
 }
 
 /* ============================== */
-/* 上部ナビゲーション */
+/* 上部ナビゲーション（中央配置） */
 /* ============================== */
 .top-nav {
     position: absolute;
@@ -145,64 +145,6 @@ html, body {
 
 .nav-text {
     font-size: 14px;
-}
-
-/* ============================== */
-/* 音声ミュートボタン */
-/* ============================== */
-.audio-controls {
-    position: absolute;
-    top: 15px;
-    right: 50%;
-    transform: translateX(50%);
-    z-index: 20;
-    padding-top: max(0px, env(safe-area-inset-top));
-}
-
-.mute-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 2px solid #FFD700;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    pointer-events: auto;
-    z-index: 21;
-}
-
-.mute-btn::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    right: -15px;
-    bottom: -15px;
-    z-index: -1;
-}
-
-.mute-btn:hover, .mute-btn:active {
-    background: rgba(255, 215, 0, 0.2);
-    border-color: #FFA500;
-    transform: scale(1.1);
-}
-
-.mute-btn.muted {
-    background: rgba(128, 128, 128, 0.8);
-    border-color: #999;
-}
-
-.mute-icon {
-    font-size: 20px;
-    transition: all 0.3s ease;
 }
 
 /* ============================== */
@@ -413,7 +355,7 @@ html, body {
 }
 
 /* ============================== */
-/* 吹き出し（リンク対応最強化） */
+/* 吹き出し */
 /* ============================== */
 .speech-bubble { 
     flex: 1; 
@@ -458,12 +400,11 @@ html, body {
 }
 
 /* ============================== */
-/* 吹き出し内容（リンク完全対応） */
+/* 吹き出し内容 */
 /* ============================== */
 .bubble-content {
     position: relative;
     z-index: 1;
-    /* 通常はタッチを通すが、リンクは受け取る */
     pointer-events: none;
 }
 
@@ -479,52 +420,33 @@ html, body {
 }
 
 /* ============================== */
-/* リンクスタイル（最強化版） */
+/* リンクスタイル */
 /* ============================== */
 .bubble-text a,
 .bubble-text .story-link {
-    /* 基本スタイル */
     color: #FFD700 !important;
     text-decoration: underline !important;
     font-weight: bold !important;
     cursor: pointer !important;
-    
-    /* レイアウト */
     display: inline-block !important;
     padding: 6px 12px !important;
     margin: 2px 4px !important;
     border-radius: 8px !important;
-    
-    /* 背景とボーダー */
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important;
     border: 2px solid rgba(255, 215, 0, 0.5) !important;
     box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important;
-    
-    /* アニメーション */
     transition: all 0.3s ease !important;
     transform: scale(1) !important;
-    
-    /* タッチ対応 */
     pointer-events: auto !important;
-    -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
-    -webkit-touch-callout: default !important;
-    
-    /* フォント */
-    font-family: inherit !important;
-    font-size: inherit !important;
-    line-height: 1.4 !important;
-    
-    /* 確実にクリック可能にする */
     position: relative !important;
     z-index: 1000 !important;
-    
-    /* タッチエリア拡張 */
     min-width: 44px !important;
     min-height: 44px !important;
     text-align: center !important;
+    -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
+    -webkit-touch-callout: default !important;
 }
 
-/* ホバー・アクティブ状態 */
 .bubble-text a:hover,
 .bubble-text .story-link:hover,
 .bubble-text a:active,
@@ -536,14 +458,6 @@ html, body {
     text-decoration: none !important;
 }
 
-/* フォーカス状態 */
-.bubble-text a:focus,
-.bubble-text .story-link:focus {
-    outline: 3px solid rgba(255, 215, 0, 0.6) !important;
-    outline-offset: 2px !important;
-}
-
-/* リンク専用擬似要素でタッチエリア拡張 */
 .bubble-text a::before,
 .bubble-text .story-link::before {
     content: '' !important;
@@ -553,8 +467,6 @@ html, body {
     right: -10px !important;
     bottom: -10px !important;
     z-index: -1 !important;
-    /* デバッグ用 - 本番では削除 */
-    /* background: rgba(255, 0, 0, 0.2) !important; */
 }
 
 /* ============================== */
@@ -664,7 +576,7 @@ html, body {
 }
 
 /* ============================== */
-/* レスポンシブ（リンク対応） */
+/* レスポンシブ */
 /* ============================== */
 @media (max-width: 375px) {
     .character-container {
@@ -696,11 +608,6 @@ html, body {
     .nav-btn {
         min-width: 80px;
         padding: 14px 20px;
-    }
-    
-    .mute-btn {
-        width: 48px;
-        height: 48px;
     }
     
     .screenshot-container {
@@ -753,17 +660,8 @@ html, body {
         font-size: 13px !important;
     }
     
-    .audio-controls {
-        top: 10px;
-    }
-    
     .top-nav {
         top: 10px;
-    }
-    
-    .mute-btn {
-        width: 45px;
-        height: 45px;
     }
     
     .screenshot-container {
@@ -773,7 +671,7 @@ html, body {
 }
 
 /* ============================== */
-/* iOS対応（リンク最適化） */
+/* iOS対応 */
 /* ============================== */
 @supports (-webkit-appearance: none) {
     .app-container {
@@ -782,18 +680,15 @@ html, body {
     }
     
     .nav-btn,
-    .dialog-btn,
-    .mute-btn {
+    .dialog-btn {
         -webkit-appearance: none;
         -webkit-tap-highlight-color: transparent;
     }
     
     .bubble-text a,
     .bubble-text .story-link {
-        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.4) !important;
-        -webkit-touch-callout: default !important;
-        -webkit-user-select: none !important;
         -webkit-appearance: none !important;
+        -webkit-user-select: none !important;
     }
 }
 
@@ -802,10 +697,6 @@ html, body {
 /* ============================== */
 @supports (padding: max(0px)) {
     .top-nav {
-        padding-top: max(15px, env(safe-area-inset-top));
-    }
-    
-    .audio-controls {
         padding-top: max(15px, env(safe-area-inset-top));
     }
     
