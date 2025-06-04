@@ -40,106 +40,190 @@ class RyoCoinSoundNovel {
         this.init();
     }
     
-    // =============================== 
-    // シナリオデータ（MEXC版）
-    // =============================== 
-    getScenarioData() {
-        return [
-            {
-                character: 'ryoko',
-                screenshot: 'image/guide.jpg',
-                texts: [
-                    'こんにちは！両子です✨\n今日はMEXCでの新規登録方法を説明します！',
-                    '作業はちょっぴり多いけど、順番に行けば簡単だから説明していくね！',
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'touroku/1.jpg',
-                texts: [
-                    'まずは次に表示されるリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
-                    '先に説明を見てもいいよ🌟\n新規登録が済んだら戻ってきてね📱',
-                    'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
-                    '例：MyPassword123\nこんな感じで強力にしよう💪'
-                    'リンク: https://promote.mexc.com/r/OrGHfa2q',
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'touroku/2.jpg',
-                texts: [
-                    '電話番号とパスワードを入れたら\nパズルを完成させよう！',
-                    '矢印をスライドさせてピッタリ合わせてみよう。',
-                    '何秒で出来るかな？'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/4.jpg',
-                texts: [
-                    'サイト内で「資産」と書いているところを探してみて🔍',
+// =============================== 
+// シナリオデータ（BitTrade→MEXC送金版）
+// =============================== 
+getScenarioData() {
+    return [
+        {
+            character: 'ryoko',
+            screenshot: 'image/guide.jpg',
+            texts: [
+                'こんにちは！両子です✨\n今日はBitTradeからMEXCにXRPを送金する方法を説明するよ！',
+                'XRPをMEXCに送って、いよいよRYOコインを購入しましょう💎',
+                '手順は多いけど、一緒に頑張ろうね🌟'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/1.jpg',
+            texts: [
+                'まずはBitTradeアプリを開いて\nトップページの「資産」をタップしてください📱',
+                '次に「出金」ボタンを探してタップしましょう💰',
+                'ここからXRPをMEXCに送る準備が始まります！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/2.jpg',
+            texts: [
+                '画面上の「暗号資産」を選択してね🔍',
+                'たくさんの通貨が表示されるから\n「XRP」を探してタップしよう！',
+                'XRPが見つからない場合は検索機能を使ってみてね✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/3.jpg',
+            texts: [
+                'ここで出金先アドレスを登録するよ📝',
+                'まだMEXCのアドレスが登録されていないから\n新しく追加する必要があるんだ！',
+                '「アドレスを追加」ボタンを探してタップしてください🎯'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/4.jpg',
+            texts: [
+                'アドレス追加画面が開いたよ💫',
+                'ここでMEXCの情報を正確に入力していくからね',
+                '間違えると大変だから、慎重にいこう！✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/5.jpg',
+            texts: [
+                'さあ、入力項目を埋めていこう📋',
+                '備考には「MEXC」と入力してね！',
+                'アドレスには先ほど取得した\nMEXCのXRPアドレスをコピペしよう🔗',
+                'タグには MEXCのメモの数字を入力するよ📊'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/6.jpg',
+            texts: [
+                '次は受取人情報の入力だよ👤',
+                '受取人と受取人種別にチェックを入れてね✅',
+                '受取人氏名とフリガナも忘れずに入力しよう！',
+                '自分の名前を正確に入れてくださいね💕'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/7.jpg',
+            texts: [
+                '重要な設定項目がいくつかあるよ⚠️',
+                '出金先は「海外取引所」にチェック！🌏',
+                '出金先取引所名は「MEXC」を選択してください',
+                '移転目的は「その他」を選んで\n「RYOコインの購入」と入力しよう💎'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/8.jpg',
+            texts: [
+                'あともう少し！頑張って✨',
+                '確認事項にチェックを入れて\n最後に「確認」ボタンをタップしてね！',
+                '入力内容をもう一度確認してから進もう🔍'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/9.jpg',
+            texts: [
+                'セキュリティ認証の時間だよ🔐',
+                '電話番号やメールに認証コードが届くから\nチェックしてみてね📧',
+                '認証コードをコピペして「次へ」をタップ！',
+                'これで出金先の審査が始まります⏰'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/10.jpg',
+            texts: [
+                'お疲れ様！審査が始まったよ⏳',
+                '通常は数分で審査が完了するから\n少し待ってみてね☕',
+                '審査が通ったら次のステップに進めるよ！💪'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/11.jpg',
+            texts: [
+                '審査が完了したら、もう一度操作を繰り返すよ🔄',
+                'トップページに戻って\n「資産」→「出金」をタップしてね',
+                '今度は登録済みのアドレスが使えるからスムーズだよ✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/12.jpg',
+            texts: [
+                '再び「暗号資産」を選択して\n「XRP」をタップしよう💫',
+                '今度は先ほど登録したMEXCのアドレスが\n選択肢に表示されているはずだよ！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/13.jpg',
+            texts: [
+                'やったね！審査通過済みの\nMEXCアドレスを選択しよう🎉',
+                '登録したMEXCのアドレスをタップすると\n自動で情報が入力されるよ',
+                'アドレスやタグが正しく表示されているか確認してね✅'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/14.jpg',
+            texts: [
+                '最後のステップ！送金する数量を決めよう💰',
+                '送りたいXRPの数量を入力するか\n面倒な人は「全て」をタップしてもOK！',
+                '確認事項をすべて選択して\n最後に「確認」をタップしてね✨',
+                'もうすぐ完了だよ！頑張って💪'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'image/15.jpg',
+            texts: [
+                '最終セキュリティ認証です🔐',
+                '再び電話番号やメールに\n認証コードが送られてくるよ📱',
+                '認証コードをコピペして「次へ」をタップ！',
+                'これで本当に送金が実行されます⚡'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'image/16.jpg',
+            texts: [
+                'やったね！出金完了です🎉✨',
+                '数分後にはMEXCのアカウントに\nXRPが届く予定だよ💎',
+                'MEXCで入金確認ができたら\nいよいよRYOコインの購入です！🚀',
+                'お疲れ様でした！次のステップも頑張ろうね💕'
+            ],
+            audio: 'audio/oshiete.mp3'
+        }
+    ];
+}
 
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-         
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/5.jpg',
-                texts: [
-                    '資産画面が開きました！💰',
-                    '「入金」をタップしてください。',
-                    'ここで日本の取引所（bittradeやCoincheckなど）で\n購入したXRPをMEXCに送ります🚀'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/6.jpg',
-                texts: [
-                    '入金方法が表示されました！',
-                    '「オンチェーン入金」をタップしてください。',
-                    'これで暗号資産のネットワーク経由で\n他の取引所からXRPを受け取れます⚡'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/7.jpg',
-                texts: [
-                    '通貨選択画面です！🔍',
-                    'XRPを探してタップしてね。',
-                    'たくさんある場合は上の検索ボックスで\n「XRP」と入力すると簡単に見つかるよ✨'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/8.jpg',
-                texts: [
-                    'XRPが選択されていることを確認！✅',
-                    '「アドレスとメモを表示」をタップしてください。',
-                    'ここが重要なポイントです！\nあなた専用のMEXCの入金アドレスを取得します🎯'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/9.jpg',
-                texts: [
-                    'やった！アドレスとメモが表示されました🎉',
-                    'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
-                    'これはMEXC内のあなた専用の\nアドレスとメモ番号です📍',
-                    '両方とも必要になるから\nしっかりコピーしてお苦か、このページに戻ってこれるようにね！💎'
-                ],
-                audio: 'audio/oshiete.mp3'
-            }
-        ];
-    }
     
     // =============================== 
     // 初期化
