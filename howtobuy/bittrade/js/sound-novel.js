@@ -20,6 +20,10 @@ class RyoCoinSoundNovel {
         this.userHasInteracted = false;
         this.bgmRetryCount = 0;
         
+        // ページ復帰検出用（BGM再開対応）
+        this.wasPageHidden = false;
+        this.focusRetryCount = 0;
+        
         // キャラクター設定
         this.characters = {
             ryoko: {
@@ -34,189 +38,178 @@ class RyoCoinSoundNovel {
             }
         };
         
-        // シナリオデータ（MEXC版）
+        // シナリオデータ（BitTrade版）
         this.scenarios = this.getScenarioData();
         
         this.init();
     }
     
-// ===============================
-// シナリオデータ（BitTrade版のみ変更）
-// ===============================
-getScenarioData() {
-    return [
-        {
-            character: 'ryoko',
-            screenshot: 'image/guide.jpg',
-            texts: [
-                'こんにちは！両子です✨\n今日はRYOコインの購入方法を完全ガイドします！',
-                '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
-                '準備はいいですか？\nそれでは始めましょう！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'bittouroku/1.jpg',
-            texts: [
-                'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
-                 '次のリンクをタップして\nBittradeの公式サイトにアクセスして新規登録📱',
-                 '終わったら戻ってきてね📱難しい人用に次で細かく説明していくね',
-                 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt',
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'bittouroku/2.jpg',
-            texts: [
-                'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で大小英数字を含む必要があります！',
-                '「クリックして確認しよう」をタップ✨'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'bittouroku/2.jpg',
-            texts: [
-                'スライドしてパズルを完成させましょう☝️人間だという証明だね⭐️',
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-
-                {
-            character: 'ryoko',
-            screenshot: 'bittouroku/4.jpg',
-            texts: [
-                '登録したメールアドレスに\n認証コードが送信されました📧',
-                'メールをチェックして\n6桁の数字を入力してください。',
-                '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        
-        {
-            character: 'zenta',
-            screenshot: 'bittouroku/6.jpg',
-            texts: [
-                'ログイン出来ると本人確認へ進めます✨'
-                '時間がない人は後でやってもいいよ✨'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'bittouroku/5.jpg',
-            texts: [
-                '上部にオススメマークが表示されていますね。',
-                'かんたん本人確認ができます！タップしてみましょう！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-
-        {
-            character: 'zenta',
-            screenshot: 'touroku/7.jpg',
-            texts: [
-                '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
-                '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1〜3営業日で完了です。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-
-        {
-            character: 'ryoko',
-            screenshot: 'bittouroku/8.jpg',
-            texts: [
-                'トップ画面の右上のメニューを押して見て',
-                'そうすると…。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-
-        {
-            character: 'zenta',
-            screenshot: 'bittouroku/9.jpg',
-            texts: [
-                'アプリがダウンロードできるよ📱',
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-                {
-            character: 'zenta',
-            screenshot: 'bittouroku/10.jpg',
-            texts: [
-                'iPhoneアプリか、Androidアプリか、お使いのスマートフォンに合わせて入れてみてね📱',
-                '次はアプリの画面で説明していくよ📱',
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-
-
-
-
-        
-        {
-            character: 'ryoko',
-            screenshot: 'nyuukin/1.jpg',
-            texts: [
-                'アプリを開いてログインしたよ！💖',
-                '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
-                '表示された専用口座に\n銀行振込で入金してください。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'nyuukin/2.jpg',
-            texts: [
-                '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
-                '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
-                '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'buy/1.jpg',
-            texts: [
-                '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
-                '画面下部の「取引所」をタップして\n取引画面に移動します。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'buy/2.jpg',
-            texts: [
-                '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'buy/3.jpg',
-            texts: [
-                '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'buy/5.jpg',
-            texts: [
-                'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
-                'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
-                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
-                '次は送金に挑戦！💫'
-            ],
-            audio: 'audio/oshiete.mp3'
-        }
-    ];
-}
+    // ===============================
+    // シナリオデータ（BitTrade版修正版）
+    // ===============================
+    getScenarioData() {
+        return [
+            {
+                character: 'ryoko',
+                screenshot: 'image/guide.jpg',
+                texts: [
+                    'こんにちは！両子です✨\n今日はRYOコインの購入方法を完全ガイドします！',
+                    '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
+                    '準備はいいですか？\nそれでは始めましょう！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'bittouroku/1.jpg',
+                texts: [
+                    'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
+                    '次のリンクをタップして\nBittradeの公式サイトにアクセスして新規登録📱',
+                    '終わったら戻ってきてね📱難しい人用に次で細かく説明していくね',
+                    'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'bittouroku/2.jpg',
+                texts: [
+                    'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で大小英数字を含む必要があります！',
+                    '「クリックして確認しよう」をタップ✨'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'bittouroku/2.jpg',
+                texts: [
+                    'スライドしてパズルを完成させましょう☝️人間だという証明だね⭐️'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'bittouroku/4.jpg',
+                texts: [
+                    '登録したメールアドレスに\n認証コードが送信されました📧',
+                    'メールをチェックして\n6桁の数字を入力してください。',
+                    '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'bittouroku/6.jpg',
+                texts: [
+                    'ログイン出来ると本人確認へ進めます✨',
+                    '時間がない人は後でやってもいいよ✨'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'bittouroku/5.jpg',
+                texts: [
+                    '上部にオススメマークが表示されていますね。',
+                    'かんたん本人確認ができます！タップしてみましょう！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'touroku/7.jpg',
+                texts: [
+                    '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
+                    '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1〜3営業日で完了です。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'bittouroku/8.jpg',
+                texts: [
+                    'トップ画面の右上のメニューを押して見て',
+                    'そうすると…。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'bittouroku/9.jpg',
+                texts: [
+                    'アプリがダウンロードできるよ📱'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'bittouroku/10.jpg',
+                texts: [
+                    'iPhoneアプリか、Androidアプリか、お使いのスマートフォンに合わせて入れてみてね📱',
+                    '次はアプリの画面で説明していくよ📱'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'nyuukin/1.jpg',
+                texts: [
+                    'アプリを開いてログインしたよ！💖',
+                    '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
+                    '表示された専用口座に\n銀行振込で入金してください。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'nyuukin/2.jpg',
+                texts: [
+                    '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
+                    '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
+                    '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'buy/1.jpg',
+                texts: [
+                    '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
+                    '画面下部の「取引所」をタップして\n取引画面に移動します。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'buy/2.jpg',
+                texts: [
+                    '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'buy/3.jpg',
+                texts: [
+                    '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'buy/5.jpg',
+                texts: [
+                    'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
+                    'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
+                    '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
+                    '次は送金に挑戦！💫'
+                ],
+                audio: 'audio/oshiete.mp3'
+            }
+        ];
+    }
    
-    
-   // ===============================
+    // ===============================
     // 初期化
     // ===============================
     init() {
@@ -227,9 +220,77 @@ getScenarioData() {
         }
         this.setupAudioElements();
         this.setupEventListeners();
+        this.setupPageVisibilityHandling(); // BGM復帰対応追加
         this.showAudioDialog();
         this.preloadImages();
         console.log('✅ BitTradeサウンドノベル初期化完了');
+    }
+
+    // ページ可視性変更対応（BGM復帰機能）
+    setupPageVisibilityHandling() {
+        // ページが非表示になった時
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.wasPageHidden = true;
+                console.log('📱 ページ非表示 → BGM一時停止');
+            } else {
+                if (this.wasPageHidden) {
+                    console.log('🎉 おかえりなさい！BGM再開します');
+                    this.handlePageReturn();
+                }
+            }
+        });
+
+        // ウィンドウフォーカス復帰
+        window.addEventListener('focus', () => {
+            if (this.wasPageHidden) {
+                console.log('🎵 フォーカス復帰 → BGM再開試行');
+                this.handlePageReturn();
+            }
+        });
+
+        // ページ読み込み完了後のBGM復帰チェック
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) {
+                console.log('🔄 ページキャッシュから復帰 → BGM再開');
+                this.handlePageReturn();
+            }
+        });
+
+        console.log('✅ ページ可視性変更対応設定完了');
+    }
+
+    // ページ復帰時のBGM再開処理
+    handlePageReturn() {
+        this.wasPageHidden = false;
+        this.focusRetryCount = 0;
+        
+        if (this.bgmEnabled && this.userHasInteracted) {
+            // 少し遅延させてからBGM再開を試行
+            setTimeout(() => {
+                this.retryBGMOnReturn();
+            }, 500);
+        }
+    }
+
+    // ページ復帰時のBGM再試行
+    retryBGMOnReturn() {
+        this.focusRetryCount++;
+        
+        if (this.focusRetryCount <= 3) {
+            console.log(`🎵 BGM復帰試行 ${this.focusRetryCount}/3`);
+            
+            if (this.bgmPlayer && !this.bgmIsPlaying) {
+                this.playBGM();
+            }
+            
+            // 再生されていない場合は1秒後に再試行
+            setTimeout(() => {
+                if (!this.bgmIsPlaying && this.focusRetryCount < 3) {
+                    this.retryBGMOnReturn();
+                }
+            }, 1000);
+        }
     }
 
     // 音声要素の設定（MEXC版技術）
@@ -321,7 +382,7 @@ getScenarioData() {
             });
             console.log('✅ BGMプレイヤー設定完了');
         }
-        console.log('✅ 全音声要素設定完了（BitTrade版技術強化）');
+        console.log('✅ 全音声要素設定完了（BitTrade版技術強化＋復帰対応）');
     }
 
     // BGM再生
@@ -462,7 +523,7 @@ getScenarioData() {
                 this.disableAudio();
             });
         }
-        console.log('✅ イベントリスナー設定完了（BitTrade対応）');
+        console.log('✅ イベントリスナー設定完了（BitTrade対応＋復帰対応）');
     }
 
     // グローバルタッチ処理（BitTrade対応版）
@@ -886,7 +947,7 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（BitTrade版）
+// 開発者向け便利機能（BitTrade版＋BGM復帰対応）
 window.NovelUtils = {
     // BitTradeリンクテスト
     testBittradeLink: () => {
@@ -908,6 +969,16 @@ window.NovelUtils = {
             window.ryoCoinNovel.playKobanSound();
         }
         console.log('✅ 外部リンクテスト完了（新しいタブ）');
+    },
+
+    // BGM復帰テスト
+    testBGMResume: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🎵 BGM復帰テスト開始');
+            window.ryoCoinNovel.wasPageHidden = true;
+            window.ryoCoinNovel.handlePageReturn();
+            console.log('✅ BGM復帰テスト実行');
+        }
     },
 
     // リンク検出テスト
@@ -956,6 +1027,7 @@ window.NovelUtils = {
                 bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying,
                 voiceIsPlaying: window.ryoCoinNovel.voiceIsPlaying,
                 userHasInteracted: window.ryoCoinNovel.userHasInteracted,
+                wasPageHidden: window.ryoCoinNovel.wasPageHidden,
                 currentScene: window.ryoCoinNovel.currentScene + 1,
                 totalScenes: window.ryoCoinNovel.scenarios.length
             });
@@ -977,14 +1049,16 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - BitTrade版完全版
+🎭 RYOコインサウンドノベル - BitTrade版完全版（BGM復帰対応）
 🎵 audio/oshiete.mp3 専用ループシステム
-🎶 audio/bgm.mp3 バックグラウンド音楽システム  
+🎶 audio/bgm.mp3 バックグラウンド音楽システム（復帰対応強化）  
 🪙 audio/koban.mp3 効果音システム（音量: 0.3）
 🔗 BitTradeリンク同一タブ対応システム
+💖 ページ復帰時BGM自動再開機能
 🎮 デバッグコマンド:
    NovelUtils.testBittradeLink()  - Bittradeリンクテスト（同一タブ）
    NovelUtils.testExternalLink()  - 外部リンクテスト（新しいタブ）
+   NovelUtils.testBGMResume()     - BGM復帰テスト
    NovelUtils.testLinkDetection() - リンク検出テスト
    NovelUtils.forceBGM()         - BGM強制再生
    NovelUtils.playKobanTest()    - 小判効果音テスト
@@ -997,11 +1071,15 @@ console.log(`
    audio/bgm.mp3     - バックグラウンド音楽  
    audio/koban.mp3   - 小判効果音
 
-✨ 特徴:
-   ✅ BitTradeシナリオ完全対応
-   ✅ 紹介コード保持リンク対応
-   ✅ 確実な音声再生システム
-   ✅ 完璧なリンククリック対応
-   ✅ エラーハンドリング強化
-   ✅ メンテナンス性向上
+✨ 新機能:
+   💖 ページ復帰時の「おかえりなさい」BGM自動再開
+   🔄 visibilitychange、focus、pageshowイベント対応
+   🎵 復帰後のBGM再試行システム（最大3回）
+   📱 ページキャッシュからの復帰対応
+   
+✅ 修正内容:
+   👥 キャラクター名：両子先生・禅太先生
+   🖼️ 画像パス：bittouroku/フォルダ対応
+   📝 シナリオ：アプリダウンロード追加
+   🔧 文法エラー修正
 `);
