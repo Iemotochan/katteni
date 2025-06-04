@@ -59,7 +59,8 @@ getScenarioData() {
             character: 'zenta',
             screenshot: 'image/1.jpg',
             texts: [
-                'まずはmexc.com/ja-jpを開いて\nログインしてください📱',
+                'MEXCのサイトにログインするよ📱',
+                'リンク: https://mexc.com/ja-JP',
                 'ログインできたら\n「資産」ボタンをタップしてね💰',
                 'ここからRYOコイン購入の旅が始まります！✨'
             ],
