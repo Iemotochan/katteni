@@ -20,6 +20,13 @@ class RyoCoinSoundNovel {
         this.userHasInteracted = false;
         this.bgmRetryCount = 0;
         
+        // PC対応強化：復帰検出用（追加された変数）
+        this.wasPageHidden = false;
+        this.focusRetryCount = 0;
+        this.returnDetectionActive = false;
+        this.lastInteractionTime = 0;
+        this.pcReturnHandlers = [];
+        
         // キャラクター設定
         this.characters = {
             ryoko: {
@@ -142,7 +149,7 @@ class RyoCoinSoundNovel {
                     'やった！アドレスとメモが表示されました🎉',
                     'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
                     'これはMEXC内のあなた専用の\nアドレスとメモ番号です📍',
-                    '両方とも必要になるから\nしっかりコピーしてお苦か、このページに戻ってこれるようにね！💎'
+                    '両方とも必要になるから\nしっかりコピーしておくか、このページに戻ってこれるようにね！💎'
                 ],
                 audio: 'audio/oshiete.mp3'
             }
@@ -153,7 +160,7 @@ class RyoCoinSoundNovel {
     // 初期化
     // ===============================
     init() {
-        console.log('🎭 BitTradeサウンドノベル初期化開始（PC対応強化版）');
+        console.log('🎭 MEXCサウンドノベル初期化開始（PC対応強化版）');
         if (!this.checkRequiredElements()) {
             console.error('❌ 必要なHTML要素が見つかりません');
             return;
@@ -163,7 +170,7 @@ class RyoCoinSoundNovel {
         this.setupAdvancedPageReturnHandling(); // PC対応強化
         this.showAudioDialog();
         this.preloadImages();
-        console.log('✅ BitTradeサウンドノベル初期化完了（PC対応強化版）');
+        console.log('✅ MEXCサウンドノベル初期化完了（PC対応強化版）');
     }
 
     // PC対応強化：高度なページ復帰検出
@@ -450,7 +457,7 @@ class RyoCoinSoundNovel {
             });
             console.log('✅ BGMプレイヤー設定完了');
         }
-        console.log('✅ 全音声要素設定完了（PC対応強化版）');
+        console.log('✅ 全音声要素設定完了（MEXC版PC対応強化）');
     }
 
     // BGM再生
@@ -537,9 +544,9 @@ class RyoCoinSoundNovel {
         return true;
     }
 
-    // 画像プリロード（BitTrade版）
+    // 画像プリロード（MEXC版）
     preloadImages() {
-        console.log('🖼️ BitTrade画像プリロード開始');
+        console.log('🖼️ MEXC画像プリロード開始');
         this.scenarios.forEach((scenario, index) => {
             const img = new Image();
             img.src = scenario.screenshot;
@@ -555,7 +562,7 @@ class RyoCoinSoundNovel {
         });
     }
 
-    // イベントリスナー設定（BitTrade対応）
+    // イベントリスナー設定（MEXC対応）
     setupEventListeners() {
         // 全画面タッチ対応
         document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
@@ -591,10 +598,10 @@ class RyoCoinSoundNovel {
                 this.disableAudio();
             });
         }
-        console.log('✅ イベントリスナー設定完了（PC対応強化版）');
+        console.log('✅ イベントリスナー設定完了（MEXC版PC対応強化）');
     }
 
-    // グローバルタッチ処理（PC対応強化版）
+    // グローバルタッチ処理（MEXC対応版）
     handleGlobalTouch(e) {
         // ユーザーインタラクション時刻更新
         this.lastInteractionTime = Date.now();
@@ -615,7 +622,7 @@ class RyoCoinSoundNovel {
             return;
         }
 
-        // リンククリック検出
+        // リンククリック検出（MEXC対応）
         const linkElement = e.target.closest('a');
         if (linkElement) {
             e.preventDefault();
@@ -627,9 +634,9 @@ class RyoCoinSoundNovel {
             if (url && url.startsWith('http')) {
                 console.log('🔗 グローバルリンククリック検出:', url);
                 
-                if (linkType === 'bittrade') {
-                    // BitTradeリンクは同一タブで開く
-                    console.log('🏆 Bittradeリンク → 同一タブで移動');
+                if (linkType === 'mexc') {
+                    // MEXCリンクは同一タブで開く
+                    console.log('🏆 MEXCリンク → 同一タブで移動');
                     // 復帰検出モードを有効化
                     this.returnDetectionActive = true;
                     window.location.href = url;
@@ -718,20 +725,20 @@ class RyoCoinSoundNovel {
         }
     }
 
-    // リンク処理（BitTrade対応版）
+    // リンク処理（MEXC対応版）
     processTextWithLinks(text) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, (url) => {
-            // BitTradeの紹介リンクは同一タブで開く
-            const isBittradeLink = url.includes('bittrade.co.jp') || url.includes('m.bittrade.co.jp');
-            const target = isBittradeLink ? '_self' : '_blank';
-            const targetText = isBittradeLink ? '同一タブで開く' : '別窓で開く';
+            // MEXCの紹介リンクは同一タブで開く
+            const isMexcLink = url.includes('mexc.com') || url.includes('promote.mexc.com');
+            const target = isMexcLink ? '_self' : '_blank';
+            const targetText = isMexcLink ? '同一タブで開く' : '別窓で開く';
             
-            return `<a href="${url}" target="${target}" rel="noopener noreferrer" class="story-link" data-link-type="${isBittradeLink ? 'bittrade' : 'external'}" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${isBittradeLink ? 'Bittrade登録' : 'リンク'} (${targetText})</a>`;
+            return `<a href="${url}" target="${target}" rel="noopener noreferrer" class="story-link" data-link-type="${isMexcLink ? 'mexc' : 'external'}" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${isMexcLink ? 'MEXC登録' : 'リンク'} (${targetText})</a>`;
         });
     }
 
-    // リンクイベント設定（BitTrade対応版）
+    // リンクイベント設定（MEXC対応版）
     setupLinkEvents(container) {
         const links = container.querySelectorAll('a.story-link');
         links.forEach(link => {
@@ -750,9 +757,9 @@ class RyoCoinSoundNovel {
                 if (url && url.startsWith('http')) {
                     console.log(`🔗 リンククリック検出: ${url} (${linkType})`);
                     
-                    if (linkType === 'bittrade') {
-                        // BitTradeリンクは同一タブで開く（紹介コード保持のため）
-                        console.log('🏆 Bittradeリンク → 同一タブで移動');
+                    if (linkType === 'mexc') {
+                        // MEXCリンクは同一タブで開く（紹介コード保持のため）
+                        console.log('🏆 MEXCリンク → 同一タブで移動');
                         // 復帰検出モードを有効化
                         this.returnDetectionActive = true;
                         window.location.href = url;
@@ -776,8 +783,8 @@ class RyoCoinSoundNovel {
                 if (url && url.startsWith('http')) {
                     console.log(`📱 タッチリンク: ${url} (${linkType})`);
                     
-                    if (linkType === 'bittrade') {
-                        // BitTradeリンクは同一タブで開く
+                    if (linkType === 'mexc') {
+                        // MEXCリンクは同一タブで開く
                         this.returnDetectionActive = true;
                         window.location.href = url;
                     } else {
@@ -967,7 +974,7 @@ class RyoCoinSoundNovel {
     }
 
     startStory() {
-        console.log('🚀 BitTradeストーリー開始');
+        console.log('🚀 MEXCストーリー開始');
         this.loadScene();
     }
 
@@ -979,13 +986,13 @@ class RyoCoinSoundNovel {
 
         const bubbleText = document.getElementById('bubbleText');
         if (bubbleText) {
-            bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
+            bubbleText.innerHTML = 'MEXCでのXRPアドレス取得完了！<br>お疲れ様でした！✨<br><br>次はBitTradeからの送金ですね🚀';
         }
 
         setTimeout(() => {
-            if (confirm('BitTradeでの購入ガイドが完了しました。\n送金編に移動しますか？')) {
+            if (confirm('MEXCでのXRPアドレス取得が完了しました。\nメインページに戻りますか？')) {
                 this.destroy();
-                window.location.href = '../howtobuy/mexc/index.html';
+                window.location.href = '../index.html';
             }
         }, 3000);
     }
@@ -1012,7 +1019,7 @@ class RyoCoinSoundNovel {
             this.kobanSoundPlayer.pause();
             this.kobanSoundPlayer.currentTime = 0;
         }
-        console.log('🧹 クリーンアップ完了（PC対応強化版）');
+        console.log('🧹 クリーンアップ完了（MEXC版PC対応強化）');
     }
 }
 
@@ -1032,12 +1039,12 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（PC対応強化版）
+// 開発者向け便利機能（MEXC版PC対応強化）
 window.NovelUtils = {
-    // BitTradeリンクテスト
-    testBittradeLink: () => {
-        const testUrl = 'https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
-        console.log('🏆 Bittradeリンクテスト:', testUrl);
+    // MEXCリンクテスト
+    testMexcLink: () => {
+        const testUrl = 'https://promote.mexc.com/r/OrGHfa2q';
+        console.log('🏆 MEXCリンクテスト:', testUrl);
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.returnDetectionActive = true;
         }
@@ -1045,7 +1052,7 @@ window.NovelUtils = {
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.playKobanSound();
         }
-        console.log('✅ Bittradeリンクテスト完了（同一タブ移動＋復帰検出）');
+        console.log('✅ MEXCリンクテスト完了（同一タブ移動＋復帰検出）');
     },
 
     // PC復帰シミュレーションテスト
@@ -1082,7 +1089,7 @@ window.NovelUtils = {
 
     // リンク検出テスト
     testLinkDetection: () => {
-        const testText = 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
+        const testText = 'リンク: https://promote.mexc.com/r/OrGHfa2q';
         if (window.ryoCoinNovel) {
             const processed = window.ryoCoinNovel.processTextWithLinks(testText);
             console.log('🔍 リンク検出テスト結果:', processed);
@@ -1149,30 +1156,17 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - PC対応強化版
+🎭 RYOコインサウンドノベル - MEXC版PC対応完全修正版
 🖥️ PC完全対応：複数イベント検出システム
 📱 スマホ対応：タッチ・visibilitychange対応
 🎵 audio/oshiete.mp3 専用ループシステム
 🎶 audio/bgm.mp3 バックグラウンド音楽システム（PC強化）
 🪙 audio/koban.mp3 効果音システム（音量: 0.3）
-🔗 BitTradeリンク同一タブ対応システム
+🔗 MEXCリンク同一タブ対応システム
 💖 PC・スマホ両対応ページ復帰BGM自動再開機能
 
-🖥️ PC復帰検出イベント:
-   - focus (ウィンドウフォーカス)
-   - pageshow (ページ表示)
-   - mousemove (マウス移動)
-   - keydown (キーボード)
-   - click (クリック)
-   - scroll (スクロール)
-
-📱 スマホ復帰検出イベント:
-   - visibilitychange (ページ可視性)
-   - touchstart (タッチ開始)
-   - focus (フォーカス)
-
 🎮 デバッグコマンド:
-   NovelUtils.testBittradeLink()    - Bittradeリンクテスト
+   NovelUtils.testMexcLink()        - MEXCリンクテスト
    NovelUtils.simulatePCReturn()    - PC復帰シミュレーション
    NovelUtils.testAggressiveBGM()   - 積極的BGM再生テスト
    NovelUtils.testExternalLink()    - 外部リンクテスト
@@ -1183,11 +1177,10 @@ console.log(`
    NovelUtils.fullStatus()         - 全状態確認
    NovelUtils.stopAllAudio()       - 全音声停止
 
-✨ PC強化機能:
-   💻 複数イベントによる復帰検出
-   🎵 積極的BGM再試行（最大5回）
-   🔄 イベントリスナー自動クリーンアップ
-   📊 詳細な状態監視
-   🎤 音声復帰機能強化
-   🪙 復帰時小判効果音
+✅ 修正内容:
+   🔧 未定義変数エラー完全解決
+   🏷️ MEXC専用リンク処理
+   📝 MEXC版ログメッセージ統一
+   🎯 タイトル修正（MEXC版）
+   💻 PC復帰機能完全対応
 `);
