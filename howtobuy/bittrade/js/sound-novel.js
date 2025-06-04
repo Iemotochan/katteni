@@ -57,28 +57,36 @@ getScenarioData() {
         },
         {
             character: 'zenta',
-            screenshot: 'touroku/1.jpg',
+            screenshot: 'bittouroku/1.jpg',
             texts: [
                 'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
-                 '下のリンクをタップして\nBittradeの公式サイトにアクセスしてね📱',
+                 '次のリンクをタップして\nBittradeの公式サイトにアクセスして新規登録📱',
+                 '終わったら戻ってきてね📱難しい人用に次で細かく説明していくね',
                  'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt',
-                 '右上の「新規登録」をタップしてください。\n登録は無料で簡単です！',
-                 '紹介コードを入力するとBitcoinがもらえます「8SRkt」'
             ],
             audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'touroku/3.jpg',
+            screenshot: 'bittouroku/2.jpg',
             texts: [
-                'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で英数字を含む必要があります！',
-                '紹介コードがある場合は入力して\n「次へ」をタップしましょう✨'
+                'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で大小英数字を含む必要があります！',
+                '「クリックして確認しよう」をタップ✨'
             ],
             audio: 'audio/oshiete.mp3'
         },
         {
             character: 'zenta',
-            screenshot: 'touroku/3.jpg',
+            screenshot: 'bittouroku/2.jpg',
+            texts: [
+                'スライドしてパズルを完成させましょう☝️人間だという証明だね⭐️',
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+
+                {
+            character: 'ryoko',
+            screenshot: 'bittouroku/4.jpg',
             texts: [
                 '登録したメールアドレスに\n認証コードが送信されました📧',
                 'メールをチェックして\n6桁の数字を入力してください。',
@@ -86,46 +94,73 @@ getScenarioData() {
             ],
             audio: 'audio/oshiete.mp3'
         },
-        {
-            character: 'ryoko',
-            screenshot: 'touroku/8.jpg',
-            texts: [
-                'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
-                'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
+        
         {
             character: 'zenta',
-            screenshot: 'touroku/5.jpg',
+            screenshot: 'bittouroku/6.jpg',
             texts: [
-                '本人確認のステータス画面です。\n取引を始めるには本人確認が必須です。',
-                '「簡単本人確認」を選択すると\nスマホで撮影するだけで完了します📱'
+                'ログイン出来ると本人確認へ進めます✨'
+                '時間がない人は後でやってもいいよ✨'
             ],
             audio: 'audio/oshiete.mp3'
         },
         {
             character: 'ryoko',
-            screenshot: 'touroku/5.jpg',
+            screenshot: 'bittouroku/5.jpg',
             texts: [
-                '簡単本人確認では運転免許証や\nマイナンバーカードが使えます。',
-                'スマホのカメラで撮影して\nアップロードするだけ！簡単ですね✨'
+                '上部にオススメマークが表示されていますね。',
+                'かんたん本人確認ができます！タップしてみましょう！'
             ],
             audio: 'audio/oshiete.mp3'
         },
+
         {
             character: 'zenta',
-            screenshot: 'touroku/6.jpg',
+            screenshot: 'touroku/7.jpg',
             texts: [
                 '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
                 '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1〜3営業日で完了です。'
             ],
             audio: 'audio/oshiete.mp3'
         },
+
+        {
+            character: 'ryoko',
+            screenshot: 'bittouroku/8.jpg',
+            texts: [
+                'トップ画面の右上のメニューを押して見て',
+                'そうすると…。'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+
+        {
+            character: 'zenta',
+            screenshot: 'bittouroku/9.jpg',
+            texts: [
+                'アプリがダウンロードできるよ📱',
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+                {
+            character: 'zenta',
+            screenshot: 'bittouroku/10.jpg',
+            texts: [
+                'iPhoneアプリか、Androidアプリか、お使いのスマートフォンに合わせて入れてみてね📱',
+                '次はアプリの画面で説明していくよ📱',
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+
+
+
+
+        
         {
             character: 'ryoko',
             screenshot: 'nyuukin/1.jpg',
             texts: [
+                'アプリを開いてログインしたよ！💖',
                 '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
                 '表示された専用口座に\n銀行振込で入金してください。'
             ],
