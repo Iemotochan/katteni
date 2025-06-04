@@ -59,7 +59,7 @@ getScenarioData() {
             character: 'zenta',
             screenshot: 'touroku/1.jpg',
             texts: [
-                'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。
+                'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
                  '下のリンクをタップして\nBittradeの公式サイトにアクセスしてね📱',
                  'リンク: https://www.m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt/',
                  '右上の「新規登録」をタップしてください。\n登録は無料で簡単です！'
