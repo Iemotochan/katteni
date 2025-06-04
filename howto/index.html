@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>RYOコイン購入ガイド | 革新的デジタル通貨</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>MEXC新規登録ガイド | RYOコイン</title>
+    <link rel="stylesheet" href="main.css">
     <meta name="theme-color" content="#FFD700">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,17 +12,14 @@
 <body>
     <!-- スターフィールドエフェクト -->
     <canvas id="starfield"></canvas>
-    
-    <!-- 広いタッチエリア -->
-    <div id="wideTouchArea" class="wide-touch-area"></div>
-    
+
     <!-- アプリコンテナ -->
     <div class="app-container">
         <!-- 背景レイヤー（最下層） -->
         <div class="background-layer">
             <img src="image/back.jpg" alt="背景" class="background-img">
         </div>
-        
+
         <!-- 上部ナビゲーション -->
         <nav class="top-nav">
             <button id="backBtn" class="nav-btn">
@@ -34,31 +31,24 @@
                 <span class="nav-icon">→</span>
             </button>
         </nav>
-        
-        <!-- 音声ミュートボタン -->
-        <div class="audio-controls">
-            <button id="muteBtn" class="mute-btn">
-                <span id="muteIcon" class="mute-icon">🔊</span>
-            </button>
-        </div>
-        
+
         <!-- メインコンテンツエリア（中層） -->
         <div class="content-area">
             <div class="screenshot-container">
-                <img id="screenshotImg" 
-                     src="image/guide.jpg" 
-                     alt="説明画像" 
+                <img id="screenshotImg"
+                     src="image/guide.jpg"
+                     alt="MEXC説明画像"
                      class="screenshot-img show">
                 <div class="screenshot-overlay"></div>
             </div>
         </div>
-        
+
         <!-- メッセージエリア（上層） -->
-        <div class="message-area">
+        <div id="messageArea" class="message-area">
             <div class="character-container">
-                <img id="characterImg" 
-                     src="image/ryokosensei.png" 
-                     alt="キャラクター" 
+                <img id="characterImg"
+                     src="image/ryokosensei.png"
+                     alt="キャラクター"
                      class="character-img">
             </div>
             <div class="speech-bubble">
@@ -74,18 +64,18 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- プログレスエリア（最上層） -->
         <div class="progress-area">
             <div class="progress-info">
-                <span id="progressCurrent">1</span> / <span id="progressTotal">5</span>
+                <span id="progressCurrent">1</span> / <span id="progressTotal">10</span>
             </div>
             <div class="progress-bar-bg">
                 <div id="progressBar" class="progress-bar"></div>
             </div>
         </div>
     </div>
-    
+
     <!-- 音声ダイアログ -->
     <div id="audioDialog" class="audio-dialog">
         <div class="dialog-overlay"></div>
@@ -99,18 +89,20 @@
             </div>
         </div>
     </div>
-    
-    <!-- 音声要素（ループ強化版） -->
-    <audio id="voicePlayer" preload="none"></audio>
-    <audio id="bgmPlayer" preload="auto" loop autoplay muted>
+
+    <!-- 音声要素 -->
+    <audio id="voicePlayer" preload="auto">
+        <source src="audio/oshiete.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgmPlayer" preload="auto" loop>
         <source src="audio/bgm.mp3" type="audio/mpeg">
         <source src="audio/bgm.ogg" type="audio/ogg">
         <source src="audio/bgm.wav" type="audio/wav">
     </audio>
-    
+
     <!-- スクリプト読み込み -->
-    <script src="js/starfield-effect.js"></script>
-    <script src="js/sound-novel.js"></script>
-    <script src="js/main.js"></script>
+    <script src="starfield-effect.js"></script>
+    <script src="sound-novel.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
