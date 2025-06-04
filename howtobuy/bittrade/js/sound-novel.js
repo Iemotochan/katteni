@@ -28,7 +28,7 @@ class RyoCoinSoundNovel {
                 voice: 'female'
             },
             zenta: {
-                name: 'ゼンタ先生',
+                name: '禅太先生',
                 image: 'image/zentasensei.png',
                 voice: 'male'
             }
@@ -49,7 +49,7 @@ getScenarioData() {
             character: 'ryoko',
             screenshot: 'image/guide.jpg',
             texts: [
-                'こんにちは！リョウコです✨\n今日はRYOコインの購入方法を完全ガイドします！',
+                'こんにちは！両子です✨\n今日はRYOコインの購入方法を完全ガイドします！',
                 '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
                 '準備はいいですか？\nそれでは始めましょう！'
             ],
