@@ -59,7 +59,7 @@ class RyoCoinSoundNovel {
                 screenshot: 'image/1.jpg',
                 texts: [
                     'まずは下のリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
-                    'リンク: https://www.mexc.com/ja-JP/',
+                    'リンク: https://promote.mexc.com/r/OrGHfa2q',
                     '右上の三本線メニューバーから\n「新規登録」を選ぶか...',
                     '面倒な人はGoogleアカウントで\nサクッと登録しちゃおう！'
                 ],
