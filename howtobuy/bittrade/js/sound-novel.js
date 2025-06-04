@@ -1048,7 +1048,7 @@ class RyoCoinSoundNovel {
         setTimeout(() => {
             if (confirm('BitTradeでの購入ガイドが完了しました。\n送金編に移動しますか？')) {
                 this.destroy();
-                window.location.href = '../howtobuy/mexc/index.html';
+                window.location.href = '../mexc/index.html';
             }
         }, 3000);
     }
