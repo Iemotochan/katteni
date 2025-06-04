@@ -19,7 +19,7 @@ html, body {
 }
 
 /* ============================== */
-/* エフェクト用キャンバス - 適度な強化 */
+/* エフェクト用キャンバス */
 /* ============================== */
 #starfield {
     position: fixed;
@@ -29,12 +29,10 @@ html, body {
     height: 100%;
     z-index: 1;
     pointer-events: none;
-    /* 小判エフェクトを適度に強化（白くなりすぎないように調整） */
     filter: brightness(1.8) contrast(1.4) saturate(1.2);
     opacity: 0.95;
 }
 
-/* エフェクト強化用のオーバーレイ */
 #starfield::after {
     content: '';
     position: absolute;
@@ -51,19 +49,6 @@ html, body {
 }
 
 /* ============================== */
-/* 広いタッチエリア */
-/* ============================== */
-.wide-touch-area {
-    position: fixed;
-    top: 50px; /* 上に詰める（60px → 50px） */
-    left: 20px;
-    right: 20px;
-    bottom: 100px;
-    z-index: 4;
-    cursor: pointer;
-}
-
-/* ============================== */
 /* メインコンテナ */
 /* ============================== */
 .app-container {
@@ -73,6 +58,8 @@ html, body {
     display: flex;
     flex-direction: column;
     z-index: 3;
+    /* 全体をタッチ可能にする */
+    cursor: pointer;
 }
 
 /* ============================== */
@@ -84,7 +71,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2; /* 背景として最下層 */
+    z-index: 2;
 }
 
 .background-img {
@@ -92,20 +79,20 @@ html, body {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    opacity: 0.7; /* 少し薄く */
+    opacity: 0.7;
 }
 
 /* ============================== */
-/* 上部ナビゲーション（上に詰める） */
+/* 上部ナビゲーション */
 /* ============================== */
 .top-nav {
     position: absolute;
-    top: 15px; /* 上に詰める（20px → 15px） */
+    top: 15px;
     left: 20px;
     right: 20px;
     display: flex;
     justify-content: space-between;
-    z-index: 10; /* 最上層の一つ */
+    z-index: 20; /* 高いz-indexでタッチを確実にキャッチ */
     padding-top: max(0px, env(safe-area-inset-top));
 }
 
@@ -114,7 +101,7 @@ html, body {
     display: flex; 
     align-items: center; 
     gap: 8px; 
-    padding: 16px 24px; /* パディング拡張 */
+    padding: 16px 24px;
     background: rgba(0, 0, 0, 0.8); 
     border: 2px solid #FFD700; 
     border-radius: 30px; 
@@ -124,19 +111,21 @@ html, body {
     cursor: pointer; 
     transition: all 0.3s ease; 
     backdrop-filter: blur(15px); 
-    min-height: 52px; /* 高さ拡張 */
-    min-width: 100px; /* 幅確保 */
+    min-height: 52px;
+    min-width: 100px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* タッチイベントを確実にキャッチ */
+    pointer-events: auto;
+    z-index: 21;
 }
 
-/* タッチエリア拡張（重要！） */
 .nav-btn::before {
     content: '';
     position: absolute;
-    top: -10px; /* 上に10px拡張 */
-    left: -10px; /* 左に10px拡張 */
-    right: -10px; /* 右に10px拡張 */
-    bottom: -10px; /* 下に10px拡張 */
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
     z-index: -1;
 }
 
@@ -161,14 +150,14 @@ html, body {
 }
 
 /* ============================== */
-/* 音声ミュートボタン（上に詰める） */
+/* 音声ミュートボタン */
 /* ============================== */
 .audio-controls {
     position: absolute;
-    top: 15px; /* 上に詰める（20px → 15px） */
+    top: 15px;
     right: 50%;
     transform: translateX(50%);
-    z-index: 11;
+    z-index: 20;
     padding-top: max(0px, env(safe-area-inset-top));
 }
 
@@ -188,9 +177,10 @@ html, body {
     transition: all 0.3s ease;
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    z-index: 21;
 }
 
-/* ミュートボタンのタッチエリア拡張 */
 .mute-btn::before {
     content: '';
     position: absolute;
@@ -226,7 +216,7 @@ html, body {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1000; /* 最上層 */
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -260,6 +250,7 @@ html, body {
     text-align: center;
     max-width: 320px;
     color: #fff;
+    z-index: 1001;
 }
 
 .audio-icon {
@@ -296,6 +287,8 @@ html, body {
     cursor: pointer;
     transition: all 0.3s ease;
     min-height: 44px;
+    pointer-events: auto;
+    z-index: 1002;
 }
 
 .dialog-btn.primary {
@@ -310,7 +303,7 @@ html, body {
 }
 
 /* ============================== */
-/* メインコンテンツ（上に詰める） */
+/* メインコンテンツ */
 /* ============================== */
 .content-area {
     position: absolute;
@@ -321,24 +314,24 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 70px 20px 140px 20px; /* 上を詰める（80px → 70px）、下を広げる（120px → 140px） */
-    z-index: 3; /* 背景より上、メッセージより下 */
+    padding: 70px 20px 140px 20px;
+    z-index: 3;
 }
 
 /* ============================== */
-/* スクリーンショット表示（bg1.jpg等） */
+/* スクリーンショット表示 */
 /* ============================== */
 .screenshot-container {
     position: relative;
     width: 100%;
     height: 100%;
     max-width: 90%;
-    max-height: 85%; /* 高さを少し制限（90% → 85%） */
+    max-height: 85%;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3; /* 確実に背景より上 */
-    transform: translateY(-10px); /* 少し上に移動 */
+    z-index: 3;
+    transform: translateY(-10px);
 }
 
 .screenshot-img {
@@ -352,10 +345,10 @@ html, body {
         0 0 30px rgba(255, 215, 0, 0.4);
     transition: all 0.5s ease;
     object-fit: contain;
-    opacity: 1; /* 初期状態で表示 */
+    opacity: 1;
     transform: scale(1);
     border: 3px solid rgba(255, 215, 0, 0.6);
-    background: rgba(0, 0, 0, 0.2); /* 画像が読み込まれない場合の背景 */
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .screenshot-img.show {
@@ -385,18 +378,19 @@ html, body {
 }
 
 /* ============================== */
-/* メッセージエリア（位置微調整） */
+/* メッセージエリア（タッチ対応強化） */
 /* ============================== */
 .message-area {
     position: absolute;
-    bottom: 85px; /* 少し上げる（80px → 85px） */
+    bottom: 85px;
     left: 20px;
     right: 20px;
     display: flex;
     align-items: flex-end;
     gap: 15px;
-    z-index: 5; /* コンテンツより上 */
-    pointer-events: none; /* タッチを上位に渡す */
+    z-index: 15; /* 高いz-indexでタッチを受け取る */
+    /* リンククリック用にpointer-eventsを有効化 */
+    pointer-events: auto;
 }
 
 /* ============================== */
@@ -408,7 +402,9 @@ html, body {
     height: 80px;
     position: relative;
     animation: float 3s ease-in-out infinite;
-    z-index: 5;
+    z-index: 15;
+    /* キャラクター画像はタッチを通す */
+    pointer-events: none;
 }
 
 .character-img { 
@@ -417,10 +413,11 @@ html, body {
     object-fit: contain; 
     filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.4)); 
     transition: all 0.3s ease; 
+    pointer-events: none;
 }
 
 /* ============================== */
-/* 吹き出し */
+/* 吹き出し（リンク対応強化） */
 /* ============================== */
 .speech-bubble { 
     flex: 1; 
@@ -435,11 +432,11 @@ html, body {
     backdrop-filter: blur(15px); 
     transition: all 0.2s ease; 
     min-height: 80px;
-    pointer-events: none; /* タッチイベントを親に渡す */
-    z-index: 5;
+    z-index: 15;
+    /* 吹き出し全体は基本的にタッチを通すが、リンクは受け取る */
+    pointer-events: auto;
 }
 
-/* 吹き出しの矢印 */
 .bubble-arrow { 
     position: absolute; 
     left: -12px; 
@@ -448,7 +445,8 @@ html, body {
     height: 0; 
     border-top: 12px solid transparent; 
     border-bottom: 12px solid transparent; 
-    border-right: 12px solid rgba(255, 255, 255, 0.96); 
+    border-right: 12px solid rgba(255, 255, 255, 0.96);
+    pointer-events: none;
 }
 
 .bubble-arrow::before {
@@ -461,14 +459,17 @@ html, body {
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
     border-right: 15px solid #FFD700;
+    pointer-events: none;
 }
 
 /* ============================== */
-/* 吹き出し内容 */
+/* 吹き出し内容（リンク専用対応） */
 /* ============================== */
 .bubble-content {
     position: relative;
     z-index: 1;
+    /* 基本的にタッチを通すが、リンクのみ受け取る */
+    pointer-events: none;
 }
 
 .bubble-text {
@@ -479,6 +480,32 @@ html, body {
     word-wrap: break-word;
     white-space: pre-wrap;
     font-weight: 500;
+    pointer-events: none;
+}
+
+/* リンクスタイル強化（タッチ対応） */
+.bubble-text a,
+.bubble-text .text-link {
+    color: #FFD700 !important;
+    text-decoration: underline !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    /* リンクのみタッチイベントを受け取る */
+    pointer-events: auto !important;
+    /* タッチエリアを少し広げる */
+    padding: 2px 4px;
+    margin: -2px -4px;
+    border-radius: 4px;
+    background: rgba(255, 215, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.bubble-text a:hover,
+.bubble-text .text-link:hover,
+.bubble-text a:active,
+.bubble-text .text-link:active {
+    background: rgba(255, 215, 0, 0.2) !important;
+    text-decoration: none !important;
 }
 
 /* ============================== */
@@ -493,6 +520,7 @@ html, body {
     gap: 8px;
     color: #FFD700;
     font-size: 12px;
+    pointer-events: none;
 }
 
 .tap-text {
@@ -511,7 +539,7 @@ html, body {
 }
 
 /* ============================== */
-/* プログレスエリア（位置維持） */
+/* プログレスエリア */
 /* ============================== */
 .progress-area {
     position: absolute;
@@ -522,7 +550,8 @@ html, body {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    z-index: 15; /* 最上層の一つ */
+    z-index: 20;
+    pointer-events: none;
 }
 
 .progress-info { 
@@ -586,7 +615,7 @@ html, body {
 }
 
 /* ============================== */
-/* レスポンシブ（微調整） */
+/* レスポンシブ（タッチエリア対応） */
 /* ============================== */
 @media (max-width: 375px) {
     .character-container {
@@ -602,8 +631,14 @@ html, body {
         font-size: 15px;
     }
     
+    .bubble-text a,
+    .bubble-text .text-link {
+        padding: 4px 6px;
+        margin: -4px -6px;
+    }
+    
     .content-area {
-        padding: 65px 15px 135px 15px; /* モバイルでさらに調整 */
+        padding: 65px 15px 135px 15px;
     }
     
     .nav-btn {
@@ -617,14 +652,14 @@ html, body {
     }
     
     .screenshot-container {
-        max-height: 80%; /* モバイルでさらに制限 */
-        transform: translateY(-15px); /* モバイルでさらに上に */
+        max-height: 80%;
+        transform: translateY(-15px);
     }
 }
 
 @media (max-height: 667px) {
     .message-area {
-        bottom: 70px; /* 低い画面でさらに調整 */
+        bottom: 70px;
     }
     
     .content-area {
@@ -639,12 +674,7 @@ html, body {
 
 @media (orientation: landscape) and (max-height: 500px) {
     .content-area {
-        padding: 55px 20px 110px 20px; /* 横画面でコンパクトに */
-    }
-    
-    .wide-touch-area {
-        top: 45px;
-        bottom: 90px;
+        padding: 55px 20px 110px 20px;
     }
     
     .message-area {
@@ -685,10 +715,10 @@ html, body {
 }
 
 /* ============================== */
-/* iOS対応 */
+/* iOS対応（タッチ最適化） */
 /* ============================== */
 @supports (-webkit-appearance: none) {
-    .wide-touch-area {
+    .app-container {
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
     }
@@ -699,6 +729,12 @@ html, body {
         -webkit-appearance: none;
         -webkit-tap-highlight-color: transparent;
     }
+    
+    .bubble-text a,
+    .bubble-text .text-link {
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
+        -webkit-touch-callout: default; /* リンクの長押しメニューを有効 */
+    }
 }
 
 /* ============================== */
@@ -706,11 +742,11 @@ html, body {
 /* ============================== */
 @supports (padding: max(0px)) {
     .top-nav {
-        padding-top: max(15px, env(safe-area-inset-top)); /* 調整 */
+        padding-top: max(15px, env(safe-area-inset-top));
     }
     
     .audio-controls {
-        padding-top: max(15px, env(safe-area-inset-top)); /* 調整 */
+        padding-top: max(15px, env(safe-area-inset-top));
     }
     
     .progress-area {
