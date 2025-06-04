@@ -2,107 +2,151 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MEXC新規登録ガイド | RYOコイン</title>
-    <link rel="stylesheet" href="css/main.css">
-    <meta name="theme-color" content="#FFD700">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>RYOコイン BitTrade購入ガイド | 完全対応版</title>
+    
+    <!-- プリロード最適化 -->
+    <link rel="preload" href="audio/oshiete.mp3" as="audio">
+    <link rel="preload" href="audio/bgm.mp3" as="audio">
+    <link rel="preload" href="audio/koban.mp3" as="audio">
+    <link rel="preload" href="image/ryokosensei.png" as="image">
+    <link rel="preload" href="image/zentasensei.png" as="image">
+    
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" href="main.css">
+    
+    <!-- PWA対応 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- ビューポート高さ計算用CSS変数 -->
+    <style>
+        :root {
+            --vh: 1vh;
+            --safe-area-inset-top: env(safe-area-inset-top, 0);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
+            --safe-area-inset-left: env(safe-area-inset-left, 0);
+            --safe-area-inset-right: env(safe-area-inset-right, 0);
+            --available-height: calc(var(--vh) * 100 - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+        }
+    </style>
 </head>
 <body>
-    <!-- スターフィールドエフェクト -->
-    <canvas id="starfield"></canvas>
-    
-    <!-- アプリコンテナ -->
-    <div class="app-container">
-        <!-- 背景レイヤー（最下層） -->
-        <div class="background-layer">
-            <img src="image/back.jpg" alt="背景" class="background-img">
-        </div>
+    <!-- 動的ビューポート高さ計算用スクリプト -->
+    <script>
+        // 最優先でビューポート高さを設定
+        function setVH() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // デバイス情報をログ出力
+            console.log(`📱 デバイス情報:
+- 画面サイズ: ${window.innerWidth} × ${window.innerHeight}
+- ビューポート: ${window.innerWidth} × ${window.innerHeight}
+- デバイス比: ${window.devicePixelRatio}
+- ユーザーエージェント: ${navigator.userAgent.includes('iPhone') ? 'iPhone' : navigator.userAgent.includes('Android') ? 'Android' : 'その他'}`);
+        }
         
-        <!-- 上部ナビゲーション -->
+        // 初期設定
+        setVH();
+        
+        // リサイズ時の再計算（デバウンス付き）
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(setVH, 100);
+        });
+        
+        // オリエンテーション変更時
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setVH, 200);
+        });
+    </script>
+
+    <!-- エフェクト用キャンバス -->
+    <canvas id="starfield"></canvas>
+
+    <!-- メインアプリコンテナ -->
+    <div class="app-container">
+        <!-- 背景レイヤー -->
+        <div class="background-layer">
+            <img class="background-img" src="image/guide.jpg" alt="ガイド背景" id="backgroundImg">
+        </div>
+
+        <!-- 上部ナビゲーション（適応型） -->
         <nav class="top-nav">
-            <button id="backBtn" class="nav-btn">
+            <button class="nav-btn" id="backBtn" disabled>
                 <span class="nav-icon">←</span>
                 <span class="nav-text">戻る</span>
             </button>
-            <button id="skipBtn" class="nav-btn">
-                <span class="nav-text">次へ</span>
+            <button class="nav-btn" id="skipBtn">
                 <span class="nav-icon">→</span>
+                <span class="nav-text">次へ</span>
             </button>
         </nav>
-        
-        <!-- メインコンテンツエリア（中層） -->
-        <div class="content-area">
+
+        <!-- メインコンテンツエリア（フレキシブル） -->
+        <main class="content-area">
+            <!-- スクリーンショット表示（適応型） -->
             <div class="screenshot-container">
-                <img id="screenshotImg" 
-                     src="image/guide.jpg" 
-                     alt="MEXC説明画像" 
-                     class="screenshot-img show">
+                <img class="screenshot-img show" src="image/guide.jpg" alt="ガイド画像" id="screenshotImg">
                 <div class="screenshot-overlay"></div>
             </div>
-        </div>
-        
-        <!-- メッセージエリア（上層） -->
-        <div id="messageArea" class="message-area">
+        </main>
+
+        <!-- メッセージエリア（完全適応型） -->
+        <section class="message-area">
+            <!-- キャラクター（スケーラブル） -->
             <div class="character-container">
-                <img id="characterImg" 
-                     src="image/ryokosensei.png" 
-                     alt="キャラクター" 
-                     class="character-img">
+                <img class="character-img" src="image/ryokosensei.png" alt="両子先生" id="characterImg">
             </div>
+
+            <!-- 吹き出し（フレキシブル） -->
             <div class="speech-bubble">
                 <div class="bubble-arrow"></div>
                 <div class="bubble-content">
-                    <p id="bubbleText" class="bubble-text">
-                        こんにちは！両子です✨
-                    </p>
+                    <p class="bubble-text" id="bubbleText">こんにちは！両子です✨<br>画面をタップして続行</p>
                 </div>
-                <div id="tapIndicator" class="tap-indicator">
-                    <span class="tap-text">画面をタップして続行</span>
+                <div class="tap-indicator" id="tapIndicator">
+                    <span class="tap-text">タップ</span>
                     <div class="tap-pulse"></div>
                 </div>
             </div>
-        </div>
-        
-        <!-- プログレスエリア（最上層） -->
+        </section>
+
+        <!-- プログレスエリア（適応型） -->
         <div class="progress-area">
             <div class="progress-info">
                 <span id="progressCurrent">1</span> / <span id="progressTotal">10</span>
             </div>
             <div class="progress-bar-bg">
-                <div id="progressBar" class="progress-bar"></div>
+                <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
     </div>
-    
-    <!-- 音声ダイアログ -->
-    <div id="audioDialog" class="audio-dialog">
+
+    <!-- 音声ダイアログ（完全センタリング） -->
+    <div class="audio-dialog" id="audioDialog">
         <div class="dialog-overlay"></div>
         <div class="dialog-content">
-            <div class="audio-icon">🔊</div>
+            <div class="audio-icon">🎵</div>
             <h3>音声を再生しますか？</h3>
             <p>より良い体験のために音声をオンにすることをお勧めします</p>
             <div class="dialog-buttons">
-                <button id="audioOnBtn" class="dialog-btn primary">音声ON</button>
-                <button id="audioOffBtn" class="dialog-btn secondary">音声OFF</button>
+                <button class="dialog-btn primary" id="audioOnBtn">音声ON</button>
+                <button class="dialog-btn secondary" id="audioOffBtn">音声OFF</button>
             </div>
         </div>
     </div>
-    
+
     <!-- 音声要素 -->
-    <audio id="voicePlayer" preload="auto">
-        <source src="audio/oshiete.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="bgmPlayer" preload="auto" loop>
-        <source src="audio/bgm.mp3" type="audio/mpeg">
-        <source src="audio/bgm.ogg" type="audio/ogg">
-        <source src="audio/bgm.wav" type="audio/wav">
-    </audio>
-    
-    <!-- スクリプト読み込み -->
-    <script src="js/starfield-effect.js"></script>
-    <script src="js/sound-novel.js"></script>
-    <script src="js/main.js"></script>
+    <audio id="voicePlayer" preload="auto" loop></audio>
+    <audio id="bgmPlayer" src="audio/bgm.mp3" preload="auto" loop></audio>
+
+    <!-- JavaScript読み込み -->
+    <script src="starfield-effect.js"></script>
+    <script src="main.js"></script>
+    <script src="sound-novel.js"></script>
 </body>
 </html>
