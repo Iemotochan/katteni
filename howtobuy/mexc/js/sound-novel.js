@@ -63,39 +63,21 @@ class RyoCoinSoundNovel {
             },
             {
                 character: 'ryoko',
-                screenshot: 'image/1.jpg',
+                screenshot: 'touroku/1.jpg',
                 texts: [
-                    'まずは下のリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
+                    'まずは次のリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
+                     'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
+                    '終わったら戻って来てね📱\nわからない人用に説明もしていくよ📱',
                     'リンク: https://promote.mexc.com/r/OrGHfa2q',
-                    '右上の三本線メニューバーから\n「新規登録」を選ぶか...',
-                    '面倒な人はGoogleアカウントで\nサクッと登録しちゃおう！'
+
                 ],
                 audio: 'audio/oshiete.mp3'
             },
             {
                 character: 'zenta',
-                screenshot: 'image/2.jpg',
+                screenshot: 'touroku/2.jpg',
                 texts: [
-                    'ゼンタです！今回は\nメニューバーから新規登録で進めます。',
-                    'Googleアカウントも便利ですが\n今回は手動登録で詳しく説明しますね。',
-                    '三本線メニューをタップして\n「新規登録」を選択してください！'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/3.jpg',
-                texts: [
-                    '登録フォームが表示されました！\n電話番号とパスワードを設定します📝',
-                    'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
-                    '例：MyPassword123\nこんな感じで強力にしよう💪'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/4.jpg',
-                texts: [
+                    '登録を押したらスライドしてパズルを完成させよう👉',
                     '登録完了です！お疲れ様でした🎉',
                     '次は右下の「資産」をタップします。',
                     'ここから日本の取引所で購入した\nXRPをMEXCに送金する準備をしますよ！'
@@ -111,7 +93,7 @@ class RyoCoinSoundNovel {
                     'ここで日本の取引所（bittradeやCoincheckなど）で\n購入したXRPをMEXCに送ります🚀'
                 ],
                 audio: 'audio/oshiete.mp3'
-            },
+            }
             {
                 character: 'zenta',
                 screenshot: 'image/6.jpg',
