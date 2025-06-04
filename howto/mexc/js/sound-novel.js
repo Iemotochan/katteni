@@ -179,19 +179,215 @@ class RyoCoinSoundNovel {
     // 初期化
     // ===============================
     init() {
-        console.log('🎭 BitTradeサウンドノベル初期化開始');
+        console.log('🎭 BitTradeサウンドノベル初期化開始（PC対応強化版）');
         if (!this.checkRequiredElements()) {
             console.error('❌ 必要なHTML要素が見つかりません');
             return;
         }
         this.setupAudioElements();
         this.setupEventListeners();
+        this.setupAdvancedPageReturnHandling(); // PC対応強化
         this.showAudioDialog();
         this.preloadImages();
-        console.log('✅ BitTradeサウンドノベル初期化完了');
+        console.log('✅ BitTradeサウンドノベル初期化完了（PC対応強化版）');
     }
 
-    // 音声要素の設定（MEXC版技術適用）
+    // PC対応強化：高度なページ復帰検出
+    setupAdvancedPageReturnHandling() {
+        console.log('🖥️ PC対応強化：高度なページ復帰検出システム開始');
+        
+        // 基本的なページ可視性変更
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.wasPageHidden = true;
+                this.returnDetectionActive = true;
+                console.log('📱 ページ非表示 → 復帰検出モード開始');
+            } else {
+                if (this.wasPageHidden) {
+                    console.log('🎉 visibilitychange復帰検出！');
+                    this.handleAdvancedPageReturn('visibilitychange');
+                }
+            }
+        });
+
+        // ウィンドウフォーカス復帰（PC重要）
+        const focusHandler = () => {
+            if (this.returnDetectionActive) {
+                console.log('🎉 focus復帰検出！');
+                this.handleAdvancedPageReturn('focus');
+            }
+        };
+        window.addEventListener('focus', focusHandler);
+        this.pcReturnHandlers.push(() => window.removeEventListener('focus', focusHandler));
+
+        // ページ表示イベント（PC重要）
+        const pageshowHandler = (e) => {
+            if (e.persisted || this.returnDetectionActive) {
+                console.log('🎉 pageshow復帰検出！');
+                this.handleAdvancedPageReturn('pageshow');
+            }
+        };
+        window.addEventListener('pageshow', pageshowHandler);
+        this.pcReturnHandlers.push(() => window.removeEventListener('pageshow', pageshowHandler));
+
+        // マウス移動検出（PC専用）
+        let mouseMoveTimeout;
+        const mouseMoveHandler = () => {
+            if (this.returnDetectionActive) {
+                clearTimeout(mouseMoveTimeout);
+                mouseMoveTimeout = setTimeout(() => {
+                    console.log('🎉 mousemove復帰検出！');
+                    this.handleAdvancedPageReturn('mousemove');
+                }, 100);
+            }
+        };
+        document.addEventListener('mousemove', mouseMoveHandler, { passive: true });
+        this.pcReturnHandlers.push(() => document.removeEventListener('mousemove', mouseMoveHandler));
+
+        // キーボード検出（PC専用）
+        const keyHandler = () => {
+            if (this.returnDetectionActive) {
+                console.log('🎉 keyboard復帰検出！');
+                this.handleAdvancedPageReturn('keyboard');
+            }
+        };
+        document.addEventListener('keydown', keyHandler);
+        this.pcReturnHandlers.push(() => document.removeEventListener('keydown', keyHandler));
+
+        // クリック検出（PC・スマホ共通）
+        const clickHandler = () => {
+            if (this.returnDetectionActive) {
+                console.log('🎉 click復帰検出！');
+                this.handleAdvancedPageReturn('click');
+            }
+        };
+        document.addEventListener('click', clickHandler);
+        this.pcReturnHandlers.push(() => document.removeEventListener('click', clickHandler));
+
+        // タッチ検出（スマホ重要）
+        const touchHandler = () => {
+            if (this.returnDetectionActive) {
+                console.log('🎉 touch復帰検出！');
+                this.handleAdvancedPageReturn('touch');
+            }
+        };
+        document.addEventListener('touchstart', touchHandler, { passive: true });
+        this.pcReturnHandlers.push(() => document.removeEventListener('touchstart', touchHandler));
+
+        // スクロール検出（PC・スマホ共通）
+        let scrollTimeout;
+        const scrollHandler = () => {
+            if (this.returnDetectionActive) {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    console.log('🎉 scroll復帰検出！');
+                    this.handleAdvancedPageReturn('scroll');
+                }, 200);
+            }
+        };
+        window.addEventListener('scroll', scrollHandler, { passive: true });
+        this.pcReturnHandlers.push(() => window.removeEventListener('scroll', scrollHandler));
+
+        console.log('✅ PC対応強化：復帰検出システム設定完了');
+    }
+
+    // 高度なページ復帰処理
+    handleAdvancedPageReturn(triggerEvent) {
+        console.log(`💖 おかえりなさい！（${triggerEvent}で検出）`);
+        
+        this.wasPageHidden = false;
+        this.returnDetectionActive = false;
+        this.focusRetryCount = 0;
+        this.lastInteractionTime = Date.now();
+        
+        // ユーザーインタラクション状態を確実に設定
+        this.userHasInteracted = true;
+        
+        // BGMとボイスの復帰処理
+        if (this.bgmEnabled) {
+            console.log('🎵 BGM復帰処理開始...');
+            this.aggressiveBGMRetry();
+        }
+        
+        if (this.audioEnabled && this.voicePlayer) {
+            console.log('🎤 音声復帰処理開始...');
+            this.aggressiveVoiceRetry();
+        }
+        
+        // 小判効果音でお出迎え
+        setTimeout(() => {
+            this.playKobanSound();
+        }, 300);
+    }
+
+    // 積極的BGM再試行（PC対応強化）
+    aggressiveBGMRetry() {
+        let retryCount = 0;
+        const maxRetries = 5;
+        
+        const tryBGM = () => {
+            retryCount++;
+            console.log(`🎵 積極的BGM再試行 ${retryCount}/${maxRetries}`);
+            
+            if (this.bgmPlayer && this.bgmInitialized) {
+                // BGMプレイヤーをリセット
+                this.bgmPlayer.currentTime = 0;
+                this.bgmIsPlaying = false;
+                
+                const playPromise = this.bgmPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('✅ 積極的BGM再開成功！');
+                        this.bgmIsPlaying = true;
+                    }).catch(error => {
+                        console.warn(`❌ BGM再試行${retryCount}失敗:`, error);
+                        if (retryCount < maxRetries) {
+                            setTimeout(tryBGM, 1000 * retryCount);
+                        }
+                    });
+                }
+            }
+        };
+        
+        // 即座に1回目を試行
+        tryBGM();
+    }
+
+    // 積極的音声再試行
+    aggressiveVoiceRetry() {
+        if (!this.audioEnabled || !this.voicePlayer || !this.voiceInitialized) {
+            return;
+        }
+        
+        let retryCount = 0;
+        const maxRetries = 3;
+        
+        const tryVoice = () => {
+            retryCount++;
+            console.log(`🎤 積極的音声再試行 ${retryCount}/${maxRetries}`);
+            
+            this.voicePlayer.currentTime = 0;
+            this.voiceIsPlaying = false;
+            
+            const playPromise = this.voicePlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('✅ 積極的音声再開成功！');
+                    this.voiceIsPlaying = true;
+                }).catch(error => {
+                    console.warn(`❌ 音声再試行${retryCount}失敗:`, error);
+                    if (retryCount < maxRetries) {
+                        setTimeout(tryVoice, 800 * retryCount);
+                    }
+                });
+            }
+        };
+        
+        // 少し遅延させて音声再開
+        setTimeout(tryVoice, 500);
+    }
+
+    // 音声要素の設定
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
@@ -245,7 +441,7 @@ class RyoCoinSoundNovel {
             console.log('✅ 音声プレイヤー設定完了');
         }
 
-        // BGMプレイヤーの設定（MEXC版技術適用）
+        // BGMプレイヤーの設定
         if (this.bgmPlayer) {
             this.bgmPlayer.volume = 0.3;
             this.bgmPlayer.loop = true;
@@ -280,7 +476,7 @@ class RyoCoinSoundNovel {
             });
             console.log('✅ BGMプレイヤー設定完了');
         }
-        console.log('✅ 全音声要素設定完了（BitTrade版技術強化）');
+        console.log('✅ 全音声要素設定完了（PC対応強化版）');
     }
 
     // BGM再生
@@ -385,7 +581,7 @@ class RyoCoinSoundNovel {
         });
     }
 
-    // イベントリスナー設定（リンク対応強化）
+    // イベントリスナー設定（BitTrade対応）
     setupEventListeners() {
         // 全画面タッチ対応
         document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
@@ -421,11 +617,19 @@ class RyoCoinSoundNovel {
                 this.disableAudio();
             });
         }
-        console.log('✅ イベントリスナー設定完了（リンク対応強化）');
+        console.log('✅ イベントリスナー設定完了（PC対応強化版）');
     }
 
-    // グローバルタッチ処理（リンク対応）
+    // グローバルタッチ処理（PC対応強化版）
     handleGlobalTouch(e) {
+        // ユーザーインタラクション時刻更新
+        this.lastInteractionTime = Date.now();
+        
+        // 復帰検出中の場合はBGM再開を試行
+        if (this.returnDetectionActive) {
+            this.handleAdvancedPageReturn('user-interaction');
+        }
+        
         // ダイアログが表示中は無視
         const audioDialog = document.getElementById('audioDialog');
         if (audioDialog && audioDialog.classList.contains('show')) {
@@ -442,10 +646,24 @@ class RyoCoinSoundNovel {
         if (linkElement) {
             e.preventDefault();
             e.stopPropagation();
+            
             const url = linkElement.href;
+            const linkType = linkElement.getAttribute('data-link-type');
+            
             if (url && url.startsWith('http')) {
-                console.log('🔗 リンククリック検出:', url);
-                window.open(url, '_blank', 'noopener,noreferrer');
+                console.log('🔗 グローバルリンククリック検出:', url);
+                
+                if (linkType === 'bittrade') {
+                    // BitTradeリンクは同一タブで開く
+                    console.log('🏆 Bittradeリンク → 同一タブで移動');
+                    // 復帰検出モードを有効化
+                    this.returnDetectionActive = true;
+                    window.location.href = url;
+                } else {
+                    // その他のリンクは新しいタブで開く
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+                
                 this.playKobanSound();
             }
             return;
@@ -526,15 +744,20 @@ class RyoCoinSoundNovel {
         }
     }
 
-    // リンク処理
+    // リンク処理（BitTrade対応版）
     processTextWithLinks(text) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="story-link" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${url}</a>`;
+            // BitTradeの紹介リンクは同一タブで開く
+            const isBittradeLink = url.includes('bittrade.co.jp') || url.includes('m.bittrade.co.jp');
+            const target = isBittradeLink ? '_self' : '_blank';
+            const targetText = isBittradeLink ? '同一タブで開く' : '別窓で開く';
+            
+            return `<a href="${url}" target="${target}" rel="noopener noreferrer" class="story-link" data-link-type="${isBittradeLink ? 'bittrade' : 'external'}" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${isBittradeLink ? 'Bittrade登録' : 'リンク'} (${targetText})</a>`;
         });
     }
 
-    // リンクイベント設定
+    // リンクイベント設定（BitTrade対応版）
     setupLinkEvents(container) {
         const links = container.querySelectorAll('a.story-link');
         links.forEach(link => {
@@ -546,18 +769,48 @@ class RyoCoinSoundNovel {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                
                 const url = link.href;
+                const linkType = link.getAttribute('data-link-type');
+                
                 if (url && url.startsWith('http')) {
-                    window.open(url, '_blank', 'noopener,noreferrer');
+                    console.log(`🔗 リンククリック検出: ${url} (${linkType})`);
+                    
+                    if (linkType === 'bittrade') {
+                        // BitTradeリンクは同一タブで開く（紹介コード保持のため）
+                        console.log('🏆 Bittradeリンク → 同一タブで移動');
+                        // 復帰検出モードを有効化
+                        this.returnDetectionActive = true;
+                        window.location.href = url;
+                    } else {
+                        // その他のリンクは新しいタブで開く
+                        console.log('🔗 外部リンク → 新しいタブで開く');
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    }
+                    
                     this.playKobanSound();
                 }
             });
+
             link.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                
                 const url = link.href;
+                const linkType = link.getAttribute('data-link-type');
+                
                 if (url && url.startsWith('http')) {
-                    window.open(url, '_blank', 'noopener,noreferrer');
+                    console.log(`📱 タッチリンク: ${url} (${linkType})`);
+                    
+                    if (linkType === 'bittrade') {
+                        // BitTradeリンクは同一タブで開く
+                        this.returnDetectionActive = true;
+                        window.location.href = url;
+                    } else {
+                        // その他のリンクは新しいタブで開く
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    }
+                    
                     this.playKobanSound();
                 }
             });
@@ -756,15 +1009,19 @@ class RyoCoinSoundNovel {
         }
 
         setTimeout(() => {
-            if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
+            if (confirm('BitTradeでの購入ガイドが完了しました。\n送金編に移動しますか？')) {
                 this.destroy();
-                window.location.href = '../index.html';
+                window.location.href = '../howtobuy/mexc/index.html';
             }
         }, 3000);
     }
 
-    // クリーンアップ
+    // クリーンアップ（PC対応強化）
     destroy() {
+        // イベントリスナーのクリーンアップ
+        this.pcReturnHandlers.forEach(cleanup => cleanup());
+        this.pcReturnHandlers = [];
+        
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
@@ -781,7 +1038,7 @@ class RyoCoinSoundNovel {
             this.kobanSoundPlayer.pause();
             this.kobanSoundPlayer.currentTime = 0;
         }
-        console.log('🧹 クリーンアップ完了');
+        console.log('🧹 クリーンアップ完了（PC対応強化版）');
     }
 }
 
@@ -801,16 +1058,61 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（BitTrade版）
+// 開発者向け便利機能（PC対応強化版）
 window.NovelUtils = {
-    // リンクテスト
-    testLinkClick: () => {
-        const testUrl = 'https://bittrade.co.jp/';
-        window.open(testUrl, '_blank', 'noopener,noreferrer');
+    // BitTradeリンクテスト
+    testBittradeLink: () => {
+        const testUrl = 'https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
+        console.log('🏆 Bittradeリンクテスト:', testUrl);
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.returnDetectionActive = true;
+        }
+        window.location.href = testUrl; // 同一タブで開く
         if (window.ryoCoinNovel) {
             window.ryoCoinNovel.playKobanSound();
         }
-        console.log('✅ リンクテスト完了');
+        console.log('✅ Bittradeリンクテスト完了（同一タブ移動＋復帰検出）');
+    },
+
+    // PC復帰シミュレーションテスト
+    simulatePCReturn: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🖥️ PC復帰シミュレーション開始');
+            window.ryoCoinNovel.returnDetectionActive = true;
+            window.ryoCoinNovel.handleAdvancedPageReturn('simulation');
+            console.log('✅ PC復帰シミュレーション実行');
+        }
+    },
+
+    // 積極的BGMテスト
+    testAggressiveBGM: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🎵 積極的BGM再生テスト開始');
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.bgmEnabled = true;
+            window.ryoCoinNovel.aggressiveBGMRetry();
+            console.log('✅ 積極的BGM再生テスト実行');
+        }
+    },
+
+    // 通常リンクテスト
+    testExternalLink: () => {
+        const testUrl = 'https://google.com/';
+        console.log('🔗 外部リンクテスト:', testUrl);
+        window.open(testUrl, '_blank', 'noopener,noreferrer'); // 新しいタブで開く
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+        }
+        console.log('✅ 外部リンクテスト完了（新しいタブ）');
+    },
+
+    // リンク検出テスト
+    testLinkDetection: () => {
+        const testText = 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt';
+        if (window.ryoCoinNovel) {
+            const processed = window.ryoCoinNovel.processTextWithLinks(testText);
+            console.log('🔍 リンク検出テスト結果:', processed);
+        }
     },
 
     // BGM強制再生テスト
@@ -850,6 +1152,8 @@ window.NovelUtils = {
                 bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying,
                 voiceIsPlaying: window.ryoCoinNovel.voiceIsPlaying,
                 userHasInteracted: window.ryoCoinNovel.userHasInteracted,
+                returnDetectionActive: window.ryoCoinNovel.returnDetectionActive,
+                wasPageHidden: window.ryoCoinNovel.wasPageHidden,
                 currentScene: window.ryoCoinNovel.currentScene + 1,
                 totalScenes: window.ryoCoinNovel.scenarios.length
             });
@@ -871,29 +1175,45 @@ window.NovelUtils = {
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル - BitTrade版アップデート完了！
+🎭 RYOコインサウンドノベル - PC対応強化版
+🖥️ PC完全対応：複数イベント検出システム
+📱 スマホ対応：タッチ・visibilitychange対応
 🎵 audio/oshiete.mp3 専用ループシステム
-🎶 audio/bgm.mp3 バックグラウンド音楽システム  
+🎶 audio/bgm.mp3 バックグラウンド音楽システム（PC強化）
 🪙 audio/koban.mp3 効果音システム（音量: 0.3）
-🔗 リンク別窓対応システム
+🔗 BitTradeリンク同一タブ対応システム
+💖 PC・スマホ両対応ページ復帰BGM自動再開機能
+
+🖥️ PC復帰検出イベント:
+   - focus (ウィンドウフォーカス)
+   - pageshow (ページ表示)
+   - mousemove (マウス移動)
+   - keydown (キーボード)
+   - click (クリック)
+   - scroll (スクロール)
+
+📱 スマホ復帰検出イベント:
+   - visibilitychange (ページ可視性)
+   - touchstart (タッチ開始)
+   - focus (フォーカス)
+
 🎮 デバッグコマンド:
-   NovelUtils.testLinkClick()     - リンククリックテスト
-   NovelUtils.forceBGM()         - BGM強制再生
-   NovelUtils.playKobanTest()    - 小判効果音テスト
-   NovelUtils.forcePlayVoice()   - 強制音声再生
-   NovelUtils.fullStatus()       - 全状態確認
-   NovelUtils.stopAllAudio()     - 全音声停止
+   NovelUtils.testBittradeLink()    - Bittradeリンクテスト
+   NovelUtils.simulatePCReturn()    - PC復帰シミュレーション
+   NovelUtils.testAggressiveBGM()   - 積極的BGM再生テスト
+   NovelUtils.testExternalLink()    - 外部リンクテスト
+   NovelUtils.testLinkDetection()   - リンク検出テスト
+   NovelUtils.forceBGM()           - BGM強制再生
+   NovelUtils.playKobanTest()      - 小判効果音テスト
+   NovelUtils.forcePlayVoice()     - 強制音声再生
+   NovelUtils.fullStatus()         - 全状態確認
+   NovelUtils.stopAllAudio()       - 全音声停止
 
-📁 必要ファイル:
-   audio/oshiete.mp3 - メイン音声ファイル
-   audio/bgm.mp3     - バックグラウンド音楽  
-   audio/koban.mp3   - 小判効果音
-
-✨ 特徴:
-   ✅ BitTradeシナリオ維持
-   ✅ MEXC版技術システム適用
-   ✅ 確実な音声再生システム
-   ✅ 完璧なリンククリック対応
-   ✅ エラーハンドリング強化
-   ✅ メンテナンス性向上
+✨ PC強化機能:
+   💻 複数イベントによる復帰検出
+   🎵 積極的BGM再試行（最大5回）
+   🔄 イベントリスナー自動クリーンアップ
+   📊 詳細な状態監視
+   🎤 音声復帰機能強化
+   🪙 復帰時小判効果音
 `);
