@@ -5,15 +5,21 @@ class RyoCoinSoundNovel {
         this.isTyping = false;
         this.audioEnabled = false;
         this.bgmEnabled = true;
-        this.bgmIsPlaying = false; // BGM再生状態追跡
+        this.bgmIsPlaying = false;
+        this.voiceIsPlaying = false;
         this.lastTouchTime = 0;
         this.touchCooldown = 400;
         this.typewriterInterval = null;
-        
+
         // 音声要素の参照
         this.voicePlayer = null;
         this.bgmPlayer = null;
-        
+        this.kobanSoundPlayer = null;
+        this.voiceInitialized = false;
+        this.bgmInitialized = false;
+        this.userHasInteracted = false;
+        this.bgmRetryCount = 0;
+
         // キャラクター設定
         this.characters = {
             ryoko: {
@@ -27,470 +33,574 @@ class RyoCoinSoundNovel {
                 voice: 'male'
             }
         };
-        
-        // シナリオデータ（フォルダ管理対応）
+
+        // シナリオデータ（BitTrade版）
         this.scenarios = this.getScenarioData();
-        
         this.init();
     }
-    
-    // =============================== 
-    // シナリオデータ（フォルダ管理版）
-    // =============================== 
-getScenarioData() {
-    return [
-        {
-            character: 'ryoko',
-            screenshot: 'image/guide.jpg', // 取引所トップページ
-            texts: [
-                'こんにちは！リョウコです✨\n今日はRYOコインの購入方法を完全ガイドします！',
-                '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
-                '準備はいいですか？\nそれでは始めましょう！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'touroku/1.jpg', // 新規登録画面
-            texts: [
-                'まずは取引所のアカウントを作成します。\n右上の「新規登録」をタップしてください。',
-                'BitTradeなどの信頼できる取引所を選びましょう。\n登録は無料で簡単です！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'touroku/3.jpg', // メール・パスワード入力画面
-            texts: [
-                'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で英数字を含む必要があります！',
-                '紹介コードがある場合は入力して\n「次へ」をタップしましょう✨'
-            ]
-        },
-        {
-            character: 'zenta',
-            screenshot: 'touroku/3.jpg', // メール認証画面
-            texts: [
-                '登録したメールアドレスに\n認証コードが送信されました📧',
-                'メールをチェックして\n6桁の数字を入力してください。',
-                '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'touroku/8.jpg', // ホーム画面（赤い！マーク）
-            texts: [
-                'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
-                'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'touroku/5.jpg', // 本人確認ステータス画面
-            texts: [
-                '本人確認のステータス画面です。\n取引を始めるには本人確認が必須です。',
-                '「簡単本人確認」を選択すると\nスマホで撮影するだけで完了します📱'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'touroku/5.jpg', // 簡単本人確認画面
-            texts: [
-                '簡単本人確認では運転免許証や\nマイナンバーカードが使えます。',
-                'スマホのカメラで撮影して\nアップロードするだけ！簡単ですね✨'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'touroku/6.jpg', // 個人情報入力画面
-            texts: [
-                '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
-                '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1-3営業日で完了です。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'nyuukin/1.jpg', // 入金画面
-            texts: [
-                '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
-                '表示された専用口座に\n銀行振込で入金してください。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'nyuukin/2.jpg', // 入金詳細画面
-            texts: [
-                '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
-                '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
-                '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'buy/1.jpg', // 取引所画面
-            texts: [
-                '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
-                '画面下部の「取引所」をタップして\n取引画面に移動します。'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'zenta',
-            screenshot: 'buy/2.jpg', // 通貨検索画面
-            texts: [
-                '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。',
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
+
+    // ===============================
+    // シナリオデータ（BitTrade版）
+    // ===============================
+    getScenarioData() {
+        return [
             {
-            character: 'zenta',
-            screenshot: 'buy/3.jpg', // 通貨検索画面
-            texts: [
-                '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
-        {
-            character: 'ryoko',
-            screenshot: 'buy/5.jpg', // XRP購入画面
-            texts: [
-                'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
-                'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
-                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
-                '次は送金に挑戦！💫'
-            ],
-            audio: 'audio/oshiete.mp3'
-        },
+                character: 'ryoko',
+                screenshot: 'image/guide.jpg',
+                texts: [
+                    'こんにちは！リョウコです✨\n今日はRYOコインの購入方法を完全ガイドします！',
+                    '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
+                    '準備はいいですか？\nそれでは始めましょう！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'touroku/1.jpg',
+                texts: [
+                    'まずは取引所のアカウントを作成します。\n右上の「新規登録」をタップしてください。',
+                    'BitTradeなどの信頼できる取引所を選びましょう。\n登録は無料で簡単です！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'touroku/3.jpg',
+                texts: [
+                    'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で英数字を含む必要があります！',
+                    '紹介コードがある場合は入力して\n「次へ」をタップしましょう✨'
+                ]
+            },
+            {
+                character: 'zenta',
+                screenshot: 'touroku/3.jpg',
+                texts: [
+                    '登録したメールアドレスに\n認証コードが送信されました📧',
+                    'メールをチェックして\n6桁の数字を入力してください。',
+                    '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'touroku/8.jpg',
+                texts: [
+                    'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
+                    'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'touroku/5.jpg',
+                texts: [
+                    '本人確認のステータス画面です。\n取引を始めるには本人確認が必須です。',
+                    '「簡単本人確認」を選択すると\nスマホで撮影するだけで完了します📱'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'touroku/5.jpg',
+                texts: [
+                    '簡単本人確認では運転免許証や\nマイナンバーカードが使えます。',
+                    'スマホのカメラで撮影して\nアップロードするだけ！簡単ですね✨'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'touroku/6.jpg',
+                texts: [
+                    '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
+                    '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1〜3営業日で完了です。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'nyuukin/1.jpg',
+                texts: [
+                    '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
+                    '表示された専用口座に\n銀行振込で入金してください。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'nyuukin/2.jpg',
+                texts: [
+                    '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
+                    '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
+                    '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'buy/1.jpg',
+                texts: [
+                    '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
+                    '画面下部の「取引所」をタップして\n取引画面に移動します。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'buy/2.jpg',
+                texts: [
+                    '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'zenta',
+                screenshot: 'buy/3.jpg',
+                texts: [
+                    '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
+                ],
+                audio: 'audio/oshiete.mp3'
+            },
+            {
+                character: 'ryoko',
+                screenshot: 'buy/5.jpg',
+                texts: [
+                    'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
+                    'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
+                    '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
+                    '次は送金に挑戦！💫'
+                ],
+                audio: 'audio/oshiete.mp3'
+            }
+        ];
+    }
 
-
-
-
-
-
-
-        
-    ];
-}
-    
-    // =============================== 
+    // ===============================
     // 初期化
-    // =============================== 
+    // ===============================
     init() {
-        console.log('🎭 サウンドノベル初期化開始');
-        
+        console.log('🎭 BitTradeサウンドノベル初期化開始');
         if (!this.checkRequiredElements()) {
             console.error('❌ 必要なHTML要素が見つかりません');
             return;
         }
-        
         this.setupAudioElements();
         this.setupEventListeners();
         this.showAudioDialog();
         this.preloadImages();
-        
-        console.log('✅ サウンドノベル初期化完了');
+        console.log('✅ BitTradeサウンドノベル初期化完了');
     }
-    
-    // 音声要素の設定（ループ機能強化）
+
+    // 音声要素の設定（MEXC版技術適用）
     setupAudioElements() {
         this.voicePlayer = document.getElementById('voicePlayer');
         this.bgmPlayer = document.getElementById('bgmPlayer');
-        
+
+        // 小判効果音プレイヤーを動的に作成
+        this.kobanSoundPlayer = new Audio();
+        this.kobanSoundPlayer.src = 'audio/koban.mp3';
+        this.kobanSoundPlayer.volume = 0.3;
+        this.kobanSoundPlayer.preload = 'auto';
+        this.kobanSoundPlayer.addEventListener('loadeddata', () => {
+            console.log('✅ 小判効果音読み込み完了: audio/koban.mp3（音量: 0.3）');
+        });
+        this.kobanSoundPlayer.addEventListener('error', () => {
+            console.warn('⚠️ 小判効果音が見つかりません: audio/koban.mp3（後で追加予定）');
+        });
+
+        // 音声プレイヤーの設定
         if (this.voicePlayer) {
-            console.log('✅ 音声プレイヤー設定完了');
-        }
-        
-        if (this.bgmPlayer) {
-            // BGMの基本設定
-            this.bgmPlayer.volume = 0.3;
-            this.bgmPlayer.loop = true; // HTML属性と併用
-            
-            // BGMループのイベントリスナー設定（確実にループさせる）
-            this.bgmPlayer.addEventListener('ended', () => {
-                console.log('🔄 BGM終了 → 自動再開');
-                if (this.bgmEnabled) {
-                    this.bgmPlayer.currentTime = 0;
-                    this.bgmPlayer.play().catch(e => {
-                        console.warn('🔇 BGM再ループ失敗:', e);
-                        setTimeout(() => this.retryBGM(), 1000);
-                    });
+            this.voicePlayer.innerHTML = `
+                <source src="audio/oshiete.mp3" type="audio/mpeg">
+                <source src="audio/oshiete.wav" type="audio/wav">
+                <source src="audio/oshiete.ogg" type="audio/ogg">
+            `;
+            this.voicePlayer.loop = true;
+            this.voicePlayer.volume = 0.8;
+            this.voicePlayer.preload = 'auto';
+            this.voicePlayer.addEventListener('canplaythrough', () => {
+                console.log('✅ 音声ファイル準備完了');
+                this.voiceInitialized = true;
+            });
+            this.voicePlayer.addEventListener('play', () => {
+                this.voiceIsPlaying = true;
+                console.log('🎵 音声再生開始！');
+            });
+            this.voicePlayer.addEventListener('pause', () => {
+                this.voiceIsPlaying = false;
+                console.log('⏸️ 音声停止');
+            });
+            this.voicePlayer.addEventListener('ended', () => {
+                console.log('🔄 音声終了 → 再開始');
+                if (this.audioEnabled) {
+                    setTimeout(() => {
+                        this.voicePlayer.currentTime = 0;
+                        this.playVoice();
+                    }, 100);
                 }
             });
-            
-            // BGM再生開始イベント
+            this.voicePlayer.addEventListener('error', (e) => {
+                console.error('❌ 音声エラー:', e);
+            });
+            console.log('✅ 音声プレイヤー設定完了');
+        }
+
+        // BGMプレイヤーの設定（MEXC版技術適用）
+        if (this.bgmPlayer) {
+            this.bgmPlayer.volume = 0.3;
+            this.bgmPlayer.loop = true;
+            this.bgmPlayer.preload = 'auto';
+            this.bgmPlayer.addEventListener('loadeddata', () => {
+                console.log('✅ BGM読み込み完了: audio/bgm.mp3');
+                this.bgmInitialized = true;
+            });
+            this.bgmPlayer.addEventListener('canplaythrough', () => {
+                console.log('✅ BGM再生準備完了');
+                this.bgmInitialized = true;
+            });
             this.bgmPlayer.addEventListener('play', () => {
                 this.bgmIsPlaying = true;
-                console.log('🎵 BGM再生開始');
+                this.bgmRetryCount = 0;
+                console.log('🎵 BGM再生開始！');
             });
-            
-            // BGM停止イベント
             this.bgmPlayer.addEventListener('pause', () => {
                 this.bgmIsPlaying = false;
                 console.log('⏸️ BGM停止');
             });
-            
-            // BGMエラーハンドリング
+            this.bgmPlayer.addEventListener('ended', () => {
+                console.log('🔄 BGM終了 → 自動再開');
+                if (this.bgmEnabled) {
+                    this.bgmPlayer.currentTime = 0;
+                    this.playBGM();
+                }
+            });
             this.bgmPlayer.addEventListener('error', (e) => {
                 console.error('❌ BGMエラー:', e);
-                setTimeout(() => this.retryBGM(), 2000);
+                this.retryBGM();
             });
-            
-            // BGM読み込み完了
-            this.bgmPlayer.addEventListener('canplaythrough', () => {
-                console.log('✅ BGM読み込み完了');
-            });
-            
-            console.log('✅ BGMプレイヤー設定完了（ループ強化）');
+            console.log('✅ BGMプレイヤー設定完了');
+        }
+        console.log('✅ 全音声要素設定完了（BitTrade版技術強化）');
+    }
+
+    // BGM再生
+    playBGM() {
+        if (!this.bgmEnabled || !this.userHasInteracted) {
+            return;
+        }
+        if (this.bgmPlayer && this.bgmInitialized) {
+            console.log('🎵 BGM再生試行...');
+            this.bgmPlayer.currentTime = 0;
+            const playPromise = this.bgmPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('✅ BGM再生成功！');
+                    this.bgmIsPlaying = true;
+                }).catch(error => {
+                    console.error('❌ BGM再生失敗:', error);
+                    this.retryBGM();
+                });
+            }
         }
     }
-    
-    // BGM再試行
+
+    // BGM再生リトライ
     retryBGM() {
-        if (this.bgmEnabled && this.bgmPlayer && !this.bgmIsPlaying) {
-            console.log('🔄 BGM再試行');
-            this.bgmPlayer.play().catch(e => {
-                console.warn('🔇 BGM再試行失敗:', e);
+        this.bgmRetryCount++;
+        if (this.bgmRetryCount <= 3) {
+            console.log(`🔄 BGM再試行 ${this.bgmRetryCount}/3 （3秒後）`);
+            setTimeout(() => {
+                if (this.bgmEnabled && this.userHasInteracted && !this.bgmIsPlaying) {
+                    this.playBGM();
+                }
+            }, 3000);
+        }
+    }
+
+    // 小判効果音再生
+    playKobanSound() {
+        if (!this.kobanSoundPlayer) return;
+        try {
+            this.kobanSoundPlayer.currentTime = 0;
+            this.kobanSoundPlayer.play().then(() => {
+                console.log('🪙 小判効果音再生！（音量: 0.3）');
+            }).catch(e => {
+                console.warn('🔇 小判効果音再生失敗:', e);
+            });
+        } catch (error) {
+            console.warn('🔇 小判効果音エラー:', error);
+        }
+    }
+
+    // 音声再生
+    playVoice() {
+        if (!this.audioEnabled || !this.voicePlayer || !this.userHasInteracted) {
+            return;
+        }
+        console.log('🎵 音声再生試行...');
+        this.voicePlayer.currentTime = 0;
+        const playPromise = this.voicePlayer.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('✅ 音声再生成功！');
+                this.voiceIsPlaying = true;
+            }).catch(error => {
+                console.error('❌ 音声再生失敗:', error);
             });
         }
     }
-    
+
     // 必要な要素チェック
     checkRequiredElements() {
         const requiredIds = [
-            'wideTouchArea', 'bubbleText', 'characterImg',
+            'bubbleText', 'characterImg',
             'tapIndicator', 'progressBar', 'progressCurrent',
-            'progressTotal', 'audioDialog', 'screenshotImg',
-            'muteBtn', 'muteIcon'
+            'progressTotal', 'audioDialog', 'screenshotImg'
         ];
-        
         for (let id of requiredIds) {
             const element = document.getElementById(id);
             if (!element) {
                 console.error(`❌ 要素が見つかりません: ${id}`);
                 return false;
-            } else {
-                console.log(`✅ ${id} 要素確認完了`);
             }
         }
         return true;
     }
-    
-    // 画像プリロード（フォルダ管理対応）
+
+    // 画像プリロード（BitTrade版）
     preloadImages() {
-        console.log('🖼️ 画像プリロード開始（フォルダ管理対応）');
-        
-        // シナリオで使用される画像をプリロード
+        console.log('🖼️ BitTrade画像プリロード開始');
         this.scenarios.forEach((scenario, index) => {
             const img = new Image();
             img.src = scenario.screenshot;
-            img.onload = () => console.log(`✅ シーン${index + 1} 画像読み込み完了: ${scenario.screenshot}`);
-            img.onerror = () => console.warn(`⚠️ シーン${index + 1} 画像読み込み失敗: ${scenario.screenshot}`);
+            img.onload = () => console.log(`✅ シーン${index + 1} 画像OK: ${scenario.screenshot}`);
+            img.onerror = () => console.warn(`⚠️ シーン${index + 1} 画像NG: ${scenario.screenshot}`);
         });
-        
-        // キャラクター画像もプリロード
+
         Object.values(this.characters).forEach(character => {
             const img = new Image();
             img.src = character.image;
-            img.onload = () => console.log(`✅ ${character.name} 画像読み込み完了`);
-            img.onerror = () => console.warn(`⚠️ ${character.name} 画像読み込み失敗`);
+            img.onload = () => console.log(`✅ ${character.name} 画像OK`);
+            img.onerror = () => console.warn(`⚠️ ${character.name} 画像NG`);
         });
-        
-        // 初期画像の確認
-        const initialImg = new Image();
-        initialImg.src = 'touroku/1.jpg';
-        initialImg.onload = () => console.log('✅ 初期画像確認完了: touroku/1.jpg');
-        initialImg.onerror = () => console.warn('⚠️ 初期画像が見つかりません: touroku/1.jpg');
     }
-    
+
+    // イベントリスナー設定（リンク対応強化）
     setupEventListeners() {
-        // 広いタッチエリアでイベント受取
-        const wideTouchArea = document.getElementById('wideTouchArea');
-        
-        if (wideTouchArea) {
-            wideTouchArea.addEventListener('touchend', (e) => this.handleTouch(e));
-            wideTouchArea.addEventListener('click', (e) => this.handleTouch(e));
-            console.log('✅ 広いタッチエリア設定完了');
-        }
-        
-        // ナビゲーションボタン
+        // 全画面タッチ対応
+        document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
+        document.addEventListener('click', (e) => this.handleGlobalTouch(e));
+
+        // ボタンイベント設定
         const skipBtn = document.getElementById('skipBtn');
         const backBtn = document.getElementById('backBtn');
         const audioOnBtn = document.getElementById('audioOnBtn');
         const audioOffBtn = document.getElementById('audioOffBtn');
-        const muteBtn = document.getElementById('muteBtn');
-        
-        if (skipBtn) skipBtn.addEventListener('click', () => this.nextScene());
-        if (backBtn) backBtn.addEventListener('click', () => this.previousScene());
-        if (audioOnBtn) audioOnBtn.addEventListener('click', () => this.enableAudio());
-        if (audioOffBtn) audioOffBtn.addEventListener('click', () => this.disableAudio());
-        if (muteBtn) muteBtn.addEventListener('click', () => this.toggleMute());
-        
-        console.log('✅ イベントリスナー設定完了（フォルダ管理対応）');
-    }
-    
-    // ミュート切り替え（ループ対応強化）
-    toggleMute() {
-        this.bgmEnabled = !this.bgmEnabled;
-        const muteIcon = document.getElementById('muteIcon');
-        const muteBtn = document.getElementById('muteBtn');
-        
-        if (this.bgmEnabled) {
-            // ミュート解除
-            if (this.bgmPlayer) {
-                this.bgmPlayer.muted = false;
-                this.bgmPlayer.play().catch(e => {
-                    console.warn('🔇 BGM再生失敗:', e);
-                });
-            }
-            muteIcon.textContent = '🔊';
-            muteBtn.classList.remove('muted');
-            console.log('🔊 BGM有効化（ループ継続）');
-        } else {
-            // ミュート
-            if (this.bgmPlayer) {
-                this.bgmPlayer.pause();
-            }
-            muteIcon.textContent = '🔇';
-            muteBtn.classList.add('muted');
-            console.log('🔇 BGMミュート');
-        }
-    }
-    
-    // BGM開始（ループ保証）
-    startBGM() {
-        if (this.bgmEnabled && this.bgmPlayer) {
-            // 確実にループ設定
-            this.bgmPlayer.loop = true;
-            this.bgmPlayer.muted = false;
-            
-            this.bgmPlayer.play().catch(e => {
-                console.warn('🔇 BGM自動再生失敗（ユーザー操作が必要）:', e);
-                // ユーザー操作待ちの場合、最初のタッチで再生を試行
-                this.bgmPendingPlay = true;
-            });
-            console.log('🎵 BGMループ開始');
-        }
-    }
-    
-    // ユーザー操作でBGM開始を試行
-    tryStartBGMOnUserAction() {
-        if (this.bgmPendingPlay && this.bgmEnabled && this.bgmPlayer) {
-            this.bgmPlayer.play().then(() => {
-                this.bgmPendingPlay = false;
-                console.log('🎵 ユーザー操作によりBGM開始成功');
-            }).catch(e => {
-                console.warn('🔇 ユーザー操作でもBGM開始失敗:', e);
+
+        if (skipBtn) {
+            skipBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.nextScene();
             });
         }
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.previousScene();
+            });
+        }
+        if (audioOnBtn) {
+            audioOnBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.enableAudio();
+            });
+        }
+        if (audioOffBtn) {
+            audioOffBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.disableAudio();
+            });
+        }
+        console.log('✅ イベントリスナー設定完了（リンク対応強化）');
     }
-    
-    // タッチ処理（BGM開始試行追加）
-    handleTouch(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // ユーザー操作でBGM開始を試行
-        this.tryStartBGMOnUserAction();
-        
-        const now = Date.now();
-        if (now - this.lastTouchTime < this.touchCooldown) {
-            console.log('⏱️ クールダウン中');
+
+    // グローバルタッチ処理（リンク対応）
+    handleGlobalTouch(e) {
+        // ダイアログが表示中は無視
+        const audioDialog = document.getElementById('audioDialog');
+        if (audioDialog && audioDialog.classList.contains('show')) {
             return;
         }
-        
+
+        // ボタンクリックは無視
+        if (e.target.closest('.nav-btn, .dialog-btn')) {
+            return;
+        }
+
+        // リンククリック検出
+        const linkElement = e.target.closest('a');
+        if (linkElement) {
+            e.preventDefault();
+            e.stopPropagation();
+            const url = linkElement.href;
+            if (url && url.startsWith('http')) {
+                console.log('🔗 リンククリック検出:', url);
+                window.open(url, '_blank', 'noopener,noreferrer');
+                this.playKobanSound();
+            }
+            return;
+        }
+
+        // 通常のタッチ処理
+        this.handleTouch(e);
+    }
+
+    // ユーザー操作処理
+    handleTouch(e) {
+        // 初回ユーザー操作を記録
+        if (!this.userHasInteracted) {
+            this.userHasInteracted = true;
+            console.log('✅ ユーザー操作検出 → 全音声再生可能状態');
+            // BGM開始
+            setTimeout(() => {
+                if (this.bgmEnabled) {
+                    this.playBGM();
+                }
+            }, 100);
+            // 音声開始（有効な場合）
+            if (this.audioEnabled) {
+                setTimeout(() => this.playVoice(), 500);
+            }
+        }
+
+        const now = Date.now();
+        if (now - this.lastTouchTime < this.touchCooldown) {
+            return;
+        }
         this.lastTouchTime = now;
-        
+
+        // 効果音再生
+        this.playKobanSound();
+
+        // BGMが停止していたら再開を試行
+        if (this.bgmEnabled && !this.bgmIsPlaying && this.userHasInteracted) {
+            this.playBGM();
+        }
+
         if (this.isTyping) {
-            console.log('⚡ タイピング中 → スキップして完了表示');
             this.completeTyping();
             return;
         }
-        
-        console.log('👆 タッチ検出 → 次のテキストへ');
         this.nextText();
     }
-    
-    // タイピング完了処理
+
     completeTyping() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
         }
-        
+
         const bubbleText = document.getElementById('bubbleText');
         const tapIndicator = document.getElementById('tapIndicator');
         const currentScenario = this.scenarios[this.currentScene];
-        
+
         if (bubbleText && currentScenario.texts[this.currentTextIndex]) {
-            bubbleText.textContent = currentScenario.texts[this.currentTextIndex];
+            const text = currentScenario.texts[this.currentTextIndex];
+            bubbleText.innerHTML = this.processTextWithLinks(text);
+            this.setupLinkEvents(bubbleText);
         }
-        
+
         this.isTyping = false;
         if (tapIndicator) {
             tapIndicator.style.opacity = '1';
         }
-        
-        console.log('⚡ タイピングスキップ完了');
     }
-    
+
     nextText() {
         const currentScenario = this.scenarios[this.currentScene];
-        
         if (this.currentTextIndex >= currentScenario.texts.length - 1) {
-            console.log('📄 シーン終了 → 次のシーンへ');
             this.nextScene();
         } else {
             this.currentTextIndex++;
             this.displayText(currentScenario.texts[this.currentTextIndex]);
         }
     }
-    
-    // タイプライター効果
+
+    // リンク処理
+    processTextWithLinks(text) {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, (url) => {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="story-link" style="color: #FFD700 !important; text-decoration: underline !important; font-weight: bold !important; cursor: pointer !important; padding: 6px 12px !important; margin: 2px 4px !important; border-radius: 8px !important; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15)) !important; border: 2px solid rgba(255, 215, 0, 0.5) !important; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important; transition: all 0.3s ease !important; transform: scale(1) !important; pointer-events: auto !important; position: relative !important; z-index: 1000 !important; min-width: 44px !important; min-height: 44px !important; text-align: center !important; display: inline-block !important;">🔗 ${url}</a>`;
+        });
+    }
+
+    // リンクイベント設定
+    setupLinkEvents(container) {
+        const links = container.querySelectorAll('a.story-link');
+        links.forEach(link => {
+            link.replaceWith(link.cloneNode(true));
+        });
+
+        const newLinks = container.querySelectorAll('a.story-link');
+        newLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const url = link.href;
+                if (url && url.startsWith('http')) {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                    this.playKobanSound();
+                }
+            });
+            link.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const url = link.href;
+                if (url && url.startsWith('http')) {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                    this.playKobanSound();
+                }
+            });
+        });
+    }
+
     displayText(text) {
         const bubbleText = document.getElementById('bubbleText');
         const tapIndicator = document.getElementById('tapIndicator');
-        
-        if (!bubbleText || !tapIndicator) {
-            console.error('❌ 必要な要素が見つかりません（bubbleText or tapIndicator）');
-            return;
-        }
-        
+        if (!bubbleText || !tapIndicator) return;
+
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
         }
-        
+
         this.isTyping = true;
         tapIndicator.style.opacity = '0';
-        
-        bubbleText.textContent = '';
-        
-        let charIndex = 0;
-        const typingSpeed = 60;
-        
-        console.log(`💬 タイプライター開始: "${text.substring(0, 20)}..."`);
-        
-        this.typewriterInterval = setInterval(() => {
-            if (charIndex < text.length) {
-                bubbleText.textContent += text[charIndex];
-                charIndex++;
-            } else {
-                clearInterval(this.typewriterInterval);
-                this.typewriterInterval = null;
-                this.isTyping = false;
-                tapIndicator.style.opacity = '1';
-                
-                console.log('✅ タイプライター完了');
-            }
-        }, typingSpeed);
+
+        if (text.includes('http')) {
+            bubbleText.innerHTML = this.processTextWithLinks(text);
+            setTimeout(() => this.setupLinkEvents(bubbleText), 100);
+            this.isTyping = false;
+            tapIndicator.style.opacity = '1';
+        } else {
+            bubbleText.textContent = '';
+            let charIndex = 0;
+            const typingSpeed = 60;
+
+            this.typewriterInterval = setInterval(() => {
+                if (charIndex < text.length) {
+                    bubbleText.textContent += text[charIndex];
+                    charIndex++;
+                } else {
+                    clearInterval(this.typewriterInterval);
+                    this.typewriterInterval = null;
+                    this.isTyping = false;
+                    tapIndicator.style.opacity = '1';
+                }
+            }, typingSpeed);
+        }
     }
-    
+
     nextScene() {
         if (this.currentScene < this.scenarios.length - 1) {
             this.currentScene++;
@@ -500,7 +610,7 @@ getScenarioData() {
             this.endStory();
         }
     }
-    
+
     previousScene() {
         if (this.currentScene > 0) {
             this.currentScene--;
@@ -508,251 +618,176 @@ getScenarioData() {
             this.loadScene();
         }
     }
-    
+
     loadScene() {
         const scenario = this.scenarios[this.currentScene];
-        
-        console.log(`📖 シーン ${this.currentScene + 1} 読み込み開始`);
-        console.log(`🖼️ 読み込み予定画像: ${scenario.screenshot}`);
-        
+        console.log(`📖 シーン ${this.currentScene + 1} 読み込み`);
+
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
             this.isTyping = false;
         }
-        
-        // スクリーンショット変更（フォルダパス対応）
+
         this.changeScreenshot(scenario.screenshot);
-        
-        // キャラクター変更
         this.changeCharacter(scenario.character);
-        
-        // 音声再生（BGMは継続）
-        this.playVoice();
-        
-        // UI更新
         this.updateProgress();
         this.updateButtonStates();
-        
+
         setTimeout(() => {
             this.displayText(scenario.texts[0]);
         }, 300);
-        
-        console.log(`✅ シーン ${this.currentScene + 1} 読み込み完了`);
     }
-    
-    // スクリーンショット変更（フォルダパス対応版）
+
     changeScreenshot(imagePath) {
         const screenshotImg = document.getElementById('screenshotImg');
-        
-        if (!screenshotImg) {
-            console.error('❌ screenshotImg要素が見つかりません');
-            return;
-        }
-        
-        console.log(`🖼️ スクリーンショット変更開始: ${imagePath}`);
-        
-        // フェードアウト
+        if (!screenshotImg) return;
+
         screenshotImg.classList.remove('show');
         screenshotImg.classList.add('fade-out');
-        
+
         setTimeout(() => {
-            // 直接パス指定で画像読み込み
-            this.loadDirectImage(imagePath, screenshotImg);
-        }, 250);
-    }
-    
-    // 直接パス画像読み込み（エラーハンドリング強化）
-    loadDirectImage(imagePath, screenshotImg) {
-        console.log(`🔍 画像読み込み試行: ${imagePath}`);
-        
-        const testImg = new Image();
-        
-        testImg.onload = () => {
-            console.log(`✅ 画像読み込み成功: ${imagePath}`);
             screenshotImg.src = imagePath;
             screenshotImg.onload = () => {
                 screenshotImg.classList.remove('fade-out');
                 screenshotImg.classList.add('show');
-                console.log(`✅ スクリーンショット表示完了: ${imagePath}`);
             };
-            screenshotImg.onerror = () => {
-                console.error(`❌ スクリーンショット表示エラー: ${imagePath}`);
-            };
-        };
-        
-        testImg.onerror = () => {
-            console.error(`❌ 画像読み込み失敗: ${imagePath}`);
-            console.log('📁 利用可能な画像を確認してください：');
-            console.log('- touroku/1.jpg');
-            console.log('- touroku/2.jpg');
-            console.log('- nyuukin/1.jpg');
-            
-            // フォールバック: とりあえず表示を戻す
-            screenshotImg.classList.remove('fade-out');
-            screenshotImg.classList.add('show');
-        };
-        
-        testImg.src = imagePath;
+        }, 250);
     }
-    
+
     changeCharacter(characterKey) {
         const character = this.characters[characterKey];
         const characterImg = document.getElementById('characterImg');
-        
-        if (!characterImg || !character) {
-            console.error('❌ キャラクター要素または設定が見つかりません');
-            return;
-        }
-        
-        console.log(`👤 キャラクター変更: ${character.name}`);
-        
+        if (!characterImg || !character) return;
+
         characterImg.style.opacity = '0';
-        
         setTimeout(() => {
             characterImg.src = character.image;
             characterImg.alt = character.name;
             characterImg.style.opacity = '1';
-            
-            characterImg.onerror = () => {
-                console.error(`❌ キャラクター画像読み込み失敗: ${character.image}`);
-            };
-            characterImg.onload = () => {
-                console.log(`✅ キャラクター画像表示完了: ${character.image}`);
-            };
         }, 200);
     }
-    
+
     updateProgress() {
         const progressBar = document.getElementById('progressBar');
         const progressCurrent = document.getElementById('progressCurrent');
         const progressTotal = document.getElementById('progressTotal');
-        
+
         if (progressBar && progressCurrent && progressTotal) {
             const progress = ((this.currentScene + 1) / this.scenarios.length) * 100;
             progressBar.style.width = `${progress}%`;
-            
             progressCurrent.textContent = this.currentScene + 1;
             progressTotal.textContent = this.scenarios.length;
         }
     }
-    
+
     updateButtonStates() {
         const backBtn = document.getElementById('backBtn');
         const skipBtn = document.getElementById('skipBtn');
-        
+
         if (backBtn) backBtn.disabled = this.currentScene === 0;
         if (skipBtn) skipBtn.disabled = this.currentScene === this.scenarios.length - 1;
     }
-    
+
     showAudioDialog() {
         const dialog = document.getElementById('audioDialog');
         if (dialog) {
             dialog.classList.add('show');
         }
     }
-    
+
+    // 音声有効化
     enableAudio() {
         this.audioEnabled = true;
+        this.userHasInteracted = true;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM(); // BGMループ開始
-        console.log('🔊 音声モードで開始（BGMループ有効）');
+
+        setTimeout(() => {
+            if (this.bgmEnabled) {
+                this.playBGM();
+            }
+        }, 100);
+
+        setTimeout(() => {
+            this.playVoice();
+        }, 1000);
+
+        console.log('🔊 音声モード有効化 → BGM＋音声開始');
     }
-    
+
+    // 音声無効化
     disableAudio() {
         this.audioEnabled = false;
+        this.userHasInteracted = true;
         this.hideAudioDialog();
         this.startStory();
-        this.startBGM(); // BGMは音声OFFでもループ再生
-        console.log('🔇 無音モードで開始（BGMはループ再生）');
+
+        setTimeout(() => {
+            if (this.bgmEnabled) {
+                this.playBGM();
+            }
+        }, 100);
+
+        console.log('🔇 無音モード（BGM＋効果音のみ）');
     }
-    
+
     hideAudioDialog() {
         const dialog = document.getElementById('audioDialog');
         if (dialog) {
             dialog.classList.remove('show');
         }
     }
-    
-    playVoice() {
-        if (!this.audioEnabled) return;
-        
-        const scenario = this.scenarios[this.currentScene];
-        
-        if (this.voicePlayer && scenario.audio) {
-            this.voicePlayer.pause();
-            this.voicePlayer.currentTime = 0;
-            
-            this.voicePlayer.src = scenario.audio;
-            this.voicePlayer.play().catch(e => {
-                console.warn('🔇 音声再生失敗:', e);
-            });
-        }
-    }
-    
+
     startStory() {
-        console.log('🚀 ストーリー開始！');
+        console.log('🚀 BitTradeストーリー開始');
         this.loadScene();
     }
-    
+
     endStory() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
         }
-        
+
         const bubbleText = document.getElementById('bubbleText');
         if (bubbleText) {
-            bubbleText.textContent = 'ガイドは以上です。\nありがとうございました！✨';
+            bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
         }
-        
+
         setTimeout(() => {
-            if (confirm('購入ガイドが完了しました。\nメインページに戻りますか？')) {
-                // BGM停止
-                if (this.bgmPlayer) {
-                    this.bgmPlayer.pause();
-                }
+            if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
+                this.destroy();
                 window.location.href = '../index.html';
             }
         }, 3000);
     }
-    
-    // 新しいシナリオを簡単に追加する方法（フォルダ管理対応）
-    addNewScenario(character, screenshot, texts, audio = null) {
-        this.scenarios.push({
-            character: character,   // 'ryoko' または 'zenta'
-            screenshot: screenshot, // 'touroku/5.jpg' や 'nyuukin/2.jpg' など
-            texts: texts,          // テキストの配列
-            audio: audio           // 音声ファイルパス（オプション）
-        });
-        console.log(`📝 新しいシナリオを追加: ${screenshot}`);
-    }
-    
-    // クリーンアップ（BGMループ停止）
+
+    // クリーンアップ
     destroy() {
         if (this.typewriterInterval) {
             clearInterval(this.typewriterInterval);
             this.typewriterInterval = null;
         }
-        
         if (this.voicePlayer) {
             this.voicePlayer.pause();
+            this.voicePlayer.currentTime = 0;
         }
-        
         if (this.bgmPlayer) {
             this.bgmPlayer.pause();
             this.bgmPlayer.currentTime = 0;
         }
-        
-        console.log('🧹 サウンドノベル クリーンアップ完了（BGMループ停止）');
+        if (this.kobanSoundPlayer) {
+            this.kobanSoundPlayer.pause();
+            this.kobanSoundPlayer.currentTime = 0;
+        }
+        console.log('🧹 クリーンアップ完了');
     }
 }
 
 // 初期化
 document.addEventListener('DOMContentLoaded', () => {
     console.log('📄 DOM読み込み完了');
-    
     setTimeout(() => {
         console.log('🎬 サウンドノベル開始準備');
         window.ryoCoinNovel = new RyoCoinSoundNovel();
@@ -766,86 +801,99 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// 開発者向け便利機能（フォルダ管理対応）
+// 開発者向け便利機能（BitTrade版）
 window.NovelUtils = {
-    // ミュート切り替え
-    toggleMute: () => {
+    // リンクテスト
+    testLinkClick: () => {
+        const testUrl = 'https://bittrade.co.jp/';
+        window.open(testUrl, '_blank', 'noopener,noreferrer');
         if (window.ryoCoinNovel) {
-            window.ryoCoinNovel.toggleMute();
+            window.ryoCoinNovel.playKobanSound();
+        }
+        console.log('✅ リンクテスト完了');
+    },
+
+    // BGM強制再生テスト
+    forceBGM: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.bgmEnabled = true;
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.playBGM();
+            console.log('🎵 BGM強制再生実行');
         }
     },
-    
-    // BGM状態確認
-    checkBGM: () => {
-        if (window.ryoCoinNovel && window.ryoCoinNovel.bgmPlayer) {
-            const bgm = window.ryoCoinNovel.bgmPlayer;
-            console.log('🎵 BGM状態:', {
-                playing: !bgm.paused,
-                looping: bgm.loop,
-                volume: bgm.volume,
-                currentTime: bgm.currentTime,
-                duration: bgm.duration
+
+    // 効果音テスト
+    playKobanTest: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.playKobanSound();
+            console.log('🪙 小判効果音テスト実行');
+        }
+    },
+
+    // 音声強制再生テスト
+    forcePlayVoice: () => {
+        if (window.ryoCoinNovel) {
+            window.ryoCoinNovel.audioEnabled = true;
+            window.ryoCoinNovel.userHasInteracted = true;
+            window.ryoCoinNovel.playVoice();
+            console.log('🎵 強制音声再生実行');
+        }
+    },
+
+    // 全状態確認
+    fullStatus: () => {
+        if (window.ryoCoinNovel) {
+            console.log('🔍 システム状態:', {
+                audioEnabled: window.ryoCoinNovel.audioEnabled,
+                bgmEnabled: window.ryoCoinNovel.bgmEnabled,
+                bgmIsPlaying: window.ryoCoinNovel.bgmIsPlaying,
+                voiceIsPlaying: window.ryoCoinNovel.voiceIsPlaying,
+                userHasInteracted: window.ryoCoinNovel.userHasInteracted,
+                currentScene: window.ryoCoinNovel.currentScene + 1,
+                totalScenes: window.ryoCoinNovel.scenarios.length
             });
         }
     },
-    
-    // BGM手動再開
-    restartBGM: () => {
+
+    // 全音声停止
+    stopAllAudio: () => {
         if (window.ryoCoinNovel) {
-            window.ryoCoinNovel.startBGM();
-        }
-    },
-    
-    // 新しいシナリオ追加（フォルダ管理対応）
-    addScenario: (character, imagePath, texts, audio = null) => {
-        if (window.ryoCoinNovel) {
-            window.ryoCoinNovel.addNewScenario(character, imagePath, texts, audio);
-        }
-    },
-    
-    // 特定シーンにジャンプ
-    jumpTo: (sceneIndex) => {
-        if (window.ryoCoinNovel && sceneIndex >= 0 && sceneIndex < window.ryoCoinNovel.scenarios.length) {
-            window.ryoCoinNovel.currentScene = sceneIndex;
-            window.ryoCoinNovel.currentTextIndex = 0;
-            window.ryoCoinNovel.loadScene();
-        }
-    },
-    
-    // 画像テスト（フォルダ管理対応）
-    testImage: (imagePath) => {
-        const img = new Image();
-        img.src = imagePath;
-        img.onload = () => console.log(`✅ ${imagePath} は存在します`);
-        img.onerror = () => console.error(`❌ ${imagePath} が見つかりません`);
-    },
-    
-    // フォルダ内画像一覧テスト
-    testFolder: (folderName) => {
-        console.log(`📁 ${folderName}フォルダの画像をテスト中...`);
-        for (let i = 1; i <= 10; i++) {
-            NovelUtils.testImage(`${folderName}/${i}.jpg`);
+            if (window.ryoCoinNovel.voicePlayer) {
+                window.ryoCoinNovel.voicePlayer.pause();
+            }
+            if (window.ryoCoinNovel.bgmPlayer) {
+                window.ryoCoinNovel.bgmPlayer.pause();
+            }
+            console.log('⏸️ 全音声停止');
         }
     }
 };
 
 console.log(`
-🎭 RYOコインサウンドノベル v7.0
-📁 フォルダ管理完全対応！
-🔄 BGM自動ループ機能強化！
-✨ 小判エフェクト強化
-🔊 BGM機能追加
-🔇 ミュートボタン追加
+🎭 RYOコインサウンドノベル - BitTrade版アップデート完了！
+🎵 audio/oshiete.mp3 専用ループシステム
+🎶 audio/bgm.mp3 バックグラウンド音楽システム  
+🪙 audio/koban.mp3 効果音システム（音量: 0.3）
+🔗 リンク別窓対応システム
+🎮 デバッグコマンド:
+   NovelUtils.testLinkClick()     - リンククリックテスト
+   NovelUtils.forceBGM()         - BGM強制再生
+   NovelUtils.playKobanTest()    - 小判効果音テスト
+   NovelUtils.forcePlayVoice()   - 強制音声再生
+   NovelUtils.fullStatus()       - 全状態確認
+   NovelUtils.stopAllAudio()     - 全音声停止
 
-💡 BGMループ機能:
-- HTML loop属性 + JavaScript両方でループ保証
-- 自動再開機能付き
-- ユーザー操作でBGM開始
-- NovelUtils.checkBGM() でBGM状態確認
-- NovelUtils.restartBGM() で手動再開
+📁 必要ファイル:
+   audio/oshiete.mp3 - メイン音声ファイル
+   audio/bgm.mp3     - バックグラウンド音楽  
+   audio/koban.mp3   - 小判効果音
 
-📁 音声ファイル:
-audio/bgm.mp3 - メインBGM（ループ再生）
-audio/bgm.ogg - 対応ブラウザ用
-audio/bgm.wav - 対応ブラウザ用
+✨ 特徴:
+   ✅ BitTradeシナリオ維持
+   ✅ MEXC版技術システム適用
+   ✅ 確実な音声再生システム
+   ✅ 完璧なリンククリック対応
+   ✅ エラーハンドリング強化
+   ✅ メンテナンス性向上
 `);
