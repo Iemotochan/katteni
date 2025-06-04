@@ -40,114 +40,159 @@ class RyoCoinSoundNovel {
         this.init();
     }
     
-    // =============================== 
-    // シナリオデータ（MEXC版）
-    // =============================== 
-    getScenarioData() {
-        return [
-            {
-                character: 'ryoko',
-                screenshot: 'image/guide.jpg',
-                texts: [
-                    'こんにちは！両子です✨\n今日はMEXCでの新規登録方法を説明します！',
-                    '作業はちょっぴり多いけど、順番に行けば簡単だから説明していくね！',
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/1.jpg',
-                texts: [
-                    'まずは下のリンクをタップして\nMEXCの公式サイトにアクセスしてね📱',
-                    'リンク: https://www.mexc.com/ja-JP/',
-                    '右上の三本線メニューバーから\n「新規登録」を選ぶか...',
-                    '面倒な人はGoogleアカウントで\nサクッと登録しちゃおう！'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/2.jpg',
-                texts: [
-                    'ゼンタです！今回は\nメニューバーから新規登録で進めます。',
-                    'Googleアカウントも便利ですが\n今回は手動登録で詳しく説明しますね。',
-                    '三本線メニューをタップして\n「新規登録」を選択してください！'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/3.jpg',
-                texts: [
-                    '登録フォームが表示されました！\n電話番号とパスワードを設定します📝',
-                    'パスワードはセキュリティ重要！\n大文字・小文字・数字を混ぜてね🔒',
-                    '例：MyPassword123\nこんな感じで強力にしよう💪'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/4.jpg',
-                texts: [
-                    '登録完了です！お疲れ様でした🎉',
-                    '次は右下の「資産」をタップします。',
-                    'ここから日本の取引所で購入した\nXRPをMEXCに送金する準備をしますよ！'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/5.jpg',
-                texts: [
-                    '資産画面が開きました！💰',
-                    '「入金」をタップしてください。',
-                    'ここで日本の取引所（bittradeやCoincheckなど）で\n購入したXRPをMEXCに送ります🚀'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/6.jpg',
-                texts: [
-                    '入金方法が表示されました！',
-                    '「オンチェーン入金」をタップしてください。',
-                    'これで暗号資産のネットワーク経由で\n他の取引所からXRPを受け取れます⚡'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/7.jpg',
-                texts: [
-                    '通貨選択画面です！🔍',
-                    'XRPを探してタップしてね。',
-                    'たくさんある場合は上の検索ボックスで\n「XRP」と入力すると簡単に見つかるよ✨'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'zenta',
-                screenshot: 'image/8.jpg',
-                texts: [
-                    'XRPが選択されていることを確認！✅',
-                    '「アドレスとメモを表示」をタップしてください。',
-                    'ここが重要なポイントです！\nあなた専用のMEXCの入金アドレスを取得します🎯'
-                ],
-                audio: 'audio/oshiete.mp3'
-            },
-            {
-                character: 'ryoko',
-                screenshot: 'image/9.jpg',
-                texts: [
-                    'やった！アドレスとメモが表示されました🎉',
-                    'この画面で2つの情報が確認できます：\n・アドレス（英数字の長い文字列）\n・メモ（数字）',
-                    'これはMEXC内のあなた専用の\nアドレスとメモ番号です📍',
-                    '両方とも必要になるから\nしっかりコピーしてお苦か、このページに戻ってこれるようにね！💎'
-                ],
-                audio: 'audio/oshiete.mp3'
-            }
-        ];
+// ===============================
+// シナリオデータ（BitTrade版のみ変更）
+// ===============================
+getScenarioData() {
+    return [
+        {
+            character: 'ryoko',
+            screenshot: 'image/guide.jpg',
+            texts: [
+                'こんにちは！リョウコです✨\n今日はRYOコインの購入方法を完全ガイドします！',
+                '仮想通貨初心者でも大丈夫💎\n一緒に順番に進めていきましょう！',
+                '準備はいいですか？\nそれでは始めましょう！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'touroku/1.jpg',
+            texts: [
+                'まずは取引所のアカウントを作成します。\n右上の「新規登録」をタップしてください。',
+                'BitTradeなどの信頼できる取引所を選びましょう。\n登録は無料で簡単です！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'touroku/3.jpg',
+            texts: [
+                'メールアドレスとパスワードを入力します。\nパスワードは8〜20文字で英数字を含む必要があります！',
+                '紹介コードがある場合は入力して\n「次へ」をタップしましょう✨'
+            ]
+        },
+        {
+            character: 'zenta',
+            screenshot: 'touroku/3.jpg',
+            texts: [
+                '登録したメールアドレスに\n認証コードが送信されました📧',
+                'メールをチェックして\n6桁の数字を入力してください。',
+                '届かない場合は迷惑メールフォルダも\n確認してくださいね！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'touroku/8.jpg',
+            texts: [
+                'ホーム画面に戻りました🏠\n上部に赤い「！」マークが表示されていますね。',
+                'これは本人確認が必要という\nお知らせです。タップしてみましょう！'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'touroku/5.jpg',
+            texts: [
+                '本人確認のステータス画面です。\n取引を始めるには本人確認が必須です。',
+                '「簡単本人確認」を選択すると\nスマホで撮影するだけで完了します📱'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'touroku/5.jpg',
+            texts: [
+                '簡単本人確認では運転免許証や\nマイナンバーカードが使えます。',
+                'スマホのカメラで撮影して\nアップロードするだけ！簡単ですね✨'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'touroku/6.jpg',
+            texts: [
+                '国籍や氏名などの基本情報を入力します。\n本人確認書類と同じ情報を正確に入力してください。',
+                '入力が完了したら「次へ」をタップして\n審査を待ちましょう。通常1〜3営業日で完了です。'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'nyuukin/1.jpg',
+            texts: [
+                '本人確認が完了したら入金しましょう💰\n「入金」ボタンをタップします。',
+                '表示された専用口座に\n銀行振込で入金してください。'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'nyuukin/2.jpg',
+            texts: [
+                '振込先の口座情報が表示されます。\n必ずこの口座に入金してください！',
+                '⚠️重要⚠️\nクイック入金やコンビニ入金は\n1週間の出金制限がかかるのでNGです。',
+                '銀行振込なら制限なしで\n着金確認後、すぐに取引できます🏦'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'buy/1.jpg',
+            texts: [
+                '入金が完了したら仮想通貨を購入しましょう！\n手数料が安いXRPがオススメです💎',
+                '画面下部の「取引所」をタップして\n取引画面に移動します。'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'buy/2.jpg',
+            texts: [
+                '上部の「BTC/JPY」をタップすると\n通貨選択画面が開きます。'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'zenta',
+            screenshot: 'buy/3.jpg',
+            texts: [
+                '検索窓に「XRP」と入力して\nXRPを選択しましょう🔍'
+            ],
+            audio: 'audio/oshiete.mp3'
+        },
+        {
+            character: 'ryoko',
+            screenshot: 'buy/5.jpg',
+            texts: [
+                'XRP購入画面です！\n「成行」注文で簡単に購入できます。',
+                'ゲージを動かして購入枚数を決めて\n「XRPを買う」ボタンをタップ！',
+                '🎉おめでとうございます！\n仮想通貨の購入に成功しました✨',
+                '次は送金に挑戦！💫'
+            ],
+            audio: 'audio/oshiete.mp3'
+        }
+    ];
+}
+    endStory() {
+    if (this.typewriterInterval) {
+        clearInterval(this.typewriterInterval);
+        this.typewriterInterval = null;
     }
+
+    const bubbleText = document.getElementById('bubbleText');
+    if (bubbleText) {
+        bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
+    }
+
+    setTimeout(() => {
+        if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
+            this.destroy();
+            window.location.href = '../index.html';
+        }
+    }, 3000);
+}
     
     // =============================== 
     // 初期化
