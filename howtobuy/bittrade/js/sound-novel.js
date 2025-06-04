@@ -63,7 +63,7 @@ getScenarioData() {
                  '下のリンクをタップして\nBittradeの公式サイトにアクセスしてね📱',
                  'リンク: https://www.m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt/',
                  '右上の「新規登録」をタップしてください。\n登録は無料で簡単です！',
-                 '*紹介コードを入力するとBitcoinがもらえます「8SRkt」'
+                 '紹介コードを入力するとBitcoinがもらえます「8SRkt」'
             ],
             audio: 'audio/oshiete.mp3'
         },
