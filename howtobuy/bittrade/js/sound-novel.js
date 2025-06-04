@@ -61,7 +61,7 @@ getScenarioData() {
             texts: [
                 'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
                  '下のリンクをタップして\nBittradeの公式サイトにアクセスしてね📱',
-                 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt/',
+                 'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt',
                  '右上の「新規登録」をタップしてください。\n登録は無料で簡単です！',
                  '紹介コードを入力するとBitcoinがもらえます「8SRkt」'
             ],
