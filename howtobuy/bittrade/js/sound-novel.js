@@ -68,7 +68,7 @@ class RyoCoinSoundNovel {
                 texts: [
                     'まずは取引所のアカウントを作成します。\n今回はBittradeを利用します。',
                     '次のリンクをタップして\nBittradeの公式サイトにアクセスして新規登録📱',
-                    '終わったら戻ってきてね📱難しい人用に次で細かく説明していくね',
+                    '終わったら戻ってきてね📱\n難しい人用に次で細かく説明していくよ📱',
                     'リンク: https://m.bittrade.co.jp/ja-jp/register/?invite_code=8SRkt'
                 ],
                 audio: 'audio/oshiete.mp3'
@@ -1046,9 +1046,9 @@ class RyoCoinSoundNovel {
         }
 
         setTimeout(() => {
-            if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
+            if (confirm('BitTradeでの購入ガイドが完了しました。\n送金編に移動しますか？')) {
                 this.destroy();
-                window.location.href = '../index.html';
+                window.location.href = '../howtobuy/mexc/index.html';
             }
         }, 3000);
     }
