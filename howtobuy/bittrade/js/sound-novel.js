@@ -175,24 +175,7 @@ getScenarioData() {
         }
     ];
 }
-    endStory() {
-    if (this.typewriterInterval) {
-        clearInterval(this.typewriterInterval);
-        this.typewriterInterval = null;
-    }
-
-    const bubbleText = document.getElementById('bubbleText');
-    if (bubbleText) {
-        bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
-    }
-
-    setTimeout(() => {
-        if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
-            this.destroy();
-            window.location.href = '../index.html';
-        }
-    }, 3000);
-}
+   
     
     // =============================== 
     // 初期化
@@ -813,24 +796,24 @@ getScenarioData() {
         this.loadScene();
     }
     
-    endStory() {
-        if (this.typewriterInterval) {
-            clearInterval(this.typewriterInterval);
-            this.typewriterInterval = null;
-        }
-        
-        const bubbleText = document.getElementById('bubbleText');
-        if (bubbleText) {
-            bubbleText.innerHTML = 'MEXCでのXRPアドレス取得完了！<br>お疲れ様でした！✨<br><br>次はビットトレードからの送金ですね🚀';
-        }
-        
-        setTimeout(() => {
-            if (confirm('MEXCでのXRPアドレス取得が完了しました。\nメインページに戻りますか？')) {
-                this.destroy();
-                window.location.href = '../index.html';
-            }
-        }, 3000);
+ endStory() {
+    if (this.typewriterInterval) {
+        clearInterval(this.typewriterInterval);
+        this.typewriterInterval = null;
     }
+
+    const bubbleText = document.getElementById('bubbleText');
+    if (bubbleText) {
+        bubbleText.innerHTML = 'BitTradeでのXRP購入ガイドは以上です。<br>ありがとうございました！✨<br><br>次はMEXCへの送金ですね🚀';
+    }
+
+    setTimeout(() => {
+        if (confirm('BitTradeでの購入ガイドが完了しました。\nメインページに戻りますか？')) {
+            this.destroy();
+            window.location.href = '../index.html';
+        }
+    }, 3000);
+}
     
     // クリーンアップ
     destroy() {
