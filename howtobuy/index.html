@@ -66,11 +66,11 @@
     </script>
     
     <!-- 外部CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Kosugi+Maru&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     
-    <!-- 🎨 学園風スタイル完全内蔵版 -->
+    <!-- 🎮 ゲーム風スタイル -->
     <style>
         /* CSS変数定義 */
         :root {
@@ -78,6 +78,9 @@
             --wood-brown: #8B4513;
             --wood-light: #D2B48C;
             --accent-yellow: #FFD700;
+            --game-blue: #3b82f6;
+            --game-purple: #8b5cf6;
+            --game-green: #10b981;
         }
 
         /* 基本設定 */
@@ -226,82 +229,94 @@
             box-sizing: border-box;
         }
 
-        /* 木枠フレーム */
-        .wood-frame {
-            width: 100%;
-            background: var(--wood-brown);
-            border: 4px solid var(--wood-light);
-            border-radius: 8px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 1.1rem 1.3rem;
-            margin-bottom: 1rem;
-            box-sizing: border-box;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            font-size: 1.25rem;
-        }
-
-        /* チョークボード */
-        .chalkboard {
-            width: 100%;
-            background: var(--chalkboard-green);
-            border: 12px solid var(--wood-brown);
-            border-radius: 8px;
-            position: relative;
-            color: #f5f5f5;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-            overflow: hidden;
-            margin-bottom: 2rem;
-            padding: 2.8rem 2.2rem;
-            box-sizing: border-box;
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
-            isolation: isolate;
-        }
-
-        .chalkboard::before {
-            content:'';
-            position:absolute; 
-            top:0; left:0; right:0; bottom:0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size:20px 20px;
-            pointer-events:none;
-        }
-
-        .chalk-title {
-            font-family:'Kosugi Maru',sans-serif;
-            font-weight:700;
-            text-shadow:2px 2px 4px rgba(0,0,0,0.4);
-        }
-
-        .chalk-text {
-            text-shadow:1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        /* 吹き出し */
-        .character-bubble, .character-bubble-right {
-            background:#fff;
-            border:1px solid #ddd;
-            border-radius:8px;
-            padding:16px;
-            color:#333;
-            position:relative;
-            margin-bottom:1rem;
-            max-width: 330px;
-            font-size: 1rem;
-        }
-
-        /* 購入ガイド専用スタイル */
-        .purchase-step-card {
-            background: var(--chalkboard-green);
+        /* 🎮 ゲーム風タイトルヘッダー */
+        .game-title-header {
+            background: linear-gradient(135deg, var(--chalkboard-green) 0%, #1e3a2e 100%);
             border: 8px solid var(--wood-brown);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        .game-title-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-yellow);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-subtitle {
+            font-size: 1.2rem;
+            color: #f5f5f5;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 🎮 ゲーム風プログレスバー */
+        .game-progress {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+
+        .progress-title {
+            color: var(--accent-yellow);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-yellow) 0%, #fbbf24 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            color: #f5f5f5;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 🎮 ゲーム風ステップカード */
+        .game-step-card {
+            background: linear-gradient(135deg, var(--chalkboard-green) 0%, #1e3a2e 100%);
+            border: 6px solid var(--wood-brown);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -309,17 +324,18 @@
             text-decoration: none;
             color: #f5f5f5;
             display: block;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
         
-        .purchase-step-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        .game-step-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.4);
             border-color: var(--accent-yellow);
             text-decoration: none;
             color: #f5f5f5;
         }
         
-        .purchase-step-card::before {
+        .game-step-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -330,77 +346,99 @@
             pointer-events: none;
         }
         
-        .step-number-badge {
+        /* 🎮 ステップ番号バッジ（ゲーム風） */
+        .game-step-badge {
             position: absolute;
-            top: -12px; left: 2rem;
-            background: var(--accent-yellow);
+            top: -8px;
+            left: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, #fbbf24 100%);
             color: #333;
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-weight: 900;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+            border: 3px solid #fff;
         }
         
-        .step-thumbnail {
-            width: 120px; height: 80px;
-            background: rgba(255,255,255,0.1);
-            border: 3px solid var(--accent-yellow);
-            border-radius: 8px;
+        /* 🎮 ステップサムネイル */
+        .game-step-thumbnail {
+            width: 100px;
+            height: 100px;
+            border: 4px solid var(--accent-yellow);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: var(--accent-yellow);
             margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        
-        .difficulty-badge {
-            display: inline-flex; align-items: center;
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            color: #10b981;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        
-        .time-badge {
-            display: inline-flex; align-items: center;
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid rgba(59, 130, 246, 0.5);
-            color: #3b82f6;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        
-        .warning-box {
-            background: rgba(245, 158, 11, 0.1);
-            border: 2px solid rgba(245, 158, 11, 0.3);
+
+        .game-step-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 8px;
-            padding: 1.5rem; margin: 2rem 0;
-            color: #f59e0b;
         }
-        
-        .complete-flow-visual {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 2rem; margin: 2rem 0;
-            border: 2px dashed rgba(255,215,0,0.3);
-        }
-        
-        .flow-step {
-            display: flex; align-items: center;
-            margin: 1rem 0; color: #f5f5f5;
-        }
-        
-        .flow-arrow {
+
+        .game-step-thumbnail .fallback-icon {
+            font-size: 2.5rem;
             color: var(--accent-yellow);
-            font-size: 1.5rem;
-            margin: 0 1rem;
+        }
+        
+        /* 🎮 ゲーム風バッジ */
+        .game-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0.2rem;
+        }
+
+        .game-badge-easy {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid rgba(34, 197, 94, 0.5);
+            color: #10b981;
+        }
+        
+        .game-badge-time {
+            background: rgba(59, 130, 246, 0.2);
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            color: #3b82f6;
+        }
+
+        .game-badge-special {
+            background: rgba(139, 92, 246, 0.2);
+            border: 2px solid rgba(139, 92, 246, 0.5);
+            color: #8b5cf6;
+        }
+
+        /* 🎮 ゲーム風CTA */
+        .game-cta {
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, #fbbf24 100%);
+            color: #333;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 16px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 3px solid #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(255, 215, 0, 0.6);
+            text-decoration: none;
+            color: #333;
         }
 
         /* 星屑エフェクト */
@@ -457,6 +495,14 @@
             .section-inner {
                 padding-left: 0.5rem;
                 padding-right: 0.5rem;
+            }
+
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .game-step-card {
+                padding: 1rem;
             }
         }
 
@@ -517,7 +563,7 @@
     <!-- ページローダー -->
     <div id="page-loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #2a5b45; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;">
         <div style="color: #FFD700; font-size: 1.5rem; font-weight: bold;">
-            <i class="fas fa-graduation-cap fa-spin mr-2"></i>RYOコイン購入講座へようこそ...
+            <i class="fas fa-gamepad fa-spin mr-2"></i>RYOコイン購入ゲーム開始...
         </div>
     </div>
 
@@ -525,7 +571,7 @@
     <header class="header-banner">
         <div class="header-content">
             <a href="https://unofficialryocoin.com/" aria-label="勝手にRYOコインNEWSのホームページ">
-                <img src="image/banner1.png" alt="勝手にRYOコインNEWS - Web3時代の新世代仮想通貨情報サイト" loading="eager">
+                <img src="../image/banner.png" alt="勝手にRYOコインNEWS - Web3時代の新世代仮想通貨情報サイト" loading="eager">
             </a>
         </div>
     </header>
@@ -550,278 +596,185 @@
     <!-- メインコンテンツ -->
     <main class="main-max pt-8 pb-16" role="main">
         
-        <!-- ヒーローセクション -->
-        <section class="mb-14">
+        <!-- 🎮 ゲーム風タイトル -->
+        <section class="mb-8">
             <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
-                <div class="wood-frame inline-flex items-center p-4 mb-8">
-                    <i class="fas fa-graduation-cap text-5xl text-yellow-300 mr-4"></i>
-                    <div>
-                        <h1 class="text-3xl font-bold">RYOコイン購入講座</h1>
-                        <p class="text-lg opacity-90 mt-1">初心者向け完全ガイド</p>
-                    </div>
-                </div>
-
-                <div class="chalkboard w-full mx-auto">
-                    <h2 class="chalk-title text-yellow-300 text-3xl mb-6 text-center">
-                        🎓 4ステップでマスター！<br>RYOコイン購入完全講座
-                    </h2>
+                <div class="game-title-header">
+                    <h1 class="game-title">
+                        🎮 RYOコイン購入クエスト
+                    </h1>
+                    <p class="game-subtitle">
+                        4つのステップをクリアして、RYOホルダーになろう！
+                    </p>
                     
-                    <div class="flex flex-col lg:flex-row gap-8 items-center mb-8">
-                        <div class="lg:w-2/3">
-                            <p class="chalk-text text-lg mb-4">
-                                この講座では、<strong>bittrade</strong>（国内取引所）と<strong>MEXC</strong>（海外取引所）を使って、
-                                安全にRYOコインを購入する方法を<strong>4つのステップ</strong>で詳しく解説します。
-                            </p>
-                            
-                            <div class="complete-flow-visual">
-                                <h3 class="text-yellow-300 font-bold mb-4 text-center">📋 購入フロー概要</h3>
-                                <div class="flow-step">
-                                    <span>💰 日本円</span>
-                                    <i class="fas fa-arrow-right flow-arrow"></i>
-                                    <span>🪙 XRP (bittrade)</span>
-                                    <i class="fas fa-arrow-right flow-arrow"></i>
-                                    <span>📤 送金</span>
-                                    <i class="fas fa-arrow-right flow-arrow"></i>
-                                    <span>💵 USDT (MEXC)</span>
-                                    <i class="fas fa-arrow-right flow-arrow"></i>
-                                    <span>🎯 RYOコイン</span>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-4 text-center">
-                                <div>
-                                    <div class="time-badge mb-2">
-                                        <i class="fas fa-clock mr-1"></i>所要時間: 約30分
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="difficulty-badge">
-                                        <i class="fas fa-star mr-1"></i>初心者向け
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- プログレスバー -->
+                    <div class="game-progress">
+                        <div class="progress-title">🏆 クエスト進行状況</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
                         </div>
-                        
-                        <div class="lg:w-1/3">
-                            <div class="flex items-start">
-                                <img src="image/zentasensei.png" alt="ゼン太先生" class="w-28 flex-shrink-0 mr-3" loading="eager" />
-                                <div class="character-bubble max-w-xs">
-                                    <p class="text-base">
-                                        ゼン太先生：一見複雑に見えるけど、手順通りにやれば誰でもできるよ！動画と画像で詳しく解説するから安心してね🎓
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="warning-box">
-                        <h3 class="font-bold mb-2 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            重要な注意事項
-                        </h3>
-                        <ul class="text-sm space-y-1">
-                            <li>• 投資は自己責任で行ってください</li>
-                            <li>• 取引所の手数料や最低送金額にご注意ください</li>
-                            <li>• アドレス入力は必ずコピー&ペーストで行ってください</li>
-                            <li>• 少額でテスト送金することをお勧めします</li>
-                        </ul>
+                        <div class="progress-text">準備完了！冒険を始めよう</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4ステップガイド -->
+        <!-- 🎮 ゲーム風ステップカード -->
         <section class="mb-20">
             <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
                 
                 <!-- ステップ1 -->
-                <a href="1/index.html" class="purchase-step-card interactive-element" aria-label="ステップ1: bittrade口座開設とXRP購入">
-                    <div class="step-number-badge">STEP 1</div>
+                <a href="1/index.html" class="game-step-card interactive-element" aria-label="ステップ1: bittrade口座開設とXRP購入">
+                    <div class="game-step-badge">LEVEL 1</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
-                        <div class="step-thumbnail">
-                            <i class="fas fa-building-columns"></i>
+                        <div class="game-step-thumbnail">
+                            <img src="image/step1.png" alt="bittrade口座開設" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="fallback-icon" style="display: none;">
+                                <i class="fas fa-building-columns"></i>
+                            </div>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-yellow-300 mb-3">
-                                bittrade口座開設 & XRP購入
+                                🏛️ 国内取引所で基盤づくり
                             </h3>
-                            <p class="chalk-text text-lg mb-4">
-                                日本の金融庁認可済み取引所bittradeで口座開設し、日本円でXRP（リップル）を購入します。
-                                国内取引所なので日本語サポートがあり、初心者でも安心です。
+                            <p class="text-lg mb-4 text-gray-100">
+                                <strong>今すぐスタート！</strong>日本の金融庁認可済みbittradeで安心の第一歩。
+                                XRP購入までサクッと完了します。
                             </p>
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-leaf mr-1"></i>簡単
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <div class="game-badge game-badge-easy">
+                                    <i class="fas fa-star mr-1"></i>初心者OK
                                 </div>
-                                <div class="time-badge">
+                                <div class="game-badge game-badge-time">
                                     <i class="fas fa-clock mr-1"></i>10分
                                 </div>
-                                <div class="difficulty-badge">
+                                <div class="game-badge game-badge-special">
                                     <i class="fas fa-shield-alt mr-1"></i>金融庁認可
                                 </div>
                             </div>
-                            <div class="chalk-text">
-                                <strong>📝 このステップで学ぶこと：</strong><br>
-                                • bittrade口座開設手順<br>
-                                • 本人確認の進め方<br>
-                                • 日本円入金方法<br>
-                                • XRP購入方法
+                            <div class="text-center">
+                                <span class="game-cta">
+                                    <i class="fas fa-play mr-2"></i>START GAME
+                                </span>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- ステップ2 -->
-                <a href="2/index.html" class="purchase-step-card interactive-element" aria-label="ステップ2: MEXC口座開設と受取準備">
-                    <div class="step-number-badge">STEP 2</div>
+                <a href="2/index.html" class="game-step-card interactive-element" aria-label="ステップ2: MEXC口座開設と受取準備">
+                    <div class="game-step-badge">LEVEL 2</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
-                        <div class="step-thumbnail">
-                            <i class="fas fa-globe"></i>
+                        <div class="game-step-thumbnail">
+                            <img src="image/step2.png" alt="MEXC口座開設" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="fallback-icon" style="display: none;">
+                                <i class="fas fa-globe"></i>
+                            </div>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-yellow-300 mb-3">
-                                MEXC口座開設 & 受取準備
+                                🌍 グローバル取引所への扉
                             </h3>
-                            <p class="chalk-text text-lg mb-4">
-                                RYOコインを取り扱う海外取引所MEXCで口座開設し、XRPを受け取るためのアドレスを準備します。
-                                メールアドレスだけで簡単に始められます。
+                            <p class="text-lg mb-4 text-gray-100">
+                                <strong>世界が待ってる！</strong>RYOコインが買える海外取引所MEXCで
+                                受け取り準備をサクッと完了。
                             </p>
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-leaf mr-1"></i>簡単
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <div class="game-badge game-badge-easy">
+                                    <i class="fas fa-envelope mr-1"></i>メールだけ
                                 </div>
-                                <div class="time-badge">
+                                <div class="game-badge game-badge-time">
                                     <i class="fas fa-clock mr-1"></i>5分
                                 </div>
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-envelope mr-1"></i>メールのみ
+                                <div class="game-badge game-badge-special">
+                                    <i class="fas fa-rocket mr-1"></i>高速セットアップ
                                 </div>
                             </div>
-                            <div class="chalk-text">
-                                <strong>📝 このステップで学ぶこと：</strong><br>
-                                • MEXC口座開設手順<br>
-                                • セキュリティ設定<br>
-                                • XRP入金アドレスの確認<br>
-                                • アドレスとタグの取得方法
+                            <div class="text-center">
+                                <span class="game-cta">
+                                    <i class="fas fa-unlock mr-2"></i>UNLOCK LEVEL
+                                </span>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- ステップ3 -->
-                <a href="3/index.html" class="purchase-step-card interactive-element" aria-label="ステップ3: XRP送金方法">
-                    <div class="step-number-badge">STEP 3</div>
+                <a href="3/index.html" class="game-step-card interactive-element" aria-label="ステップ3: XRP送金方法">
+                    <div class="game-step-badge">LEVEL 3</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
-                        <div class="step-thumbnail">
-                            <i class="fas fa-paper-plane"></i>
+                        <div class="game-step-thumbnail">
+                            <img src="image/step3.png" alt="XRP送金" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="fallback-icon" style="display: none;">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-yellow-300 mb-3">
-                                bittrade → MEXC XRP送金
+                                🚀 国境を越える送金ミッション
                             </h3>
-                            <p class="chalk-text text-lg mb-4">
-                                bittradeで購入したXRPをMEXCに送金します。外部アドレス登録から実際の送金まで、
-                                ミスしないための注意点を詳しく解説します。
+                            <p class="text-lg mb-4 text-gray-100">
+                                <strong>重要ミッション！</strong>XRPを安全にMEXCへ送金。
+                                慎重に、確実に実行しよう。
                             </p>
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                <div class="time-badge">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <div class="game-badge game-badge-time" style="border-color: #f59e0b; color: #f59e0b;">
                                     <i class="fas fa-exclamation-triangle mr-1"></i>要注意
                                 </div>
-                                <div class="time-badge">
+                                <div class="game-badge game-badge-time">
                                     <i class="fas fa-clock mr-1"></i>8分
                                 </div>
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-rocket mr-1"></i>高速送金
+                                <div class="game-badge game-badge-special">
+                                    <i class="fas fa-bolt mr-1"></i>高速送金
                                 </div>
                             </div>
-                            <div class="chalk-text">
-                                <strong>📝 このステップで学ぶこと：</strong><br>
-                                • 外部アドレス登録方法<br>
-                                • 送金前の確認事項<br>
-                                • 実際の送金手順<br>
-                                • 送金状況の確認方法
+                            <div class="text-center">
+                                <span class="game-cta">
+                                    <i class="fas fa-rocket mr-2"></i>MISSION START
+                                </span>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- ステップ4 -->
-                <a href="4/index.html" class="purchase-step-card interactive-element" aria-label="ステップ4: RYOコイン購入">
-                    <div class="step-number-badge">STEP 4</div>
+                <a href="4/index.html" class="game-step-card interactive-element" aria-label="ステップ4: RYOコイン購入">
+                    <div class="game-step-badge">FINAL</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
-                        <div class="step-thumbnail">
-                            <i class="fas fa-coins"></i>
+                        <div class="game-step-thumbnail">
+                            <img src="image/step4.png" alt="RYOコイン購入" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="fallback-icon" style="display: none;">
+                                <i class="fas fa-trophy"></i>
+                            </div>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-yellow-300 mb-3">
-                                RYOコイン購入完了！
+                                🏆 ついにRYOコインをGET！
                             </h3>
-                            <p class="chalk-text text-lg mb-4">
-                                MEXCでXRPをUSDT（テザー）に売却し、そのUSDTでついにRYOコインを購入します。
-                                これで晴れてRYOホルダーの仲間入りです！
+                            <p class="text-lg mb-4 text-gray-100">
+                                <strong>クエスト完了間近！</strong>USDTでRYOコインを購入して、
+                                ついにRYOホルダーの仲間入り！
                             </p>
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-trophy mr-1"></i>最終段階
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <div class="game-badge game-badge-special" style="border-color: #fbbf24; color: #fbbf24;">
+                                    <i class="fas fa-crown mr-1"></i>最終段階
                                 </div>
-                                <div class="time-badge">
+                                <div class="game-badge game-badge-time">
                                     <i class="fas fa-clock mr-1"></i>7分
                                 </div>
-                                <div class="difficulty-badge">
-                                    <i class="fas fa-star mr-1"></i>完了
+                                <div class="game-badge game-badge-easy" style="border-color: #10b981; color: #10b981;">
+                                    <i class="fas fa-flag-checkered mr-1"></i>ゴール
                                 </div>
                             </div>
-                            <div class="chalk-text">
-                                <strong>📝 このステップで学ぶこと：</strong><br>
-                                • XRP → USDT 売却方法<br>
-                                • RYOコイン購入手順<br>
-                                • 購入後の確認方法<br>
-                                • LIFEウォレットへの送金準備
+                            <div class="text-center">
+                                <span class="game-cta" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                                    <i class="fas fa-trophy mr-2"></i>COMPLETE QUEST
+                                </span>
                             </div>
                         </div>
                     </div>
                 </a>
 
-            </div>
-        </section>
-
-        <!-- キャラクター応援メッセージ -->
-        <section class="mb-14">
-            <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
-                <div class="chalkboard w-full mx-auto">
-                    <h3 class="chalk-title text-yellow-300 text-2xl mb-6 text-center">
-                        🎉 購入完了後は...
-                    </h3>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <img src="image/ryokosensei.png" alt="両子先生" class="w-28 flex-shrink-0 mr-3" />
-                            <div class="character-bubble-right max-w-xs">
-                                <p class="text-base">両子先生：購入できたら次は何をすればいいの？</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <img src="image/zentasensei.png" alt="ゼン太先生" class="w-28 flex-shrink-0 mr-3" />
-                            <div class="character-bubble max-w-xs">
-                                <p class="text-base">
-                                    ゼン太先生：LIFEウォレットをダウンロードして、MEXCからRYOコインを送金するんだ！そうすればグローバルモールでお買い物もできるよ🛍️
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center mt-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <a href="../lifewallet.html" class="btn-yellow text-lg px-8 py-4">
-                                <i class="fas fa-wallet mr-2"></i>LIFEウォレット入手
-                            </a>
-                            <a href="../globalmall.html" class="btn-yellow text-lg px-8 py-4">
-                                <i class="fas fa-shopping-cart mr-2"></i>グローバルモール
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -840,12 +793,12 @@
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
                     <div>
-                        <h4 class="text-lg font-semibold mb-3">購入ガイド</h4>
+                        <h4 class="text-lg font-semibold mb-3">購入クエスト</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="1/index.html" class="hover:text-yellow-300">STEP 1: bittrade</a></li>
-                            <li><a href="2/index.html" class="hover:text-yellow-300">STEP 2: MEXC</a></li>
-                            <li><a href="3/index.html" class="hover:text-yellow-300">STEP 3: 送金</a></li>
-                            <li><a href="4/index.html" class="hover:text-yellow-300">STEP 4: 購入</a></li>
+                            <li><a href="1/index.html" class="hover:text-yellow-300">LEVEL 1: bittrade</a></li>
+                            <li><a href="2/index.html" class="hover:text-yellow-300">LEVEL 2: MEXC</a></li>
+                            <li><a href="3/index.html" class="hover:text-yellow-300">LEVEL 3: 送金</a></li>
+                            <li><a href="4/index.html" class="hover:text-yellow-300">FINAL: 購入</a></li>
                         </ul>
                     </div>
                     <div>
@@ -888,14 +841,38 @@
             }
         });
         
-        // 購入ステップカードのタッチフィードバック強化
-        document.querySelectorAll('.purchase-step-card').forEach(card => {
+        // 🎮 ゲーム風インタラクション
+        document.querySelectorAll('.game-step-card').forEach((card, index) => {
             card.addEventListener('mouseenter', function() {
                 this.style.borderColor = 'var(--accent-yellow)';
+                // プログレスバー更新
+                const progressFill = document.querySelector('.progress-fill');
+                const progressText = document.querySelector('.progress-text');
+                if (progressFill && progressText) {
+                    const progress = ((index + 1) * 25);
+                    progressFill.style.width = progress + '%';
+                    progressText.textContent = `LEVEL ${index + 1} にカーソル中... ${progress}%`;
+                }
             });
             
             card.addEventListener('mouseleave', function() {
                 this.style.borderColor = 'var(--wood-brown)';
+                // プログレスバーをリセット
+                const progressFill = document.querySelector('.progress-fill');
+                const progressText = document.querySelector('.progress-text');
+                if (progressFill && progressText) {
+                    progressFill.style.width = '0%';
+                    progressText.textContent = '準備完了！冒険を始めよう';
+                }
+            });
+
+            // クリック時のエフェクト
+            card.addEventListener('click', function(e) {
+                // ちょっとした演出
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
             });
         });
         
@@ -978,7 +955,7 @@
             window.addEventListener('resize', resizeCanvas);
             animate();
             
-            console.log('✨ 簡易版星屑エフェクト起動！');
+            console.log('✨ ゲーム風星屑エフェクト起動！');
         }
         
         // 外部JSが読み込まれない場合の代替
