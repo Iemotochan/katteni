@@ -16,7 +16,7 @@
     <meta property="og:description" content="bittradeとMEXCを使ったRYOコイン購入の完全ガイド。初心者でも安心の4ステップ詳細解説。">
     <meta property="og:url" content="https://unofficialryocoin.com/howtobuy/index.html">
     <meta property="og:image" content="https://unofficialryocoin.com/howtobuy/image/howtobuy-share.png">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:site_name" content="勝手にRYOコインNEWS">
     
     <!-- Twitter Card -->
@@ -65,13 +65,236 @@
     }
     </script>
     
-    <!-- 既存CSS読み込み -->
+    <!-- 外部CSS -->
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Kosugi+Maru&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/main.css">
     
+    <!-- 🎨 学園風スタイル完全内蔵版 -->
     <style>
+        /* CSS変数定義 */
+        :root {
+            --chalkboard-green: #2a5b45;
+            --wood-brown: #8B4513;
+            --wood-light: #D2B48C;
+            --accent-yellow: #FFD700;
+        }
+
+        /* 基本設定 */
+        body {
+            font-family: 'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+            background: #f8f4e6 !important;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ヘッダーバナー */
+        .header-banner {
+            width: 100%;
+            padding: 0;
+            background: #4a9e81;
+            overflow: hidden;
+        }
+
+        .header-content {
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 言語切り替え */
+        .language-switcher {
+            position: fixed;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background: rgba(139, 69, 19, 0.95);
+            padding: 0.75rem 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            font-family: 'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .lang-link, .lang-current {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 4rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .lang-link {
+            color: #fff;
+            background: transparent;
+            opacity: 0.8;
+        }
+
+        .lang-current {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        /* スティッキーナビ */
+        .sticky-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--wood-brown);
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            gap: 0.5rem 1rem;
+        }
+
+        .nav-link {
+            color: #fff;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-yellow);
+        }
+
+        .btn-yellow {
+            background: var(--accent-yellow);
+            color: #333;
+            padding: 0.85rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-yellow:hover {
+            transform: translateY(-2px);
+        }
+
+        /* メインコンテナ */
+        .main-max {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .section-inner {
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* 木枠フレーム */
+        .wood-frame {
+            width: 100%;
+            background: var(--wood-brown);
+            border: 4px solid var(--wood-light);
+            border-radius: 8px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 1.1rem 1.3rem;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-size: 1.25rem;
+        }
+
+        /* チョークボード */
+        .chalkboard {
+            width: 100%;
+            background: var(--chalkboard-green);
+            border: 12px solid var(--wood-brown);
+            border-radius: 8px;
+            position: relative;
+            color: #f5f5f5;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            padding: 2.8rem 2.2rem;
+            box-sizing: border-box;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            isolation: isolate;
+        }
+
+        .chalkboard::before {
+            content:'';
+            position:absolute; 
+            top:0; left:0; right:0; bottom:0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size:20px 20px;
+            pointer-events:none;
+        }
+
+        .chalk-title {
+            font-family:'Kosugi Maru',sans-serif;
+            font-weight:700;
+            text-shadow:2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .chalk-text {
+            text-shadow:1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* 吹き出し */
+        .character-bubble, .character-bubble-right {
+            background:#fff;
+            border:1px solid #ddd;
+            border-radius:8px;
+            padding:16px;
+            color:#333;
+            position:relative;
+            margin-bottom:1rem;
+            max-width: 330px;
+            font-size: 1rem;
+        }
+
         /* 購入ガイド専用スタイル */
         .purchase-step-card {
             background: var(--chalkboard-green);
@@ -83,21 +306,23 @@
             overflow: hidden;
             transition: all 0.3s ease;
             cursor: pointer;
+            text-decoration: none;
+            color: #f5f5f5;
+            display: block;
         }
         
         .purchase-step-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
             border-color: var(--accent-yellow);
+            text-decoration: none;
+            color: #f5f5f5;
         }
         
         .purchase-step-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
                 linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
@@ -107,8 +332,7 @@
         
         .step-number-badge {
             position: absolute;
-            top: -12px;
-            left: 2rem;
+            top: -12px; left: 2rem;
             background: var(--accent-yellow);
             color: #333;
             padding: 0.5rem 1.5rem;
@@ -119,8 +343,7 @@
         }
         
         .step-thumbnail {
-            width: 120px;
-            height: 80px;
+            width: 120px; height: 80px;
             background: rgba(255,255,255,0.1);
             border: 3px solid var(--accent-yellow);
             border-radius: 8px;
@@ -133,8 +356,7 @@
         }
         
         .difficulty-badge {
-            display: inline-flex;
-            align-items: center;
+            display: inline-flex; align-items: center;
             background: rgba(34, 197, 94, 0.2);
             border: 1px solid rgba(34, 197, 94, 0.5);
             color: #10b981;
@@ -145,8 +367,7 @@
         }
         
         .time-badge {
-            display: inline-flex;
-            align-items: center;
+            display: inline-flex; align-items: center;
             background: rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(59, 130, 246, 0.5);
             color: #3b82f6;
@@ -160,30 +381,134 @@
             background: rgba(245, 158, 11, 0.1);
             border: 2px solid rgba(245, 158, 11, 0.3);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 1.5rem; margin: 2rem 0;
             color: #f59e0b;
         }
         
         .complete-flow-visual {
             background: rgba(255,255,255,0.05);
             border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 2rem; margin: 2rem 0;
             border: 2px dashed rgba(255,215,0,0.3);
         }
         
         .flow-step {
-            display: flex;
-            align-items: center;
-            margin: 1rem 0;
-            color: #f5f5f5;
+            display: flex; align-items: center;
+            margin: 1rem 0; color: #f5f5f5;
         }
         
         .flow-arrow {
             color: var(--accent-yellow);
             font-size: 1.5rem;
             margin: 0 1rem;
+        }
+
+        /* 星屑エフェクト */
+        .starfield-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .interactive-element {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* フッター */
+        footer {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            background: var(--wood-brown);
+            color: #333;
+        }
+
+        footer p, footer a, footer h3, footer h4, footer li {
+            color: #333 !important;
+        }
+
+        footer a:hover {
+            color: var(--accent-yellow) !important;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: auto;
+                bottom: 2rem;
+                right: 1rem;
+                transform: none;
+                flex-direction: row;
+                padding: 0.5rem;
+                border-radius: 50px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .section-inner {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
+        /* Tailwind競合対策 */
+        .text-3xl { font-size: 1.875rem !important; }
+        .text-2xl { font-size: 1.5rem !important; }
+        .text-xl { font-size: 1.25rem !important; }
+        .text-lg { font-size: 1.125rem !important; }
+        .font-bold { font-weight: 700 !important; }
+        .mb-6 { margin-bottom: 1.5rem !important; }
+        .mb-4 { margin-bottom: 1rem !important; }
+        .mb-3 { margin-bottom: 0.75rem !important; }
+        .mb-8 { margin-bottom: 2rem !important; }
+        .pt-8 { padding-top: 2rem !important; }
+        .pb-16 { padding-bottom: 4rem !important; }
+        .my-20 { margin-top: 5rem !important; margin-bottom: 5rem !important; }
+        .mb-14 { margin-bottom: 3.5rem !important; }
+        .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+        .flex { display: flex !important; }
+        .flex-col { flex-direction: column !important; }
+        .flex-row { flex-direction: row !important; }
+        .items-center { align-items: center !important; }
+        .items-start { align-items: flex-start !important; }
+        .justify-center { justify-content: center !important; }
+        .justify-between { justify-content: space-between !important; }
+        .gap-6 { gap: 1.5rem !important; }
+        .gap-8 { gap: 2rem !important; }
+        .gap-4 { gap: 1rem !important; }
+        .gap-3 { gap: 0.75rem !important; }
+        .grid { display: grid !important; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        .text-center { text-align: center !important; }
+        .text-yellow-300 { color: #fde047 !important; }
+        .w-28 { width: 7rem !important; }
+        .mr-3 { margin-right: 0.75rem !important; }
+        .mr-2 { margin-right: 0.5rem !important; }
+        .mr-4 { margin-right: 1rem !important; }
+        .max-w-xs { max-width: 20rem !important; }
+        .space-y-6 > * + * { margin-top: 1.5rem !important; }
+        .mt-8 { margin-top: 2rem !important; }
+
+        @media (min-width: 768px) {
+            .md\:flex-row { flex-direction: row !important; }
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:flex-row { flex-direction: row !important; }
+            .lg\:w-2\/3 { width: 66.666667% !important; }
+            .lg\:w-1\/3 { width: 33.333333% !important; }
+            .lg\:max-w-5xl { max-width: 64rem !important; }
         }
     </style>
 </head>
@@ -310,7 +635,7 @@
             <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
                 
                 <!-- ステップ1 -->
-                <a href="1/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ1: bittrade口座開設とXRP購入">
+                <a href="1/index.html" class="purchase-step-card interactive-element" aria-label="ステップ1: bittrade口座開設とXRP購入">
                     <div class="step-number-badge">STEP 1</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
                         <div class="step-thumbnail">
@@ -347,7 +672,7 @@
                 </a>
 
                 <!-- ステップ2 -->
-                <a href="2/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ2: MEXC口座開設と受取準備">
+                <a href="2/index.html" class="purchase-step-card interactive-element" aria-label="ステップ2: MEXC口座開設と受取準備">
                     <div class="step-number-badge">STEP 2</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
                         <div class="step-thumbnail">
@@ -384,7 +709,7 @@
                 </a>
 
                 <!-- ステップ3 -->
-                <a href="3/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ3: XRP送金方法">
+                <a href="3/index.html" class="purchase-step-card interactive-element" aria-label="ステップ3: XRP送金方法">
                     <div class="step-number-badge">STEP 3</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
                         <div class="step-thumbnail">
@@ -421,7 +746,7 @@
                 </a>
 
                 <!-- ステップ4 -->
-                <a href="4/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ4: RYOコイン購入">
+                <a href="4/index.html" class="purchase-step-card interactive-element" aria-label="ステップ4: RYOコイン購入">
                     <div class="step-number-badge">STEP 4</div>
                     <div class="flex flex-col md:flex-row items-start gap-6">
                         <div class="step-thumbnail">
@@ -573,8 +898,109 @@
                 this.style.borderColor = 'var(--wood-brown)';
             });
         });
+        
+        // 🔧 簡易版星屑エフェクト（JSファイルが読み込めない場合のフォールバック）
+        function createSimpleStarfield() {
+            const canvas = document.getElementById('starfield');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const particles = [];
+            let animationId;
+            
+            // キャンバスサイズ設定
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            // パーティクル作成
+            function createParticle(x, y) {
+                for (let i = 0; i < 5; i++) {
+                    particles.push({
+                        x: x + (Math.random() - 0.5) * 20,
+                        y: y + (Math.random() - 0.5) * 20,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        life: 1,
+                        decay: 0.02,
+                        size: Math.random() * 3 + 1
+                    });
+                }
+            }
+            
+            // アニメーション
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= p.decay;
+                    
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+                    
+                    ctx.save();
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = '#FFD700';
+                    ctx.shadowColor = '#FFD700';
+                    ctx.shadowBlur = 4;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                
+                animationId = requestAnimationFrame(animate);
+            }
+            
+            // イベントリスナー
+            document.addEventListener('mousemove', (e) => {
+                if (Math.random() < 0.1) {
+                    createParticle(e.clientX, e.clientY);
+                }
+            });
+            
+            document.addEventListener('touchmove', (e) => {
+                Array.from(e.touches).forEach(touch => {
+                    if (Math.random() < 0.2) {
+                        createParticle(touch.clientX, touch.clientY);
+                    }
+                });
+            }, {passive: true});
+            
+            // 初期化
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            animate();
+            
+            console.log('✨ 簡易版星屑エフェクト起動！');
+        }
+        
+        // 外部JSが読み込まれない場合の代替
+        setTimeout(() => {
+            if (typeof AdaptiveMultiTouchMagic === 'undefined') {
+                createSimpleStarfield();
+            }
+        }, 1000);
     </script>
-    <script src="../js/starfield-effect.js" defer></script>
-    <script src="../js/main.js" defer></script>
+    
+    <!-- 外部JSファイル読み込み試行 -->
+    <script>
+        function loadScript(src) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.defer = true;
+            script.onerror = () => console.log(`Failed to load: ${src}`);
+            document.head.appendChild(script);
+        }
+        
+        loadScript('../js/starfield-effect.js');
+        loadScript('../js/main.js');
+    </script>
 </body>
 </html>
