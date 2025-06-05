@@ -1,0 +1,645 @@
+:root {
+  --chalkboard-green: #2a5b45;
+  --wood-brown: #8B4513;
+  --wood-light: #D2B48C;
+  --accent-yellow: #FFD700;
+}
+
+/* 共通インナーコンテナ */
+.section-inner {
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+@media (min-width: 1200px) {
+  .section-inner {
+    max-width: 1100px;
+  }
+}
+
+/* body設定 */
+body {
+  font-family: 'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+  background: #f8f4e6;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ヘッダーバナー */
+.header-banner {
+  width: 100%;
+  padding: 0;
+  background: #4a9e81;
+  overflow: hidden;
+}
+.header-content {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* スティッキーナビ */
+.sticky-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--wood-brown);
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0.5rem 1rem;
+}
+.nav-link {
+  color: #fff;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: var(--accent-yellow);
+}
+.btn-yellow {
+  background: var(--accent-yellow);
+  color: #333;
+  padding: 0.85rem 2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  font-size: 1.1rem;
+}
+.btn-yellow:hover {
+  transform: translateY(-2px);
+}
+
+/* 木枠フレーム（見出し） */
+.wood-frame {
+  width: 100%;
+  background: var(--wood-brown);
+  border: 4px solid var(--wood-light);
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  font-size: 1.25rem;
+}
+.wood-frame img {
+  height: 3.3rem;
+}
+.lesson-header {
+  background: var(--wood-brown);
+  padding:8px 16px;
+  border-radius:8px 8px 0 0;
+  font-weight:bold;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  margin-bottom:-1px;
+}
+
+/* チョークボード風カード（本文ボックス） */
+.chalkboard {
+  width: 100%;
+  background: var(--chalkboard-green);
+  border: 12px solid var(--wood-brown);
+  border-radius: 8px;
+  position: relative;
+  color: #f5f5f5;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  padding: 2.8rem 2.2rem;
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  isolation: isolate;
+}
+.chalkboard::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:20px 20px;
+  pointer-events:none;
+}
+.chalk-title {
+  font-family:'Kosugi Maru',sans-serif;
+  font-weight:700;
+  text-shadow:2px 2px 4px rgba(0,0,0,0.4);
+}
+.chalk-text {
+  text-shadow:1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* 吹き出し */
+.character-bubble,
+.character-bubble-right {
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:16px;
+  color:#333;
+  position:relative;
+  margin-bottom:1rem;
+  max-width: 330px;
+  font-size: 1rem;
+}
+.character-bubble::after,
+.character-bubble-right::after {
+  display:none;
+}
+
+/* キャラクター会話 */
+.character-dialog {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.character-dialog img {
+  width: 64px;
+}
+
+/* エコシステム・機能ボックス */
+.feature-box {
+  background: rgba(42,91,69,0.8);
+  border-radius:8px;
+  padding:16px;
+  transition: transform 0.2s;
+}
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow:0 10px 15px rgba(0,0,0,0.3);
+}
+
+/* フッター */
+footer, footer p, footer a {
+  color: #333 !important;
+}
+footer {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background: var(--wood-brown);
+}
+.bg-wood-brown {
+  background: var(--wood-brown);
+}
+.border-wood-light {
+  border-color: var(--wood-light);
+}
+
+/* ========== LIFE Walletページ用 追加スタイル ========== */
+.wallet-features-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+}
+.wallet-feature-card {
+  background:rgba(255,255,255,0.1); border-radius:8px;
+  padding:1.5rem; box-shadow:0 4px 8px rgba(0,0,0,0.2);
+  transition:transform .3s,box-shadow .3s;
+}
+.wallet-feature-card:hover {
+  transform:translateY(-10px); box-shadow:0 12px 16px rgba(0,0,0,0.3);
+}
+.feature-icon { font-size:2.5rem; color:var(--accent-yellow); margin-bottom:1rem; }
+.download-btn {
+  background:var(--accent-yellow); color:#333; font-weight:bold;
+  padding:1rem 2rem; border-radius:50px; display:inline-block;
+  box-shadow:0 4px 8px rgba(0,0,0,0.3); transition:transform .3s,box-shadow .3s;
+}
+.download-btn:hover {
+  transform:translateY(-5px); box-shadow:0 8px 15px rgba(0,0,0,0.4);
+}
+.screenshot-container {
+  border:8px solid var(--wood-light); border-radius:16px;
+  overflow:hidden; box-shadow:0 8px 16px rgba(0,0,0,0.3);
+}
+.screenshot-container img { width:100%; height:auto; display:block; }
+.qr-badge {
+  background:#fff; border-radius:16px; padding:1rem;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* メインコンテナ */
+.main-max {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* 3ステップの配置を統一 */
+.step-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  background-color: #fbbf24;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #065f46;
+  margin-top: 0.25rem;
+}
+
+.step-content {
+  flex: 1;
+  padding-top: 0;
+}
+
+.step-content h4 {
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+/* ========== 星屑エフェクト用スタイル（改良版） ========== */
+.starfield-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.8;
+  will-change: auto;
+  transform: translateZ(0);
+}
+
+/* タッチ時の視覚フィードバック - より洗練されたデザイン */
+.touch-ripple {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle, 
+    rgba(255, 215, 0, 0.8) 0%, 
+    rgba(255, 215, 0, 0.4) 30%,
+    rgba(255, 215, 0, 0) 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: ripple-expand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.5),
+    0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* より美しい星屑パーティクル */
+.star-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle, 
+    var(--accent-yellow) 0%, 
+    rgba(255, 215, 0, 0.6) 50%,
+    transparent 70%
+  );
+  box-shadow: 
+    0 0 6px var(--accent-yellow),
+    0 0 12px rgba(255, 215, 0, 0.5);
+  animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* 流れ星エフェクトの改良 */
+.shooting-star {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  width: 3px;
+  height: 3px;
+  background: var(--accent-yellow);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 8px var(--accent-yellow),
+    0 0 16px var(--accent-yellow),
+    0 0 24px rgba(255, 215, 0, 0.8);
+}
+
+.shooting-star::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%,
+    rgba(255, 215, 0, 0.8) 20%,
+    var(--accent-yellow) 100%
+  );
+  transform: translateY(-50%);
+  border-radius: 1px;
+}
+
+/* 星屑専用のオーバーレイエリア */
+.starfield-overlay {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: inherit;
+  overflow: visible;
+}
+
+/* タッチエリアの最適化 */
+.interactive-element {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* パフォーマンス最適化のための追加スタイル */
+.performance-optimized {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* PCでの表示最適化 */
+@media (min-width: 768px) {
+  .step-container {
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .step-number {
+    width: 5rem;
+    height: 5rem;
+    font-size: 2rem;
+    margin-top: 0.125rem;
+  }
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 1024px) {
+  .main-max, .chalkboard {
+    max-width: 98vw;
+    padding: 1.2rem 0.4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .section-inner {
+    max-width: 100vw;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+  .wood-frame, .chalkboard {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* 低電力モード対応 */
+@media (prefers-reduced-motion: reduce) {
+  .starfield-canvas,
+  .touch-ripple,
+  .star-particle,
+  .shooting-star {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .starfield-canvas {
+    opacity: 0.3;
+  }
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .touch-ripple {
+    background: radial-gradient(
+      circle, 
+      rgba(255, 215, 0, 0.9) 0%, 
+      rgba(255, 215, 0, 0.5) 30%,
+      rgba(255, 215, 0, 0) 70%
+    );
+  }
+}
+
+/* ダークモード対応（将来拡張用） */
+@media (prefers-color-scheme: dark) {
+  .starfield-canvas {
+    opacity: 0.9;
+  }
+  
+  .touch-ripple {
+    background: radial-gradient(
+      circle, 
+      rgba(255, 255, 255, 0.6) 0%, 
+      rgba(255, 255, 255, 0.3) 30%,
+      rgba(255, 255, 255, 0) 70%
+    );
+  }
+}
+
+/* ========== 言語切り替えスタイル（右側スクロール追従版） ========== */
+.language-switcher {
+    position: fixed;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(139, 69, 19, 0.95);
+    padding: 0.75rem 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    font-family: 'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 215, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.language-switcher:hover {
+    background: rgba(139, 69, 19, 1);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+}
+
+.lang-link, .lang-current {
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 4rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.lang-link {
+    color: #fff;
+    background: transparent;
+    opacity: 0.8;
+}
+
+.lang-link:hover {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.lang-current {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #333;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* スクロール時のアニメーション */
+.language-switcher.scrolled {
+    background: rgba(139, 69, 19, 0.98);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+/* モバイル最適化 */
+@media (max-width: 768px) {
+    .language-switcher {
+        top: auto;
+        bottom: 2rem;
+        right: 1rem;
+        transform: none;
+        flex-direction: row;
+        padding: 0.5rem;
+        border-radius: 50px;
+    }
+    
+    .lang-link, .lang-current {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+        min-width: 3.5rem;
+    }
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .language-switcher {
+        right: 0.5rem;
+        padding: 0.6rem 0.4rem;
+    }
+    
+    .lang-link, .lang-current {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* 大画面での最適化 */
+@media (min-width: 1200px) {
+    .language-switcher {
+        right: 2rem;
+        padding: 0.8rem 0.6rem;
+    }
+    
+    .lang-link, .lang-current {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* アクセシビリティ対応 */
+@media (prefers-reduced-motion: reduce) {
+    .language-switcher,
+    .lang-link,
+    .lang-current {
+        transition: none !important;
+        transform: none !important;
+    }
+    
+    .language-switcher:hover {
+        transform: translateY(-50%) !important;
+    }
+    
+    @media (max-width: 768px) {
+        .language-switcher:hover {
+            transform: none !important;
+        }
+    }
+}
+
+/* 高コントラストモード対応 */
+@media (prefers-contrast: high) {
+    .language-switcher {
+        background: rgba(0, 0, 0, 0.9);
+        border: 3px solid #FFD700;
+    }
+    
+    .lang-link {
+        color: #ffffff;
+        border: 1px solid #ffffff;
+    }
+    
+    .lang-current {
+        background: #FFD700;
+        color: #000000;
+        border: 2px solid #000000;
+    }
+}
