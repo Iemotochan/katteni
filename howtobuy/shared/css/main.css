@@ -1,0 +1,437 @@
+/**
+ * RYOコイン サウンドノベル 共通基盤システム
+ * 音声制御とページ復帰機能を改善
+ */
+class SoundNovelBase {
+    constructor() {
+        this.audioEnabled = false;
+        this.userHasInteracted = false;
+        this.lastTouchTime = 0;
+        this.touchCooldown = 400;
+        this.typewriterInterval = null;
+        this.isTyping = false;
+        
+        // 音声プレイヤー
+        this.voicePlayer = null;
+        this.kobanSoundPlayer = null;
+        
+        // 音声状態管理
+        this.voiceInitialized = false;
+        this.voiceIsPlaying = false;
+        
+        // ページ復帰検出
+        this.wasPageHidden = false;
+        this.returnDetectionActive = false;
+        this.pcReturnHandlers = [];
+        
+        // キャラクター設定
+        this.characters = {
+            ryoko: {
+                name: '両子先生',
+                image: '../shared/images/ryokosensei.png',
+                voice: 'female'
+            },
+            zenta: {
+                name: 'ゼン太先生',
+                image: '../shared/images/zentasensei.png',
+                voice: 'male'
+            }
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        console.log('🎭 サウンドノベル基盤システム初期化開始');
+        
+        if (!this.checkRequiredElements()) {
+            console.error('❌ 必要なHTML要素が見つかりません');
+            return;
+        }
+        
+        this.setupAudioElements();
+        this.setupEventListeners();
+        this.setupPageReturnHandling();
+        this.showAudioDialog();
+        
+        console.log('✅ サウンドノベル基盤システム初期化完了');
+    }
+    
+    // 必要な要素チェック
+    checkRequiredElements() {
+        const requiredIds = [
+            'bubbleText', 'characterImg', 'tapIndicator', 
+            'progressBar', 'progressCurrent', 'progressTotal', 
+            'audioDialog', 'screenshotImg'
+        ];
+        
+        for (let id of requiredIds) {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.error(`❌ 要素が見つかりません: ${id}`);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    // 音声要素の設定（oshiete.mp3のみ）
+    setupAudioElements() {
+        this.voicePlayer = document.getElementById('voicePlayer');
+        
+        // 小判効果音プレイヤーを動的に作成
+        this.kobanSoundPlayer = new Audio();
+        this.kobanSoundPlayer.src = '../shared/audio/koban.mp3';
+        this.kobanSoundPlayer.volume = 0.3;
+        this.kobanSoundPlayer.preload = 'auto';
+        
+        // 音声プレイヤーの設定
+        if (this.voicePlayer) {
+            this.voicePlayer.innerHTML = `
+                <source src="../shared/audio/oshiete.mp3" type="audio/mpeg">
+            `;
+            this.voicePlayer.loop = true;
+            this.voicePlayer.volume = 0.6;
+            this.voicePlayer.preload = 'auto';
+            
+            this.voicePlayer.addEventListener('canplaythrough', () => {
+                console.log('✅ 音声ファイル準備完了');
+                this.voiceInitialized = true;
+            });
+            
+            this.voicePlayer.addEventListener('play', () => {
+                this.voiceIsPlaying = true;
+                console.log('🎵 音声再生開始！');
+            });
+            
+            this.voicePlayer.addEventListener('pause', () => {
+                this.voiceIsPlaying = false;
+                console.log('⏸️ 音声停止');
+            });
+            
+            this.voicePlayer.addEventListener('error', (e) => {
+                console.error('❌ 音声エラー:', e);
+            });
+        }
+        
+        console.log('✅ 音声要素設定完了（oshiete.mp3 + koban.mp3のみ）');
+    }
+    
+    // ページ復帰検出の設定
+    setupPageReturnHandling() {
+        console.log('🔄 ページ復帰検出システム開始');
+        
+        // 基本的なページ可視性変更
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.wasPageHidden = true;
+                this.returnDetectionActive = true;
+                console.log('📱 ページ非表示 → 復帰検出モード開始');
+                // ページを離れる時に音声を停止
+                this.pauseAllAudio();
+            } else {
+                if (this.wasPageHidden) {
+                    console.log('🎉 ページ復帰検出！');
+                    this.handlePageReturn('visibilitychange');
+                }
+            }
+        });
+        
+        // ウィンドウフォーカス復帰
+        const focusHandler = () => {
+            if (this.returnDetectionActive) {
+                console.log('🎉 フォーカス復帰検出！');
+                this.handlePageReturn('focus');
+            }
+        };
+        window.addEventListener('focus', focusHandler);
+        this.pcReturnHandlers.push(() => window.removeEventListener('focus', focusHandler));
+        
+        // ページ表示イベント
+        const pageshowHandler = (e) => {
+            if (e.persisted || this.returnDetectionActive) {
+                console.log('🎉 ページ表示復帰検出！');
+                this.handlePageReturn('pageshow');
+            }
+        };
+        window.addEventListener('pageshow', pageshowHandler);
+        this.pcReturnHandlers.push(() => window.removeEventListener('pageshow', pageshowHandler));
+        
+        console.log('✅ ページ復帰検出システム設定完了');
+    }
+    
+    // ページ復帰処理
+    handlePageReturn(triggerEvent) {
+        console.log(`💖 おかえりなさい！（${triggerEvent}で検出）`);
+        this.wasPageHidden = false;
+        this.returnDetectionActive = false;
+        
+        // ユーザーインタラクション状態を確実に設定
+        this.userHasInteracted = true;
+        
+        // 音声の復帰処理（有効な場合のみ）
+        if (this.audioEnabled && this.voicePlayer && this.voiceInitialized) {
+            setTimeout(() => {
+                console.log('🎤 音声復帰処理開始...');
+                this.playVoice();
+            }, 500);
+        }
+        
+        // 小判効果音でお出迎え
+        setTimeout(() => {
+            this.playKobanSound();
+        }, 300);
+    }
+    
+    // 音声再生
+    playVoice() {
+        if (!this.audioEnabled || !this.voicePlayer || !this.userHasInteracted) {
+            return;
+        }
+        
+        console.log('🎵 音声再生試行...');
+        this.voicePlayer.currentTime = 0;
+        const playPromise = this.voicePlayer.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('✅ 音声再生成功！');
+                this.voiceIsPlaying = true;
+            }).catch(error => {
+                console.error('❌ 音声再生失敗:', error);
+            });
+        }
+    }
+    
+    // 小判効果音再生
+    playKobanSound() {
+        if (!this.kobanSoundPlayer) return;
+        
+        try {
+            this.kobanSoundPlayer.currentTime = 0;
+            this.kobanSoundPlayer.play().then(() => {
+                console.log('🪙 小判効果音再生！');
+            }).catch(e => {
+                console.warn('🔇 小判効果音再生失敗:', e);
+            });
+        } catch (error) {
+            console.warn('🔇 小判効果音エラー:', error);
+        }
+    }
+    
+    // 全音声停止
+    pauseAllAudio() {
+        if (this.voicePlayer) {
+            this.voicePlayer.pause();
+        }
+        if (this.kobanSoundPlayer) {
+            this.kobanSoundPlayer.pause();
+        }
+        console.log('⏸️ 全音声停止');
+    }
+    
+    // イベントリスナー設定
+    setupEventListeners() {
+        // 全画面タッチ対応
+        document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
+        document.addEventListener('click', (e) => this.handleGlobalTouch(e));
+        
+        // ボタンイベント設定
+        const skipBtn = document.getElementById('skipBtn');
+        const backBtn = document.getElementById('backBtn');
+        const audioOnBtn = document.getElementById('audioOnBtn');
+        const audioOffBtn = document.getElementById('audioOffBtn');
+        
+        if (skipBtn) {
+            skipBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.nextScene();
+            });
+        }
+        
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.previousScene();
+            });
+        }
+        
+        if (audioOnBtn) {
+            audioOnBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.enableAudio();
+            });
+        }
+        
+        if (audioOffBtn) {
+            audioOffBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.disableAudio();
+            });
+        }
+        
+        console.log('✅ イベントリスナー設定完了');
+    }
+    
+    // グローバルタッチ処理
+    handleGlobalTouch(e) {
+        // ダイアログが表示中は無視
+        const audioDialog = document.getElementById('audioDialog');
+        if (audioDialog && audioDialog.classList.contains('show')) {
+            return;
+        }
+        
+        // ボタンクリックは無視
+        if (e.target.closest('.nav-btn, .dialog-btn')) {
+            return;
+        }
+        
+        // リンククリック検出
+        const linkElement = e.target.closest('a');
+        if (linkElement) {
+            e.preventDefault();
+            e.stopPropagation();
+            const url = linkElement.href;
+            const linkType = linkElement.getAttribute('data-link-type');
+            
+            if (url && url.startsWith('http')) {
+                console.log('🔗 リンククリック検出:', url);
+                
+                if (linkType === 'bittrade') {
+                    // BitTradeリンクは同一タブで開く
+                    this.returnDetectionActive = true;
+                    window.location.href = url;
+                } else {
+                    // その他のリンクは新しいタブで開く
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+                
+                this.playKobanSound();
+            }
+            return;
+        }
+        
+        // 通常のタッチ処理
+        this.handleTouch(e);
+    }
+    
+    // ユーザー操作処理
+    handleTouch(e) {
+        // 初回ユーザー操作を記録
+        if (!this.userHasInteracted) {
+            this.userHasInteracted = true;
+            console.log('✅ ユーザー操作検出 → 音声再生可能状態');
+            
+            // 音声開始（有効な場合）
+            if (this.audioEnabled) {
+                setTimeout(() => this.playVoice(), 500);
+            }
+        }
+        
+        const now = Date.now();
+        if (now - this.lastTouchTime < this.touchCooldown) {
+            return;
+        }
+        this.lastTouchTime = now;
+        
+        // 効果音再生
+        this.playKobanSound();
+        
+        // 音声が停止していたら再開を試行
+        if (this.audioEnabled && !this.voiceIsPlaying && this.userHasInteracted) {
+            this.playVoice();
+        }
+        
+        if (this.isTyping) {
+            this.completeTyping();
+            return;
+        }
+        
+        this.nextText();
+    }
+    
+    // 音声ダイアログ表示
+    showAudioDialog() {
+        const dialog = document.getElementById('audioDialog');
+        if (dialog) {
+            dialog.classList.add('show');
+        }
+    }
+    
+    // 音声有効化
+    enableAudio() {
+        this.audioEnabled = true;
+        this.userHasInteracted = true;
+        this.hideAudioDialog();
+        this.startStory();
+        
+        setTimeout(() => {
+            this.playVoice();
+        }, 1000);
+        
+        console.log('🔊 音声モード有効化');
+    }
+    
+    // 音声無効化
+    disableAudio() {
+        this.audioEnabled = false;
+        this.userHasInteracted = true;
+        this.hideAudioDialog();
+        this.startStory();
+        
+        console.log('🔇 無音モード（効果音のみ）');
+    }
+    
+    hideAudioDialog() {
+        const dialog = document.getElementById('audioDialog');
+        if (dialog) {
+            dialog.classList.remove('show');
+        }
+    }
+    
+    // クリーンアップ
+    destroy() {
+        // イベントリスナーのクリーンアップ
+        this.pcReturnHandlers.forEach(cleanup => cleanup());
+        this.pcReturnHandlers = [];
+        
+        if (this.typewriterInterval) {
+            clearInterval(this.typewriterInterval);
+            this.typewriterInterval = null;
+        }
+        
+        this.pauseAllAudio();
+        
+        console.log('🧹 サウンドノベル基盤システム クリーンアップ完了');
+    }
+    
+    // 抽象メソッド（各話で実装）
+    nextText() { console.warn('nextText()は各話で実装してください'); }
+    nextScene() { console.warn('nextScene()は各話で実装してください'); }
+    previousScene() { console.warn('previousScene()は各話で実装してください'); }
+    completeTyping() { console.warn('completeTyping()は各話で実装してください'); }
+    startStory() { console.warn('startStory()は各話で実装してください'); }
+}
+
+// ページ離脱時のクリーンアップ
+window.addEventListener('beforeunload', () => {
+    if (window.soundNovelBase) {
+        window.soundNovelBase.destroy();
+    }
+});
+
+console.log(`
+🎭 RYOコイン サウンドノベル基盤システム
+Version: 3.0 (改良版)
+
+✨ 主な改善点:
+- 🎵 音声ファイルをoshiete.mp3 + koban.mp3のみに簡素化
+- 🔄 ページ復帰時の音声制御を完全改善
+- ⏸️ ページ離脱時の確実な音声停止
+- 📱 スマホ・PC両対応の復帰検出
+- 🧹 メモリリーク防止の自動クリーンアップ
+- 🎯 ユーザーフレンドリーな音声制御
+
+🎮 デバッグ用:
+window.soundNovelBase で基盤システムにアクセス可能
+`);
