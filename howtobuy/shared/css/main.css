@@ -1,437 +1,920 @@
-/**
- * RYOコイン サウンドノベル 共通基盤システム
- * 音声制御とページ復帰機能を改善
- */
-class SoundNovelBase {
-    constructor() {
-        this.audioEnabled = false;
-        this.userHasInteracted = false;
-        this.lastTouchTime = 0;
-        this.touchCooldown = 400;
-        this.typewriterInterval = null;
-        this.isTyping = false;
-        
-        // 音声プレイヤー
-        this.voicePlayer = null;
-        this.kobanSoundPlayer = null;
-        
-        // 音声状態管理
-        this.voiceInitialized = false;
-        this.voiceIsPlaying = false;
-        
-        // ページ復帰検出
-        this.wasPageHidden = false;
-        this.returnDetectionActive = false;
-        this.pcReturnHandlers = [];
-        
-        // キャラクター設定
-        this.characters = {
-            ryoko: {
-                name: '両子先生',
-                image: '../shared/images/ryokosensei.png',
-                voice: 'female'
-            },
-            zenta: {
-                name: 'ゼン太先生',
-                image: '../shared/images/zentasensei.png',
-                voice: 'male'
-            }
-        };
-        
-        this.init();
-    }
-    
-    init() {
-        console.log('🎭 サウンドノベル基盤システム初期化開始');
-        
-        if (!this.checkRequiredElements()) {
-            console.error('❌ 必要なHTML要素が見つかりません');
-            return;
-        }
-        
-        this.setupAudioElements();
-        this.setupEventListeners();
-        this.setupPageReturnHandling();
-        this.showAudioDialog();
-        
-        console.log('✅ サウンドノベル基盤システム初期化完了');
-    }
-    
-    // 必要な要素チェック
-    checkRequiredElements() {
-        const requiredIds = [
-            'bubbleText', 'characterImg', 'tapIndicator', 
-            'progressBar', 'progressCurrent', 'progressTotal', 
-            'audioDialog', 'screenshotImg'
-        ];
-        
-        for (let id of requiredIds) {
-            const element = document.getElementById(id);
-            if (!element) {
-                console.error(`❌ 要素が見つかりません: ${id}`);
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    // 音声要素の設定（oshiete.mp3のみ）
-    setupAudioElements() {
-        this.voicePlayer = document.getElementById('voicePlayer');
-        
-        // 小判効果音プレイヤーを動的に作成
-        this.kobanSoundPlayer = new Audio();
-        this.kobanSoundPlayer.src = '../shared/audio/koban.mp3';
-        this.kobanSoundPlayer.volume = 0.3;
-        this.kobanSoundPlayer.preload = 'auto';
-        
-        // 音声プレイヤーの設定
-        if (this.voicePlayer) {
-            this.voicePlayer.innerHTML = `
-                <source src="../shared/audio/oshiete.mp3" type="audio/mpeg">
-            `;
-            this.voicePlayer.loop = true;
-            this.voicePlayer.volume = 0.6;
-            this.voicePlayer.preload = 'auto';
-            
-            this.voicePlayer.addEventListener('canplaythrough', () => {
-                console.log('✅ 音声ファイル準備完了');
-                this.voiceInitialized = true;
-            });
-            
-            this.voicePlayer.addEventListener('play', () => {
-                this.voiceIsPlaying = true;
-                console.log('🎵 音声再生開始！');
-            });
-            
-            this.voicePlayer.addEventListener('pause', () => {
-                this.voiceIsPlaying = false;
-                console.log('⏸️ 音声停止');
-            });
-            
-            this.voicePlayer.addEventListener('error', (e) => {
-                console.error('❌ 音声エラー:', e);
-            });
-        }
-        
-        console.log('✅ 音声要素設定完了（oshiete.mp3 + koban.mp3のみ）');
-    }
-    
-    // ページ復帰検出の設定
-    setupPageReturnHandling() {
-        console.log('🔄 ページ復帰検出システム開始');
-        
-        // 基本的なページ可視性変更
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.wasPageHidden = true;
-                this.returnDetectionActive = true;
-                console.log('📱 ページ非表示 → 復帰検出モード開始');
-                // ページを離れる時に音声を停止
-                this.pauseAllAudio();
-            } else {
-                if (this.wasPageHidden) {
-                    console.log('🎉 ページ復帰検出！');
-                    this.handlePageReturn('visibilitychange');
-                }
-            }
-        });
-        
-        // ウィンドウフォーカス復帰
-        const focusHandler = () => {
-            if (this.returnDetectionActive) {
-                console.log('🎉 フォーカス復帰検出！');
-                this.handlePageReturn('focus');
-            }
-        };
-        window.addEventListener('focus', focusHandler);
-        this.pcReturnHandlers.push(() => window.removeEventListener('focus', focusHandler));
-        
-        // ページ表示イベント
-        const pageshowHandler = (e) => {
-            if (e.persisted || this.returnDetectionActive) {
-                console.log('🎉 ページ表示復帰検出！');
-                this.handlePageReturn('pageshow');
-            }
-        };
-        window.addEventListener('pageshow', pageshowHandler);
-        this.pcReturnHandlers.push(() => window.removeEventListener('pageshow', pageshowHandler));
-        
-        console.log('✅ ページ復帰検出システム設定完了');
-    }
-    
-    // ページ復帰処理
-    handlePageReturn(triggerEvent) {
-        console.log(`💖 おかえりなさい！（${triggerEvent}で検出）`);
-        this.wasPageHidden = false;
-        this.returnDetectionActive = false;
-        
-        // ユーザーインタラクション状態を確実に設定
-        this.userHasInteracted = true;
-        
-        // 音声の復帰処理（有効な場合のみ）
-        if (this.audioEnabled && this.voicePlayer && this.voiceInitialized) {
-            setTimeout(() => {
-                console.log('🎤 音声復帰処理開始...');
-                this.playVoice();
-            }, 500);
-        }
-        
-        // 小判効果音でお出迎え
-        setTimeout(() => {
-            this.playKobanSound();
-        }, 300);
-    }
-    
-    // 音声再生
-    playVoice() {
-        if (!this.audioEnabled || !this.voicePlayer || !this.userHasInteracted) {
-            return;
-        }
-        
-        console.log('🎵 音声再生試行...');
-        this.voicePlayer.currentTime = 0;
-        const playPromise = this.voicePlayer.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                console.log('✅ 音声再生成功！');
-                this.voiceIsPlaying = true;
-            }).catch(error => {
-                console.error('❌ 音声再生失敗:', error);
-            });
-        }
-    }
-    
-    // 小判効果音再生
-    playKobanSound() {
-        if (!this.kobanSoundPlayer) return;
-        
-        try {
-            this.kobanSoundPlayer.currentTime = 0;
-            this.kobanSoundPlayer.play().then(() => {
-                console.log('🪙 小判効果音再生！');
-            }).catch(e => {
-                console.warn('🔇 小判効果音再生失敗:', e);
-            });
-        } catch (error) {
-            console.warn('🔇 小判効果音エラー:', error);
-        }
-    }
-    
-    // 全音声停止
-    pauseAllAudio() {
-        if (this.voicePlayer) {
-            this.voicePlayer.pause();
-        }
-        if (this.kobanSoundPlayer) {
-            this.kobanSoundPlayer.pause();
-        }
-        console.log('⏸️ 全音声停止');
-    }
-    
-    // イベントリスナー設定
-    setupEventListeners() {
-        // 全画面タッチ対応
-        document.addEventListener('touchend', (e) => this.handleGlobalTouch(e));
-        document.addEventListener('click', (e) => this.handleGlobalTouch(e));
-        
-        // ボタンイベント設定
-        const skipBtn = document.getElementById('skipBtn');
-        const backBtn = document.getElementById('backBtn');
-        const audioOnBtn = document.getElementById('audioOnBtn');
-        const audioOffBtn = document.getElementById('audioOffBtn');
-        
-        if (skipBtn) {
-            skipBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.nextScene();
-            });
-        }
-        
-        if (backBtn) {
-            backBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.previousScene();
-            });
-        }
-        
-        if (audioOnBtn) {
-            audioOnBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.enableAudio();
-            });
-        }
-        
-        if (audioOffBtn) {
-            audioOffBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.disableAudio();
-            });
-        }
-        
-        console.log('✅ イベントリスナー設定完了');
-    }
-    
-    // グローバルタッチ処理
-    handleGlobalTouch(e) {
-        // ダイアログが表示中は無視
-        const audioDialog = document.getElementById('audioDialog');
-        if (audioDialog && audioDialog.classList.contains('show')) {
-            return;
-        }
-        
-        // ボタンクリックは無視
-        if (e.target.closest('.nav-btn, .dialog-btn')) {
-            return;
-        }
-        
-        // リンククリック検出
-        const linkElement = e.target.closest('a');
-        if (linkElement) {
-            e.preventDefault();
-            e.stopPropagation();
-            const url = linkElement.href;
-            const linkType = linkElement.getAttribute('data-link-type');
-            
-            if (url && url.startsWith('http')) {
-                console.log('🔗 リンククリック検出:', url);
-                
-                if (linkType === 'bittrade') {
-                    // BitTradeリンクは同一タブで開く
-                    this.returnDetectionActive = true;
-                    window.location.href = url;
-                } else {
-                    // その他のリンクは新しいタブで開く
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                }
-                
-                this.playKobanSound();
-            }
-            return;
-        }
-        
-        // 通常のタッチ処理
-        this.handleTouch(e);
-    }
-    
-    // ユーザー操作処理
-    handleTouch(e) {
-        // 初回ユーザー操作を記録
-        if (!this.userHasInteracted) {
-            this.userHasInteracted = true;
-            console.log('✅ ユーザー操作検出 → 音声再生可能状態');
-            
-            // 音声開始（有効な場合）
-            if (this.audioEnabled) {
-                setTimeout(() => this.playVoice(), 500);
-            }
-        }
-        
-        const now = Date.now();
-        if (now - this.lastTouchTime < this.touchCooldown) {
-            return;
-        }
-        this.lastTouchTime = now;
-        
-        // 効果音再生
-        this.playKobanSound();
-        
-        // 音声が停止していたら再開を試行
-        if (this.audioEnabled && !this.voiceIsPlaying && this.userHasInteracted) {
-            this.playVoice();
-        }
-        
-        if (this.isTyping) {
-            this.completeTyping();
-            return;
-        }
-        
-        this.nextText();
-    }
-    
-    // 音声ダイアログ表示
-    showAudioDialog() {
-        const dialog = document.getElementById('audioDialog');
-        if (dialog) {
-            dialog.classList.add('show');
-        }
-    }
-    
-    // 音声有効化
-    enableAudio() {
-        this.audioEnabled = true;
-        this.userHasInteracted = true;
-        this.hideAudioDialog();
-        this.startStory();
-        
-        setTimeout(() => {
-            this.playVoice();
-        }, 1000);
-        
-        console.log('🔊 音声モード有効化');
-    }
-    
-    // 音声無効化
-    disableAudio() {
-        this.audioEnabled = false;
-        this.userHasInteracted = true;
-        this.hideAudioDialog();
-        this.startStory();
-        
-        console.log('🔇 無音モード（効果音のみ）');
-    }
-    
-    hideAudioDialog() {
-        const dialog = document.getElementById('audioDialog');
-        if (dialog) {
-            dialog.classList.remove('show');
-        }
-    }
-    
-    // クリーンアップ
-    destroy() {
-        // イベントリスナーのクリーンアップ
-        this.pcReturnHandlers.forEach(cleanup => cleanup());
-        this.pcReturnHandlers = [];
-        
-        if (this.typewriterInterval) {
-            clearInterval(this.typewriterInterval);
-            this.typewriterInterval = null;
-        }
-        
-        this.pauseAllAudio();
-        
-        console.log('🧹 サウンドノベル基盤システム クリーンアップ完了');
-    }
-    
-    // 抽象メソッド（各話で実装）
-    nextText() { console.warn('nextText()は各話で実装してください'); }
-    nextScene() { console.warn('nextScene()は各話で実装してください'); }
-    previousScene() { console.warn('previousScene()は各話で実装してください'); }
-    completeTyping() { console.warn('completeTyping()は各話で実装してください'); }
-    startStory() { console.warn('startStory()は各話で実装してください'); }
+/* ==============================
+   RYOコイン購入ハブページ + サウンドノベル統合CSS
+   メインページCSS + ハブページ専用スタイル
+============================== */
+
+/* メインページのCSSをベースに改良 */
+:root {
+    --chalkboard-green: #2a5b45;
+    --wood-brown: #8B4513;
+    --wood-light: #D2B48C;
+    --accent-yellow: #FFD700;
 }
 
-// ページ離脱時のクリーンアップ
-window.addEventListener('beforeunload', () => {
-    if (window.soundNovelBase) {
-        window.soundNovelBase.destroy();
+/* リセット & 基本設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'M PLUS Rounded 1c', 'Kosugi Maru', sans-serif;
+    user-select: none;
+    touch-action: manipulation;
+    background: #f8f4e6;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ハブページ用のbody設定 */
+body.hub-page {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: static;
+    height: auto;
+    min-height: 100vh;
+}
+
+/* サウンドノベル用のbody設定 */
+body.sound-novel {
+    overflow: hidden;
+    position: fixed;
+    background: #000;
+}
+
+/* ==============================
+   星屑エフェクト
+============================== */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    filter: brightness(1.8) contrast(1.4) saturate(1.2);
+    opacity: 0.95;
+}
+
+#starfield::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 215, 0, 0.1) 0%,
+        transparent 60%
+    );
+    pointer-events: none;
+}
+
+/* ==============================
+   ハブページ専用スタイル
+============================== */
+.hub-header {
+    position: relative;
+    background: linear-gradient(135deg, #2a5b45, #4a9e81);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hub-header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hub-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #FFD700;
+}
+
+.hub-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.character-intro {
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 5;
+}
+
+.character-pair {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.character-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex: 1;
+    max-width: 450px;
+}
+
+.character-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.4));
+    flex-shrink: 0;
+}
+
+.character-bubble {
+    background: rgba(255, 255, 255, 0.96);
+    border: 3px solid #FFD700;
+    border-radius: 15px;
+    padding: 1.2rem;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.6;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.character-bubble::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 2rem;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid #FFD700;
+}
+
+.character-bubble::after {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: 2rem;
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid rgba(255, 255, 255, 0.96);
+}
+
+/* ==============================
+   4話選択メニュー
+============================== */
+.story-selection {
+    padding: 3rem 2rem;
+    background: rgba(42, 91, 69, 0.05);
+    position: relative;
+    z-index: 5;
+}
+
+.stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.story-card {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 3px solid transparent;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.story-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    border-color: #FFD700;
+}
+
+.story-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 17px;
+}
+
+.story-card:hover::before {
+    opacity: 1;
+}
+
+.story-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+}
+
+.story-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.story-card:hover .story-thumbnail img {
+    transform: scale(1.08);
+}
+
+.story-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #333;
+    padding: 0.8rem 1.2rem;
+    border-bottom-left-radius: 15px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.story-number {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.story-duration {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 0.2rem;
+}
+
+.story-content {
+    padding: 2rem;
+}
+
+.story-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2a5b45;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.story-description {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.story-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+}
+
+.tag {
+    background: linear-gradient(135deg, #e6f3ff, #cce7ff);
+    color: #0066cc;
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(0, 102, 204, 0.2);
+}
+
+.story-btn {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #333;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.story-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
+}
+
+.story-btn .fas {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+}
+
+/* ==============================
+   進行状況表示
+============================== */
+.progress-overview {
+    background: linear-gradient(135deg, #2a5b45, #1a4533);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.progress-overview h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.progress-step:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.step-circle {
+    width: 4rem;
+    height: 4rem;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.progress-step:hover .step-circle {
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.progress-arrow {
+    color: #FFD700;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.progress-step span {
+    font-weight: 600;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ==============================
+   アプリコンテナ（サウンドノベル用）
+============================== */
+.app-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.background-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.background-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.7;
+}
+
+/* ==============================
+   サウンドノベル用スタイル
+============================== */
+.top-nav {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 20;
+    padding-top: max(0px, env(safe-area-inset-top));
+}
+
+.nav-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #FFD700;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    min-height: 52px;
+    min-width: 100px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    z-index: 21;
+}
+
+.nav-btn:hover, .nav-btn:active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFA500;
+    transform: scale(1.05);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nav-icon {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nav-text {
+    font-size: 14px;
+}
+
+/* ==============================
+   音声ダイアログ
+============================== */
+.audio-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.audio-dialog.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dialog-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.dialog-content {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    padding: 30px 25px;
+    margin: 20px;
+    text-align: center;
+    max-width: 320px;
+    color: #fff;
+    z-index: 1001;
+}
+
+.audio-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+.dialog-content h3 {
+    font-size: 18px;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.dialog-content p {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.dialog-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dialog-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    pointer-events: auto;
+    z-index: 1002;
+}
+
+.dialog-btn.primary {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+}
+
+.dialog-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==============================
+   その他のサウンドノベル要素
+============================== */
+.content-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px 140px 20px;
+    z-index: 3;
+}
+
+.screenshot-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 90%;
+    max-height: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transform: translateY(-10px);
+}
+
+.screenshot-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.4);
+    transition: all 0.5s ease;
+    object-fit: contain;
+    opacity: 1;
+    transform: scale(1);
+    border: 3px solid rgba(255, 215, 0, 0.6);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.screenshot-img.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.screenshot-img.fade-out {
+    opacity: 0;
+    transform: scale(0.92);
+}
+
+.message-area {
+    position: absolute;
+    bottom: 85px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    z-index: 15;
+    pointer-events: auto;
+}
+
+.character-container {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+    z-index: 15;
+    pointer-events: none;
+}
+
+.character-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.4));
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.speech-bubble {
+    flex: 1;
+    position: relative;
+    background: rgba(255, 255, 255, 0.96);
+    border: 3px solid #FFD700;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(15px);
+    transition: all 0.2s ease;
+    min-height: 80px;
+    z-index: 15;
+    pointer-events: auto;
+}
+
+.bubble-arrow {
+    position: absolute;
+    left: -12px;
+    bottom: 30px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid rgba(255, 255, 255, 0.96);
+    pointer-events: none;
+}
+
+.bubble-arrow::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: -15px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #FFD700;
+    pointer-events: none;
+}
+
+.bubble-content {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bubble-text {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* ==============================
+   アニメーション
+============================== */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+/* ==============================
+   レスポンシブ対応
+============================== */
+@media (max-width: 768px) {
+    .hub-title {
+        font-size: 2rem;
     }
-});
+    
+    .hub-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .character-pair {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .character-card {
+        max-width: 100%;
+        gap: 1rem;
+    }
+    
+    .character-card img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .stories-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .progress-steps {
+        gap: 1rem;
+    }
+    
+    .step-circle {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+    }
+    
+    .progress-arrow {
+        font-size: 1.5rem;
+    }
+    
+    .hub-header {
+        padding: 2rem 1rem;
+    }
+    
+    .character-intro {
+        padding: 2rem 1rem;
+    }
+    
+    .story-selection {
+        padding: 2rem 1rem;
+    }
+    
+    .progress-overview {
+        padding: 2rem 1rem;
+    }
+}
 
-console.log(`
-🎭 RYOコイン サウンドノベル基盤システム
-Version: 3.0 (改良版)
+@media (max-width: 480px) {
+    .progress-steps {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .progress-arrow {
+        transform: rotate(90deg);
+        font-size: 1.2rem;
+    }
+    
+    .story-thumbnail {
+        height: 180px;
+    }
+    
+    .story-content {
+        padding: 1.5rem;
+    }
+}
 
-✨ 主な改善点:
-- 🎵 音声ファイルをoshiete.mp3 + koban.mp3のみに簡素化
-- 🔄 ページ復帰時の音声制御を完全改善
-- ⏸️ ページ離脱時の確実な音声停止
-- 📱 スマホ・PC両対応の復帰検出
-- 🧹 メモリリーク防止の自動クリーンアップ
-- 🎯 ユーザーフレンドリーな音声制御
+/* ==============================
+   タッチエフェクト（メインページから継承）
+============================== */
+.interactive-element {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
 
-🎮 デバッグ用:
-window.soundNovelBase で基盤システムにアクセス可能
-`);
+.touch-ripple {
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.8) 0%,
+        rgba(255, 215, 0, 0.4) 30%,
+        rgba(255, 215, 0, 0) 70%
+    );
+    pointer-events: none;
+    z-index: 2;
+    animation: ripple-expand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    box-shadow:
+        0 0 20px rgba(255, 215, 0, 0.5),
+        0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes ripple-expand {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ==============================
+   パフォーマンス最適化
+============================== */
+.performance-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 低電力モード対応 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    #starfield {
+        opacity: 0.3;
+    }
+    
+    .story-card:hover {
+        transform: none !important;
+    }
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .touch-ripple {
+        background: radial-gradient(
+            circle,
+            rgba(255, 215, 0, 0.9) 0%,
+            rgba(255, 215, 0, 0.5) 30%,
+            rgba(255, 215, 0, 0) 70%
+        );
+    }
+}
