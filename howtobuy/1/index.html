@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+    <!-- 各話ごとに変更するMeta情報 -->
+    <!-- 第1話用 -->
+    <title>BitTrade口座開設完全ガイド | RYOコイン購入第1話</title>
+    <meta name="description" content="BitTrade取引所でのアカウント作成から本人確認、入金、XRP購入まで初心者向けに詳しく解説。音声ガイド付きで安心。">
+    <meta name="keywords" content="BitTrade,口座開設,XRP購入,仮想通貨,初心者ガイド,RYOコイン">
+    
+    <!-- OGP設定 -->
+    <meta property="og:title" content="BitTrade口座開設完全ガイド | RYOコイン購入第1話">
+    <meta property="og:description" content="日本の安全な取引所BitTradeでXRP購入まで完全サポート。音声ガイド付きで初心者も安心。">
+    <meta property="og:image" content="https://unofficialryocoin.com/howtobuy/1/images/thumbnail.jpg">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://unofficialryocoin.com/howtobuy/1/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BitTrade口座開設完全ガイド">
+    <meta name="twitter:description" content="初心者でも安心！BitTradeでXRP購入まで音声ガイド付き解説">
+    <meta name="twitter:image" content="https://unofficialryocoin.com/howtobuy/1/images/thumbnail.jpg">
+    
+    <link rel="canonical" href="https://unofficialryocoin.com/howtobuy/1/">
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body class="interactive-element">
+    <!-- スターフィールドエフェクト -->
+    <canvas id="starfield"></canvas>
+    
+    <!-- アプリコンテナ -->
+    <div class="app-container">
+        <!-- 背景レイヤー -->
+        <div class="background-layer">
+            <img src="images/back.jpg" alt="背景" class="background-img">
+        </div>
+        
+        <!-- 上部ナビゲーション -->
+        <nav class="top-nav">
+            <button id="backBtn" class="nav-btn">
+                <span class="nav-icon">←</span>
+                <span class="nav-text">戻る</span>
+            </button>
+            <button id="skipBtn" class="nav-btn">
+                <span class="nav-text">次へ</span>
+                <span class="nav-icon">→</span>
+            </button>
+        </nav>
+        
+        <!-- メインコンテンツエリア -->
+        <div class="content-area">
+            <div class="screenshot-container">
+                <img id="screenshotImg"
+                     src="images/guide.jpg"
+                     alt="BitTrade説明画像"
+                     class="screenshot-img show">
+                <div class="screenshot-overlay"></div>
+            </div>
+        </div>
+        
+        <!-- メッセージエリア -->
+        <div id="messageArea" class="message-area">
+            <div class="character-container">
+                <img id="characterImg"
+                     src="../shared/images/ryokosensei.png"
+                     alt="キャラクター"
+                     class="character-img">
+            </div>
+            <div class="speech-bubble">
+                <div class="bubble-arrow"></div>
+                <div class="bubble-content">
+                    <p id="bubbleText" class="bubble-text">
+                        こんにちは！両子です✨
+                    </p>
+                </div>
+                <div id="tapIndicator" class="tap-indicator">
+                    <span class="tap-text">画面をタップして続行</span>
+                    <div class="tap-pulse"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- プログレスエリア -->
+        <div class="progress-area">
+            <div class="progress-info">
+                <span id="progressCurrent">1</span> / <span id="progressTotal">10</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音声ダイアログ -->
+    <div id="audioDialog" class="audio-dialog">
+        <div class="dialog-overlay"></div>
+        <div class="dialog-content">
+            <div class="audio-icon">🔊</div>
+            <h3>音声を再生しますか？</h3>
+            <p>より良い体験のために音声をオンにすることをお勧めします</p>
+            <div class="dialog-buttons">
+                <button id="audioOnBtn" class="dialog-btn primary">音声ON</button>
+                <button id="audioOffBtn" class="dialog-btn secondary">音声OFF</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音声要素 -->
+    <audio id="voicePlayer" preload="auto">
+        <source src="../shared/audio/oshiete.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- JavaScript読み込み -->
+    <script src="../shared/js/starfield-effect.js"></script>
+    <script src="../shared/js/sound-novel-base.js"></script>
+    <script src="js/sound-novel.js"></script>
+    <script src="../shared/js/main.js"></script>
+</body>
+</html>
