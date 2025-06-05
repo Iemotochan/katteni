@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOコイン購入方法完全ガイド｜4ステップで簡単購入 - 勝手にRYOコインNEWS</title>
+    <meta name="description" content="RYOコイン購入の完全ガイド。bittradeとMEXCを使った4ステップの詳細解説。初心者でも安心の動画付き手順書。">
+    <meta name="keywords" content="RYOコイン購入,bittrade,MEXC,XRP,USDT,仮想通貨購入方法,暗号資産,初心者ガイド">
+    
+    <!-- SEO最適化 -->
+    <link rel="canonical" href="https://unofficialryocoin.com/howtobuy/index.html">
+    <meta name="robots" content="index, follow">
+    
+    <!-- OGP設定 -->
+    <meta property="og:title" content="RYOコイン購入方法完全ガイド｜4ステップで簡単購入">
+    <meta property="og:description" content="bittradeとMEXCを使ったRYOコイン購入の完全ガイド。初心者でも安心の4ステップ詳細解説。">
+    <meta property="og:url" content="https://unofficialryocoin.com/howtobuy/index.html">
+    <meta property="og:image" content="https://unofficialryocoin.com/howtobuy/image/howtobuy-share.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="勝手にRYOコインNEWS">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RYOコイン購入方法完全ガイド｜4ステップで簡単購入">
+    <meta name="twitter:description" content="bittradeとMEXCを使ったRYOコイン購入の完全ガイド。初心者でも安心！">
+    <meta name="twitter:image" content="https://unofficialryocoin.com/howtobuy/image/howtobuy-share.png">
+    
+    <!-- 構造化データ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "RYOコイン購入方法",
+        "description": "bittradeとMEXCを使ったRYOコイン購入の4ステップガイド",
+        "image": "https://unofficialryocoin.com/howtobuy/image/howtobuy-share.png",
+        "supply": ["パソコンまたはスマートフォン", "身分証明書", "銀行口座", "メールアドレス"],
+        "tool": ["bittrade", "MEXC"],
+        "totalTime": "PT30M",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "name": "bittrade口座開設とXRP購入",
+                "text": "国内取引所bittradeで口座開設し、日本円でXRPを購入する",
+                "url": "https://unofficialryocoin.com/howtobuy/1/index.html"
+            },
+            {
+                "@type": "HowToStep", 
+                "name": "MEXC口座開設と受取準備",
+                "text": "海外取引所MEXCで口座開設し、XRP受取アドレスを準備する",
+                "url": "https://unofficialryocoin.com/howtobuy/2/index.html"
+            },
+            {
+                "@type": "HowToStep",
+                "name": "XRPをMEXCに送金",
+                "text": "bittradeからMEXCにXRPを送金する",
+                "url": "https://unofficialryocoin.com/howtobuy/3/index.html"
+            },
+            {
+                "@type": "HowToStep",
+                "name": "RYOコイン購入",
+                "text": "MEXCでXRPをUSDTに売却し、USDTでRYOコインを購入する",
+                "url": "https://unofficialryocoin.com/howtobuy/4/index.html"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- 既存CSS読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Kosugi+Maru&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <style>
+        /* 購入ガイド専用スタイル */
+        .purchase-step-card {
+            background: var(--chalkboard-green);
+            border: 8px solid var(--wood-brown);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .purchase-step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: var(--accent-yellow);
+        }
+        
+        .purchase-step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        
+        .step-number-badge {
+            position: absolute;
+            top: -12px;
+            left: 2rem;
+            background: var(--accent-yellow);
+            color: #333;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .step-thumbnail {
+            width: 120px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid var(--accent-yellow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+        
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #10b981;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            color: #3b82f6;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #f59e0b;
+        }
+        
+        .complete-flow-visual {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px dashed rgba(255,215,0,0.3);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            color: #f5f5f5;
+        }
+        
+        .flow-arrow {
+            color: var(--accent-yellow);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+
+<body class="interactive-element">
+    <!-- ページローダー -->
+    <div id="page-loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #2a5b45; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;">
+        <div style="color: #FFD700; font-size: 1.5rem; font-weight: bold;">
+            <i class="fas fa-graduation-cap fa-spin mr-2"></i>RYOコイン購入講座へようこそ...
+        </div>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="header-banner">
+        <div class="header-content">
+            <a href="https://unofficialryocoin.com/" aria-label="勝手にRYOコインNEWSのホームページ">
+                <img src="../image/banner.png" alt="勝手にRYOコインNEWS - Web3時代の新世代仮想通貨情報サイト" loading="eager">
+            </a>
+        </div>
+    </header>
+
+    <!-- 言語切り替え -->
+    <div class="language-switcher">
+        <span class="lang-current">🇯🇵 日本語</span>
+        <a href="../en/howtobuy/" class="lang-link">🇺🇸 English</a>
+    </div>
+
+    <!-- ナビ -->
+    <nav class="sticky-menu" role="navigation" aria-label="メインナビゲーション">
+        <div class="menu-grid">
+            <a href="../#about" class="nav-link">RYOとは</a>
+            <a href="../#ecosystem" class="nav-link">エコシステム</a>
+            <a href="index.html" class="nav-link" style="color: var(--accent-yellow);">購入方法</a>
+            <a href="../#faq" class="nav-link">よくある質問</a>
+        </div>
+        <a href="../lifewallet.html#download" class="btn-yellow">ウォレット入手</a>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="main-max pt-8 pb-16" role="main">
+        
+        <!-- ヒーローセクション -->
+        <section class="mb-14">
+            <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
+                <div class="wood-frame inline-flex items-center p-4 mb-8">
+                    <i class="fas fa-graduation-cap text-5xl text-yellow-300 mr-4"></i>
+                    <div>
+                        <h1 class="text-3xl font-bold">RYOコイン購入講座</h1>
+                        <p class="text-lg opacity-90 mt-1">初心者向け完全ガイド</p>
+                    </div>
+                </div>
+
+                <div class="chalkboard w-full mx-auto">
+                    <h2 class="chalk-title text-yellow-300 text-3xl mb-6 text-center">
+                        🎓 4ステップでマスター！<br>RYOコイン購入完全講座
+                    </h2>
+                    
+                    <div class="flex flex-col lg:flex-row gap-8 items-center mb-8">
+                        <div class="lg:w-2/3">
+                            <p class="chalk-text text-lg mb-4">
+                                この講座では、<strong>bittrade</strong>（国内取引所）と<strong>MEXC</strong>（海外取引所）を使って、
+                                安全にRYOコインを購入する方法を<strong>4つのステップ</strong>で詳しく解説します。
+                            </p>
+                            
+                            <div class="complete-flow-visual">
+                                <h3 class="text-yellow-300 font-bold mb-4 text-center">📋 購入フロー概要</h3>
+                                <div class="flow-step">
+                                    <span>💰 日本円</span>
+                                    <i class="fas fa-arrow-right flow-arrow"></i>
+                                    <span>🪙 XRP (bittrade)</span>
+                                    <i class="fas fa-arrow-right flow-arrow"></i>
+                                    <span>📤 送金</span>
+                                    <i class="fas fa-arrow-right flow-arrow"></i>
+                                    <span>💵 USDT (MEXC)</span>
+                                    <i class="fas fa-arrow-right flow-arrow"></i>
+                                    <span>🎯 RYOコイン</span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 text-center">
+                                <div>
+                                    <div class="time-badge mb-2">
+                                        <i class="fas fa-clock mr-1"></i>所要時間: 約30分
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="difficulty-badge">
+                                        <i class="fas fa-star mr-1"></i>初心者向け
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:w-1/3">
+                            <div class="flex items-start">
+                                <img src="../image/zentasensei.png" alt="ゼン太先生" class="w-28 flex-shrink-0 mr-3" loading="eager" />
+                                <div class="character-bubble max-w-xs">
+                                    <p class="text-base">
+                                        ゼン太先生：一見複雑に見えるけど、手順通りにやれば誰でもできるよ！動画と画像で詳しく解説するから安心してね🎓
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3 class="font-bold mb-2 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            重要な注意事項
+                        </h3>
+                        <ul class="text-sm space-y-1">
+                            <li>• 投資は自己責任で行ってください</li>
+                            <li>• 取引所の手数料や最低送金額にご注意ください</li>
+                            <li>• アドレス入力は必ずコピー&ペーストで行ってください</li>
+                            <li>• 少額でテスト送金することをお勧めします</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4ステップガイド -->
+        <section class="mb-20">
+            <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
+                
+                <!-- ステップ1 -->
+                <a href="1/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ1: bittrade口座開設とXRP購入">
+                    <div class="step-number-badge">STEP 1</div>
+                    <div class="flex flex-col md:flex-row items-start gap-6">
+                        <div class="step-thumbnail">
+                            <i class="fas fa-building-columns"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-yellow-300 mb-3">
+                                bittrade口座開設 & XRP購入
+                            </h3>
+                            <p class="chalk-text text-lg mb-4">
+                                日本の金融庁認可済み取引所bittradeで口座開設し、日本円でXRP（リップル）を購入します。
+                                国内取引所なので日本語サポートがあり、初心者でも安心です。
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-leaf mr-1"></i>簡単
+                                </div>
+                                <div class="time-badge">
+                                    <i class="fas fa-clock mr-1"></i>10分
+                                </div>
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-shield-alt mr-1"></i>金融庁認可
+                                </div>
+                            </div>
+                            <div class="chalk-text">
+                                <strong>📝 このステップで学ぶこと：</strong><br>
+                                • bittrade口座開設手順<br>
+                                • 本人確認の進め方<br>
+                                • 日本円入金方法<br>
+                                • XRP購入方法
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ステップ2 -->
+                <a href="2/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ2: MEXC口座開設と受取準備">
+                    <div class="step-number-badge">STEP 2</div>
+                    <div class="flex flex-col md:flex-row items-start gap-6">
+                        <div class="step-thumbnail">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-yellow-300 mb-3">
+                                MEXC口座開設 & 受取準備
+                            </h3>
+                            <p class="chalk-text text-lg mb-4">
+                                RYOコインを取り扱う海外取引所MEXCで口座開設し、XRPを受け取るためのアドレスを準備します。
+                                メールアドレスだけで簡単に始められます。
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-leaf mr-1"></i>簡単
+                                </div>
+                                <div class="time-badge">
+                                    <i class="fas fa-clock mr-1"></i>5分
+                                </div>
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-envelope mr-1"></i>メールのみ
+                                </div>
+                            </div>
+                            <div class="chalk-text">
+                                <strong>📝 このステップで学ぶこと：</strong><br>
+                                • MEXC口座開設手順<br>
+                                • セキュリティ設定<br>
+                                • XRP入金アドレスの確認<br>
+                                • アドレスとタグの取得方法
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ステップ3 -->
+                <a href="3/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ3: XRP送金方法">
+                    <div class="step-number-badge">STEP 3</div>
+                    <div class="flex flex-col md:flex-row items-start gap-6">
+                        <div class="step-thumbnail">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-yellow-300 mb-3">
+                                bittrade → MEXC XRP送金
+                            </h3>
+                            <p class="chalk-text text-lg mb-4">
+                                bittradeで購入したXRPをMEXCに送金します。外部アドレス登録から実際の送金まで、
+                                ミスしないための注意点を詳しく解説します。
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <div class="time-badge">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i>要注意
+                                </div>
+                                <div class="time-badge">
+                                    <i class="fas fa-clock mr-1"></i>8分
+                                </div>
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-rocket mr-1"></i>高速送金
+                                </div>
+                            </div>
+                            <div class="chalk-text">
+                                <strong>📝 このステップで学ぶこと：</strong><br>
+                                • 外部アドレス登録方法<br>
+                                • 送金前の確認事項<br>
+                                • 実際の送金手順<br>
+                                • 送金状況の確認方法
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ステップ4 -->
+                <a href="4/index.html" class="block purchase-step-card interactive-element" aria-label="ステップ4: RYOコイン購入">
+                    <div class="step-number-badge">STEP 4</div>
+                    <div class="flex flex-col md:flex-row items-start gap-6">
+                        <div class="step-thumbnail">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-yellow-300 mb-3">
+                                RYOコイン購入完了！
+                            </h3>
+                            <p class="chalk-text text-lg mb-4">
+                                MEXCでXRPをUSDT（テザー）に売却し、そのUSDTでついにRYOコインを購入します。
+                                これで晴れてRYOホルダーの仲間入りです！
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-trophy mr-1"></i>最終段階
+                                </div>
+                                <div class="time-badge">
+                                    <i class="fas fa-clock mr-1"></i>7分
+                                </div>
+                                <div class="difficulty-badge">
+                                    <i class="fas fa-star mr-1"></i>完了
+                                </div>
+                            </div>
+                            <div class="chalk-text">
+                                <strong>📝 このステップで学ぶこと：</strong><br>
+                                • XRP → USDT 売却方法<br>
+                                • RYOコイン購入手順<br>
+                                • 購入後の確認方法<br>
+                                • LIFEウォレットへの送金準備
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- キャラクター応援メッセージ -->
+        <section class="mb-14">
+            <div class="section-inner w-full max-w-4xl lg:max-w-5xl mx-auto px-4">
+                <div class="chalkboard w-full mx-auto">
+                    <h3 class="chalk-title text-yellow-300 text-2xl mb-6 text-center">
+                        🎉 購入完了後は...
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <img src="../image/ryokosensei.png" alt="両子先生" class="w-28 flex-shrink-0 mr-3" />
+                            <div class="character-bubble-right max-w-xs">
+                                <p class="text-base">両子先生：購入できたら次は何をすればいいの？</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <img src="../image/zentasensei.png" alt="ゼン太先生" class="w-28 flex-shrink-0 mr-3" />
+                            <div class="character-bubble max-w-xs">
+                                <p class="text-base">
+                                    ゼン太先生：LIFEウォレットをダウンロードして、MEXCからRYOコインを送金するんだ！そうすればグローバルモールでお買い物もできるよ🛍️
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="../lifewallet.html" class="btn-yellow text-lg px-8 py-4">
+                                <i class="fas fa-wallet mr-2"></i>LIFEウォレット入手
+                            </a>
+                            <a href="../globalmall.html" class="btn-yellow text-lg px-8 py-4">
+                                <i class="fas fa-shopping-cart mr-2"></i>グローバルモール
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-wood-brown">
+        <div class="main-max text-center text-sm">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold mb-4">勝手にRYOコインNEWS</h3>
+                    <p class="text-sm opacity-75">
+                        このサイトはRYOコインの非公式情報サイトです。<br>
+                        公式情報は必ず公式サイト・SNSでご確認ください。
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">購入ガイド</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="1/index.html" class="hover:text-yellow-300">STEP 1: bittrade</a></li>
+                            <li><a href="2/index.html" class="hover:text-yellow-300">STEP 2: MEXC</a></li>
+                            <li><a href="3/index.html" class="hover:text-yellow-300">STEP 3: 送金</a></li>
+                            <li><a href="4/index.html" class="hover:text-yellow-300">STEP 4: 購入</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">サービス</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="../lifewallet.html" class="hover:text-yellow-300">LIFEウォレット</a></li>
+                            <li><a href="../globalmall.html" class="hover:text-yellow-300">グローバルモール</a></li>
+                            <li><a href="../cryptoatm.html" class="hover:text-yellow-300">Crypto ATM</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">関連リンク</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="../index.html" class="hover:text-yellow-300">ホーム</a></li>
+                            <li><a href="../ryocoin.html" class="hover:text-yellow-300">RYOコイン詳細</a></li>
+                            <li><a href="../faq.html" class="hover:text-yellow-300">よくある質問</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-wood-light pt-6 mt-8 text-center text-sm opacity-75">
+                <p>© 2025 勝手にRYOコインNEWS - 非公式情報サイト</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 星屑エフェクト用キャンバス -->
+    <canvas id="starfield" class="starfield-canvas" aria-hidden="true"></canvas>
+
+    <!-- JavaScript読み込み -->
+    <script>
+        // ページローダーの制御
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }, 800);
+            }
+        });
+        
+        // 購入ステップカードのタッチフィードバック強化
+        document.querySelectorAll('.purchase-step-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderColor = 'var(--accent-yellow)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.borderColor = 'var(--wood-brown)';
+            });
+        });
+    </script>
+    <script src="../js/starfield-effect.js" defer></script>
+    <script src="../js/main.js" defer></script>
+</body>
+</html>
